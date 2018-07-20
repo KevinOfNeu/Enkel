@@ -1,5 +1,5 @@
-group 'com.bendcap'
-version '1.0-SNAPSHOT'
+group GROUP
+version VERSION
 
 apply plugin: 'java'
 

@@ -1,7 +1,8 @@
-group 'com.bendcap'
-version '1.0-SNAPSHOT'
+group GROUP
+version VERSION
 
 apply plugin: 'java'
+apply plugin: 'antlr'
 
 sourceCompatibility = 1.8
 
@@ -9,6 +10,30 @@ repositories {
     mavenCentral()
 }
 
+configurations {
+    compile {
+        extendsFrom = extendsFrom.findAll { it != configurations.antlr }
+    }
+}
+
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
+    antlr "org.antlr:antlr4:4.3" // use ANTLR version 4, default is 2.x which is wrong
+    compile "org.antlr:antlr4-runtime:4.3"
+}
+
+generateGrammarSource {
+    maxHeapSize = "64m"
+    // Keep a copy of generated sources
+    doLast {
+        println "Copying generated grammar lexer/parser files to main directory."
+        copy {
+            from "${buildDir}/generated-src/antlr/main"
+            into "generated-src/main/java"
+        }
+    }
+}
+
+clean.doLast {
+    file('generated-src').deleteDir()
 }
