@@ -1,0 +1,4 @@
+var five = 5
+print five
+var dupa = "dupa"
+print dupa

@@ -1,5 +1,5 @@
-group 'com.bendcap'
-version '1.0-SNAPSHOT'
+group GROUP
+version VERSION
 
 apply plugin: 'java'
 
@@ -11,4 +11,7 @@ repositories {
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile project(':antlr')
+    compile 'org.ow2.asm:asm:5.1'
+    compile 'org.apache.commons:commons-lang3:3.4'
 }
