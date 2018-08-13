@@ -1,4 +1,4 @@
-package com.bendcap.enkel.compiler.bytecodegeneration.instructions;
+package com.bendcap.enkel.compiler.bytecodegeneration.classscopeinstructions;
 
 import com.bendcap.enkel.antlr.EnkelLexer;
 import com.bendcap.enkel.compiler.parsing.domain.Variable;
@@ -8,7 +8,7 @@ import org.objectweb.asm.Opcodes;
 /**
  * Created by KevinOfNeu on 2018/7/18  21:14.
  */
-public class PrintVariable implements Instruction, Opcodes {
+public class PrintVariable implements ClassScopeInstruction, Opcodes {
 
     private Variable variable;
 

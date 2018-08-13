@@ -44,6 +44,28 @@ public interface EnkelListener extends ParseTreeListener {
 	void exitVariable(@NotNull EnkelParser.VariableContext ctx);
 
 	/**
+	 * Enter a parse tree produced by {@link EnkelParser#classBody}.
+	 * @param ctx the parse tree
+	 */
+	void enterClassBody(@NotNull EnkelParser.ClassBodyContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link EnkelParser#classBody}.
+	 * @param ctx the parse tree
+	 */
+	void exitClassBody(@NotNull EnkelParser.ClassBodyContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link EnkelParser#className}.
+	 * @param ctx the parse tree
+	 */
+	void enterClassName(@NotNull EnkelParser.ClassNameContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link EnkelParser#className}.
+	 * @param ctx the parse tree
+	 */
+	void exitClassName(@NotNull EnkelParser.ClassNameContext ctx);
+
+	/**
 	 * Enter a parse tree produced by {@link EnkelParser#value}.
 	 * @param ctx the parse tree
 	 */
@@ -53,4 +75,26 @@ public interface EnkelListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitValue(@NotNull EnkelParser.ValueContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link EnkelParser#superClassName}.
+	 * @param ctx the parse tree
+	 */
+	void enterSuperClassName(@NotNull EnkelParser.SuperClassNameContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link EnkelParser#superClassName}.
+	 * @param ctx the parse tree
+	 */
+	void exitSuperClassName(@NotNull EnkelParser.SuperClassNameContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link EnkelParser#classDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void enterClassDeclaration(@NotNull EnkelParser.ClassDeclarationContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link EnkelParser#classDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void exitClassDeclaration(@NotNull EnkelParser.ClassDeclarationContext ctx);
 }

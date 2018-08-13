@@ -1,4 +1,6 @@
-var five = 5
-print five
-var dupa = "dupa"
-print dupa
+first {
+    var five=5
+    print five
+    var dupa="dupa"
+    print dupa
+}

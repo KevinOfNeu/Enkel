@@ -6,7 +6,11 @@ package com.bendcap.enkel.antlr;
 }
 
 //RULES
-compilationUnit : ( variable | print )* EOF; //root rule - our code consist consist only of variables and prints (see definition below)
+compilationUnit : classDeclaration EOF ; //root rule - our code consist consist only of variables and prints (see definition below)
+classDeclaration : className superClassName* '{' classBody '}' ;
+className : ID ;
+superClassName : ':' ID ;
+classBody :  ( variable | print )* ;
 variable : VARIABLE ID EQUALS value; //requires VAR token followed by ID token followed by EQUALS TOKEN ...
 print : PRINT ID ; //print statement must consist of 'print' keyword and ID
 value : op=NUMBER

@@ -2,9 +2,11 @@ package com.bendcap.enkel.compiler.parsing;
 
 import com.bendcap.enkel.antlr.EnkelBaseListener;
 import com.bendcap.enkel.antlr.EnkelParser;
-import com.bendcap.enkel.compiler.bytecodegeneration.instructions.Instruction;
-import com.bendcap.enkel.compiler.bytecodegeneration.instructions.PrintVariable;
-import com.bendcap.enkel.compiler.bytecodegeneration.instructions.VariableDeclaration;
+import com.bendcap.enkel.compiler.bytecodegeneration.ClassDeclaration;
+import com.bendcap.enkel.compiler.bytecodegeneration.CompilationUnit;
+import com.bendcap.enkel.compiler.bytecodegeneration.classscopeinstructions.ClassScopeInstruction;
+import com.bendcap.enkel.compiler.bytecodegeneration.classscopeinstructions.PrintVariable;
+import com.bendcap.enkel.compiler.bytecodegeneration.classscopeinstructions.VariableDeclaration;
 import com.bendcap.enkel.compiler.parsing.domain.Variable;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.TerminalNode;
@@ -19,11 +21,13 @@ import java.util.Queue;
  */
 public class EnkelTreeWalkListener extends EnkelBaseListener {
 
-    Queue<Instruction> instructionsQueue = new ArrayDeque<>();
+    Queue<ClassScopeInstruction> classScopeInstructions = new ArrayDeque<>();
     Map<String, Variable> variables = new HashMap<>();
+    private CompilationUnit compilationUnit;
+    private ClassDeclaration classDeclaration;
 
-    public Queue<Instruction> getInstructionsQueue() {
-        return instructionsQueue;
+    public Queue<ClassScopeInstruction> getClassScopeInstructions() {
+        return classScopeInstructions;
     }
 
     @Override
@@ -35,7 +39,7 @@ public class EnkelTreeWalkListener extends EnkelBaseListener {
         final String varTextValue = varValue.getText();
         Variable var = new Variable(varIndex, varType, varTextValue);
         variables.put(varName.getText(), var);
-        instructionsQueue.add(new VariableDeclaration(var));
+        classScopeInstructions.add(new VariableDeclaration(var));
         logVariableDeclarationStatementFound(varName, varValue);
     }
 
@@ -49,8 +53,22 @@ public class EnkelTreeWalkListener extends EnkelBaseListener {
             return;
         }
         final Variable variable = variables.get(varName.getText());
-        instructionsQueue.add(new PrintVariable(variable));
+        classScopeInstructions.add(new PrintVariable(variable));
         logPrintStatementFound(varName, variable);
+    }
+
+
+    @Override
+    public void exitCompilationUnit(EnkelParser.CompilationUnitContext ctx) {
+        super.exitCompilationUnit(ctx);
+        compilationUnit = new CompilationUnit(classDeclaration);
+    }
+
+    @Override
+    public void exitClassDeclaration(EnkelParser.ClassDeclarationContext ctx) {
+        super.exitClassDeclaration(ctx);
+        final String className = ctx.className().getText();
+        classDeclaration = new ClassDeclaration(classScopeInstructions, className);
     }
 
     private void logVariableDeclarationStatementFound(TerminalNode varName, EnkelParser.ValueContext varValue) {
@@ -63,5 +81,10 @@ public class EnkelTreeWalkListener extends EnkelBaseListener {
         final int line = varName.getSymbol().getLine();
         final String format = "OK: You instructed to print variable '%s' which has value of '%s' at line '%s'.'\n";
         System.out.printf(format, variable.getId(), variable.getValue(), line);
+    }
+
+
+    public CompilationUnit getCompilationUnit() {
+        return compilationUnit;
     }
 }
