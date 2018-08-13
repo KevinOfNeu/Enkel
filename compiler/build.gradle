@@ -14,4 +14,5 @@ dependencies {
     compile project(':antlr')
     compile 'org.ow2.asm:asm:5.1'
     compile 'org.apache.commons:commons-lang3:3.4'
+    compile 'commons-io:commons-io:2.4'
 }

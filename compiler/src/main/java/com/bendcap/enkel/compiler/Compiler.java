@@ -1,16 +1,14 @@
 package com.bendcap.enkel.compiler;
 
-import com.bendcap.enkel.compiler.bytecodegeneration.BytecodeGenerator;
-import com.bendcap.enkel.compiler.bytecodegeneration.instructions.Instruction;
+import com.bendcap.enkel.compiler.bytecodegeneration.CompilationUnit;
 import com.bendcap.enkel.compiler.parsing.SyntaxTreeTraverser;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.io.IOUtils;
 import org.objectweb.asm.Opcodes;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Queue;
 
 /**
  * Created by KevinOfNeu on 2018/7/18  21:14.
@@ -28,12 +26,9 @@ public class Compiler implements Opcodes {
             return;
         }
         final File enkelFile = new File(args[0]);
-        String fileName = enkelFile.getName();
         String fileAbsolutePath = enkelFile.getAbsolutePath();
-        String className = StringUtils.remove(fileName, ".enk");
-        final Queue<Instruction> instructionsQueue = new SyntaxTreeTraverser().getInstructions(fileAbsolutePath);
-        final byte[] byteCode = new BytecodeGenerator().generateBytecode(instructionsQueue, className);
-        saveBytecodeToClassFile(fileName, byteCode);
+        final CompilationUnit compilationUnit = new SyntaxTreeTraverser().getCompilationUnit(fileAbsolutePath);
+        saveBytecodeToClassFile(compilationUnit);
     }
 
     private ARGUMENT_ERRORS getArgumentValidationErrors(String[] args) {
@@ -47,10 +42,11 @@ public class Compiler implements Opcodes {
         return ARGUMENT_ERRORS.NONE;
     }
 
-    private static void saveBytecodeToClassFile(String fileName, byte[] byteCode) throws IOException {
-        final String classFile = StringUtils.replace(fileName, ".enk", ".class");
-        OutputStream os = new FileOutputStream(classFile);
-        os.write(byteCode);
-        os.close();
+    private static void saveBytecodeToClassFile(CompilationUnit compilationUnit) throws IOException {
+        final byte[] byteCode = compilationUnit.getByteCode();
+        String className = compilationUnit.getClassName();
+        String fileName = className + ".class";
+        OutputStream os = new FileOutputStream(fileName);
+        IOUtils.write(byteCode, os);
     }
 }
