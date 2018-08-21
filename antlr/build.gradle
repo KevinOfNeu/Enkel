@@ -24,6 +24,7 @@ dependencies {
 
 generateGrammarSource {
     maxHeapSize = "64m"
+    arguments += ["-visitor", "-long-messages"]
     // Keep a copy of generated sources
     doLast {
         println "Copying generated grammar lexer/parser files to main directory."

@@ -1,7 +1,6 @@
 package com.bendcap.enkel.compiler;
 
 import com.bendcap.enkel.compiler.bytecodegeneration.CompilationUnit;
-import com.bendcap.enkel.compiler.parsing.SyntaxTreeTraverser;
 import org.apache.commons.io.IOUtils;
 import org.objectweb.asm.Opcodes;
 
@@ -15,8 +14,12 @@ import java.io.OutputStream;
  */
 public class Compiler implements Opcodes {
 
-    public static void main(String[] args) throws Exception {
-        new Compiler().compile(args);
+    public static void main(String[] args) {
+        try {
+            new Compiler().compile(args);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void compile(String[] args) throws Exception {
@@ -27,7 +30,7 @@ public class Compiler implements Opcodes {
         }
         final File enkelFile = new File(args[0]);
         String fileAbsolutePath = enkelFile.getAbsolutePath();
-        final CompilationUnit compilationUnit = new SyntaxTreeTraverser().getCompilationUnit(fileAbsolutePath);
+        final CompilationUnit compilationUnit = new Parser().getCompilationUnit(fileAbsolutePath);
         saveBytecodeToClassFile(compilationUnit);
     }
 

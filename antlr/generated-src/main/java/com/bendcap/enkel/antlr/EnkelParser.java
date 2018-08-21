@@ -70,6 +70,11 @@ public class EnkelParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof EnkelListener ) ((EnkelListener)listener).exitCompilationUnit(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof EnkelVisitor ) return ((EnkelVisitor<? extends T>)visitor).visitCompilationUnit(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final CompilationUnitContext compilationUnit() throws RecognitionException {
@@ -117,6 +122,11 @@ public class EnkelParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof EnkelListener ) ((EnkelListener)listener).exitClassDeclaration(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof EnkelVisitor ) return ((EnkelVisitor<? extends T>)visitor).visitClassDeclaration(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -171,6 +181,11 @@ public class EnkelParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof EnkelListener ) ((EnkelListener)listener).exitClassName(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof EnkelVisitor ) return ((EnkelVisitor<? extends T>)visitor).visitClassName(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final ClassNameContext className() throws RecognitionException {
@@ -206,6 +221,11 @@ public class EnkelParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof EnkelListener ) ((EnkelListener)listener).exitSuperClassName(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof EnkelVisitor ) return ((EnkelVisitor<? extends T>)visitor).visitSuperClassName(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -254,6 +274,11 @@ public class EnkelParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof EnkelListener ) ((EnkelListener)listener).exitClassBody(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof EnkelVisitor ) return ((EnkelVisitor<? extends T>)visitor).visitClassBody(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -321,6 +346,11 @@ public class EnkelParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof EnkelListener ) ((EnkelListener)listener).exitVariable(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof EnkelVisitor ) return ((EnkelVisitor<? extends T>)visitor).visitVariable(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final VariableContext variable() throws RecognitionException {
@@ -361,6 +391,11 @@ public class EnkelParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof EnkelListener ) ((EnkelListener)listener).exitPrint(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof EnkelVisitor ) return ((EnkelVisitor<? extends T>)visitor).visitPrint(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final PrintContext print() throws RecognitionException {
@@ -399,6 +434,11 @@ public class EnkelParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof EnkelListener ) ((EnkelListener)listener).exitValue(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof EnkelVisitor ) return ((EnkelVisitor<? extends T>)visitor).visitValue(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
