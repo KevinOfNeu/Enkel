@@ -20,6 +20,8 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     antlr "org.antlr:antlr4:4.3" // use ANTLR version 4, default is 2.x which is wrong
     compile "org.antlr:antlr4-runtime:4.3"
+    compile 'org.apache.commons:commons-lang3:3.4'
+    compile 'com.google.guava:guava:19.0'
 }
 
 generateGrammarSource {

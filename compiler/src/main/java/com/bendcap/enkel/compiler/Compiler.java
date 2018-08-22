@@ -1,6 +1,8 @@
 package com.bendcap.enkel.compiler;
 
-import com.bendcap.enkel.compiler.bytecodegeneration.CompilationUnit;
+import com.bendcap.enkel.antlr.domain.global.CompilationUnit;
+import com.bendcap.enkel.compiler.bytecodegenerator.BytecodeGenerator;
+import com.bendcap.enkel.compiler.validation.ARGUMENT_ERRORS;
 import org.apache.commons.io.IOUtils;
 import org.objectweb.asm.Opcodes;
 
@@ -46,7 +48,8 @@ public class Compiler implements Opcodes {
     }
 
     private static void saveBytecodeToClassFile(CompilationUnit compilationUnit) throws IOException {
-        final byte[] byteCode = compilationUnit.getByteCode();
+        BytecodeGenerator bytecodeGenerator = new BytecodeGenerator();
+        final byte[] byteCode = bytecodeGenerator.generate(compilationUnit);
         String className = compilationUnit.getClassName();
         String fileName = className + ".class";
         OutputStream os = new FileOutputStream(fileName);

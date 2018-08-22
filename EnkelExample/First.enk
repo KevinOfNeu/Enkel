@@ -1,6 +1,18 @@
 First {
-    var five=5
-    print five
-    var dupa="dupa"
-    print dupa
+        void main (string[] args) {
+            var x = "Hello function call"
+            var y = 1
+            foo(x , y)
+            bar()
+        }
+
+        void foo (string a, int b) {
+            print a
+            print b
+        }
+
+        void bar() {
+            var a = 2
+            print a
+        }
 }

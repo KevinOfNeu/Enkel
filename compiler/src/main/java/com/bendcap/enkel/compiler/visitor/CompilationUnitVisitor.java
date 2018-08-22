@@ -2,8 +2,8 @@ package com.bendcap.enkel.compiler.visitor;
 
 import com.bendcap.enkel.antlr.EnkelBaseVisitor;
 import com.bendcap.enkel.antlr.EnkelParser;
-import com.bendcap.enkel.compiler.bytecodegeneration.ClassDeclaration;
-import com.bendcap.enkel.compiler.bytecodegeneration.CompilationUnit;
+import com.bendcap.enkel.antlr.domain.global.ClassDeclaration;
+import com.bendcap.enkel.antlr.domain.global.CompilationUnit;
 
 /**
  * Created by KevinOfNeu on 2018/8/21  09:20.
