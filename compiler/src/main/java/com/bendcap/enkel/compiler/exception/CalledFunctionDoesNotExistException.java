@@ -1,7 +1,7 @@
 package com.bendcap.enkel.compiler.exception;
 
-import com.bendcap.enkel.antlr.domain.expression.FunctionCall;
-import com.bendcap.enkel.antlr.domain.scope.Scope;
+import com.bendcap.enkel.compiler.domain.expression.FunctionCall;
+import com.bendcap.enkel.compiler.domain.scope.Scope;
 
 /**
  * Created by KevinOfNeu on 2018/8/22  15:23.

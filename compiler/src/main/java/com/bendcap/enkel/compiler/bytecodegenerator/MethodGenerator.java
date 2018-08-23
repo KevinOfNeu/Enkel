@@ -1,8 +1,8 @@
 package com.bendcap.enkel.compiler.bytecodegenerator;
 
-import com.bendcap.enkel.antlr.domain.clazz.Function;
-import com.bendcap.enkel.antlr.domain.scope.Scope;
-import com.bendcap.enkel.antlr.domain.statement.Statement;
+import com.bendcap.enkel.compiler.domain.clazz.Function;
+import com.bendcap.enkel.compiler.domain.scope.Scope;
+import com.bendcap.enkel.compiler.domain.statement.Statement;
 import org.objectweb.asm.ClassWriter;
 import com.bendcap.enkel.compiler.utils.DecriptorFactory;
 import org.objectweb.asm.MethodVisitor;
@@ -28,8 +28,8 @@ public class MethodGenerator {
         int access = Opcodes.ACC_PUBLIC + Opcodes.ACC_STATIC;//(function.getName().equals("main") ? Opcodes.ACC_STATIC : 0);
         MethodVisitor mv = classWriter.visitMethod(access, name, description, null, null);
         mv.visitCode();
-        StatementGenerator statementGenerator = new StatementGenerator(mv);
-        instructions.forEach(instruction -> statementGenerator.generate(instruction, scope));
+        StatementGenerator statementGenerator = new StatementGenerator(mv, scope);
+        instructions.forEach(instruction -> instruction.accept(statementGenerator));
         mv.visitInsn(Opcodes.RETURN);
         mv.visitMaxs(-1, -1);
         mv.visitEnd();

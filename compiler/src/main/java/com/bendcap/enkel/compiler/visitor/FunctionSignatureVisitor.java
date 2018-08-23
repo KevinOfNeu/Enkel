@@ -2,10 +2,10 @@ package com.bendcap.enkel.compiler.visitor;
 
 import com.bendcap.enkel.antlr.EnkelBaseVisitor;
 import com.bendcap.enkel.antlr.EnkelParser;
-import com.bendcap.enkel.antlr.domain.expression.FunctionParameter;
-import com.bendcap.enkel.antlr.domain.scope.FunctionSignature;
-import com.bendcap.enkel.antlr.domain.type.Type;
-import com.bendcap.enkel.antlr.util.TypeResolver;
+import com.bendcap.enkel.compiler.domain.expression.FunctionParameter;
+import com.bendcap.enkel.compiler.domain.scope.FunctionSignature;
+import com.bendcap.enkel.compiler.domain.type.Type;
+import com.bendcap.enkel.compiler.utils.TypeResolver;
 
 import java.util.ArrayList;
 import java.util.List;

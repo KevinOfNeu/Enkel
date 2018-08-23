@@ -2,11 +2,11 @@ package com.bendcap.enkel.compiler.visitor;
 
 import com.bendcap.enkel.antlr.EnkelBaseVisitor;
 import com.bendcap.enkel.antlr.EnkelParser;
-import com.bendcap.enkel.antlr.domain.clazz.Function;
-import com.bendcap.enkel.antlr.domain.global.ClassDeclaration;
-import com.bendcap.enkel.antlr.domain.global.MetaData;
-import com.bendcap.enkel.antlr.domain.scope.FunctionSignature;
-import com.bendcap.enkel.antlr.domain.scope.Scope;
+import com.bendcap.enkel.compiler.domain.clazz.Function;
+import com.bendcap.enkel.compiler.domain.global.ClassDeclaration;
+import com.bendcap.enkel.compiler.domain.global.MetaData;
+import com.bendcap.enkel.compiler.domain.scope.FunctionSignature;
+import com.bendcap.enkel.compiler.domain.scope.Scope;
 
 import java.util.List;
 import java.util.stream.Collectors;

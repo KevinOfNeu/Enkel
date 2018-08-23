@@ -1,7 +1,7 @@
 package com.bendcap.enkel.compiler.bytecodegenerator;
 
-import com.bendcap.enkel.antlr.domain.clazz.Function;
-import com.bendcap.enkel.antlr.domain.global.ClassDeclaration;
+import com.bendcap.enkel.compiler.domain.clazz.Function;
+import com.bendcap.enkel.compiler.domain.global.ClassDeclaration;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Opcodes;
 

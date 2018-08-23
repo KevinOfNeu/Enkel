@@ -1,6 +1,6 @@
 package com.bendcap.enkel.compiler;
 
-import com.bendcap.enkel.antlr.domain.global.CompilationUnit;
+import com.bendcap.enkel.compiler.domain.global.CompilationUnit;
 import com.bendcap.enkel.compiler.bytecodegenerator.BytecodeGenerator;
 import com.bendcap.enkel.compiler.validation.ARGUMENT_ERRORS;
 import org.apache.commons.io.IOUtils;

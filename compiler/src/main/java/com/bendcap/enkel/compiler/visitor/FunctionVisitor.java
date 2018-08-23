@@ -2,13 +2,13 @@ package com.bendcap.enkel.compiler.visitor;
 
 import com.bendcap.enkel.antlr.EnkelBaseVisitor;
 import com.bendcap.enkel.antlr.EnkelParser;
-import com.bendcap.enkel.antlr.domain.clazz.Function;
-import com.bendcap.enkel.antlr.domain.expression.FunctionParameter;
-import com.bendcap.enkel.antlr.domain.scope.LocalVariable;
-import com.bendcap.enkel.antlr.domain.scope.Scope;
-import com.bendcap.enkel.antlr.domain.statement.Statement;
-import com.bendcap.enkel.antlr.domain.type.Type;
-import com.bendcap.enkel.antlr.util.TypeResolver;
+import com.bendcap.enkel.compiler.domain.clazz.Function;
+import com.bendcap.enkel.compiler.domain.expression.FunctionParameter;
+import com.bendcap.enkel.compiler.domain.scope.LocalVariable;
+import com.bendcap.enkel.compiler.domain.scope.Scope;
+import com.bendcap.enkel.compiler.domain.statement.Statement;
+import com.bendcap.enkel.compiler.domain.type.Type;
+import com.bendcap.enkel.compiler.utils.TypeResolver;
 import org.antlr.v4.runtime.misc.NotNull;
 
 import java.util.List;
@@ -53,10 +53,8 @@ public class FunctionVisitor extends EnkelBaseVisitor<Function> {
 
     private List<Statement> getStatements(@NotNull EnkelParser.FunctionContext ctx) {
         StatementVisitor statementVisitor = new StatementVisitor(scope);
-        ExpressionVisitor expressionVisitor = new ExpressionVisitor(scope);
-        CompositeVisitor<Statement> compositeVisitor = new CompositeVisitor<>(statementVisitor, expressionVisitor);
         return ctx.blockStatement().stream()
-                .map(compositeVisitor::accept)
+                .map(block -> block.accept(statementVisitor))
                 .collect(Collectors.toList());
     }
 }

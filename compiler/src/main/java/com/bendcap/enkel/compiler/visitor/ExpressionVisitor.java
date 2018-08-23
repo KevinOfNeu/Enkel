@@ -2,12 +2,16 @@ package com.bendcap.enkel.compiler.visitor;
 
 import com.bendcap.enkel.antlr.EnkelBaseVisitor;
 import com.bendcap.enkel.antlr.EnkelParser;
-import com.bendcap.enkel.antlr.domain.expression.*;
-import com.bendcap.enkel.antlr.domain.scope.FunctionSignature;
-import com.bendcap.enkel.antlr.domain.scope.LocalVariable;
-import com.bendcap.enkel.antlr.domain.scope.Scope;
-import com.bendcap.enkel.antlr.domain.type.Type;
-import com.bendcap.enkel.antlr.util.TypeResolver;
+import com.bendcap.enkel.compiler.domain.expression.*;
+import com.bendcap.enkel.compiler.domain.math.Addition;
+import com.bendcap.enkel.compiler.domain.math.Division;
+import com.bendcap.enkel.compiler.domain.math.Multiplication;
+import com.bendcap.enkel.compiler.domain.math.Substraction;
+import com.bendcap.enkel.compiler.domain.scope.FunctionSignature;
+import com.bendcap.enkel.compiler.domain.scope.LocalVariable;
+import com.bendcap.enkel.compiler.domain.scope.Scope;
+import com.bendcap.enkel.compiler.domain.type.Type;
+import com.bendcap.enkel.compiler.utils.TypeResolver;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -46,13 +50,53 @@ public class ExpressionVisitor extends EnkelBaseVisitor<Expression> {
         List<FunctionParameter> signatureParameters = signature.getArguments();
         List<EnkelParser.ExpressionContext> calledParameters = ctx.expressionList().expression();
         List<Expression> arguments = calledParameters.stream()
-                .map(expressionContext -> {
-                    return expressionContext.accept(new ExpressionVisitor(scope));
-                })
+                .map((expressionContext -> expressionContext.accept(this)))
                 .collect(Collectors.toList());
         Type returnType = signature.getReturnType();
         return new FunctionCall(signature, arguments, null);
 
+    }
+
+    @Override
+    public Expression visitADD(EnkelParser.ADDContext ctx) {
+        EnkelParser.ExpressionContext leftExpressionContext = ctx.expression(0);
+        EnkelParser.ExpressionContext rightExpressionContext = ctx.expression(1);
+        Expression leftExpression = leftExpressionContext.accept(this);
+        Expression rightExpression = rightExpressionContext.accept(this);
+
+        return new Addition(leftExpression, rightExpression);
+    }
+
+
+    @Override
+    public Expression visitMULTIPLY(EnkelParser.MULTIPLYContext ctx) {
+        EnkelParser.ExpressionContext leftExpressionContext = ctx.expression(0);
+        EnkelParser.ExpressionContext rightExpressionContext = ctx.expression(1);
+        Expression leftExpression = leftExpressionContext.accept(this);
+        Expression rightExpression = rightExpressionContext.accept(this);
+
+        return new Multiplication(leftExpression, rightExpression);
+    }
+
+
+    @Override
+    public Expression visitSUBSTRACT(EnkelParser.SUBSTRACTContext ctx) {
+        EnkelParser.ExpressionContext leftExpressionContext = ctx.expression(0);
+        EnkelParser.ExpressionContext rightExpressionContext = ctx.expression(1);
+        Expression leftExpression = leftExpressionContext.accept(this);
+        Expression rightExpression = rightExpressionContext.accept(this);
+
+        return new Substraction(leftExpression, rightExpression);
+    }
+
+    @Override
+    public Expression visitDIVIDE(EnkelParser.DIVIDEContext ctx) {
+        EnkelParser.ExpressionContext leftExpressionContext = ctx.expression(0);
+        EnkelParser.ExpressionContext rightExpressionContext = ctx.expression(1);
+        Expression leftExpression = leftExpressionContext.accept(this);
+        Expression rightExpression = rightExpressionContext.accept(this);
+
+        return new Division(leftExpression, rightExpression);
     }
 }
 

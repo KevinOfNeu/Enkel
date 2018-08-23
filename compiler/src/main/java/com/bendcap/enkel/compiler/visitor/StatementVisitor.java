@@ -2,12 +2,12 @@ package com.bendcap.enkel.compiler.visitor;
 
 import com.bendcap.enkel.antlr.EnkelBaseVisitor;
 import com.bendcap.enkel.antlr.EnkelParser;
-import com.bendcap.enkel.antlr.domain.expression.Expression;
-import com.bendcap.enkel.antlr.domain.scope.LocalVariable;
-import com.bendcap.enkel.antlr.domain.scope.Scope;
-import com.bendcap.enkel.antlr.domain.statement.PrintStatement;
-import com.bendcap.enkel.antlr.domain.statement.Statement;
-import com.bendcap.enkel.antlr.domain.statement.VariableDeclarationStatement;
+import com.bendcap.enkel.compiler.domain.expression.Expression;
+import com.bendcap.enkel.compiler.domain.scope.LocalVariable;
+import com.bendcap.enkel.compiler.domain.scope.Scope;
+import com.bendcap.enkel.compiler.domain.statement.PrintStatement;
+import com.bendcap.enkel.compiler.domain.statement.Statement;
+import com.bendcap.enkel.compiler.domain.statement.VariableDeclarationStatement;
 
 
 /**
@@ -37,5 +37,10 @@ public class StatementVisitor extends EnkelBaseVisitor<Statement> {
         Expression expression = expressionCtx.accept(expressionVisitor);
         scope.addLocalVariable(new LocalVariable(varName, expression.getType()));
         return new VariableDeclarationStatement(varName, expression);
+    }
+
+    @Override
+    public Statement visitFunctionCall(EnkelParser.FunctionCallContext ctx) {
+        return (Statement) ctx.accept(new ExpressionVisitor(scope));
     }
 }

@@ -2,7 +2,7 @@ package com.bendcap.enkel.compiler;
 
 import com.bendcap.enkel.antlr.EnkelLexer;
 import com.bendcap.enkel.antlr.EnkelParser;
-import com.bendcap.enkel.antlr.domain.global.CompilationUnit;
+import com.bendcap.enkel.compiler.domain.global.CompilationUnit;
 import com.bendcap.enkel.compiler.parsing.EnkelTreeWalkErrorListener;
 import com.bendcap.enkel.compiler.visitor.CompilationUnitVisitor;
 import org.antlr.v4.runtime.ANTLRErrorListener;

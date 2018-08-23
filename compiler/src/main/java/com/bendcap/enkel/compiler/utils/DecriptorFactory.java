@@ -1,9 +1,9 @@
 package com.bendcap.enkel.compiler.utils;
 
-import com.bendcap.enkel.antlr.domain.clazz.Function;
-import com.bendcap.enkel.antlr.domain.expression.FunctionParameter;
-import com.bendcap.enkel.antlr.domain.scope.FunctionSignature;
-import com.bendcap.enkel.antlr.domain.type.Type;
+import com.bendcap.enkel.compiler.domain.clazz.Function;
+import com.bendcap.enkel.compiler.domain.expression.FunctionParameter;
+import com.bendcap.enkel.compiler.domain.scope.FunctionSignature;
+import com.bendcap.enkel.compiler.domain.type.Type;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
@@ -15,7 +15,7 @@ public class DecriptorFactory {
 
     public static String getMethodDescriptor(Function function) {
         Collection<FunctionParameter> arguments = function.getArguments();
-        Type returnType = function.getType();
+        Type returnType = function.getReturnType();
         return getMethodDescriptor(arguments, returnType);
     }
 

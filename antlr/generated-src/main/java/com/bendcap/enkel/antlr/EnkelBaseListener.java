@@ -19,39 +19,26 @@ public class EnkelBaseListener implements EnkelListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterBlockStatement(@NotNull EnkelParser.BlockStatementContext ctx) { }
+	@Override public void enterADD(@NotNull EnkelParser.ADDContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitBlockStatement(@NotNull EnkelParser.BlockStatementContext ctx) { }
+	@Override public void exitADD(@NotNull EnkelParser.ADDContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterExpression(@NotNull EnkelParser.ExpressionContext ctx) { }
+	@Override public void enterVariableReference(@NotNull EnkelParser.VariableReferenceContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitExpression(@NotNull EnkelParser.ExpressionContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterFunctionName(@NotNull EnkelParser.FunctionNameContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitFunctionName(@NotNull EnkelParser.FunctionNameContext ctx) { }
+	@Override public void exitVariableReference(@NotNull EnkelParser.VariableReferenceContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -84,19 +71,6 @@ public class EnkelBaseListener implements EnkelListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterSuperClassName(@NotNull EnkelParser.SuperClassNameContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitSuperClassName(@NotNull EnkelParser.SuperClassNameContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterClassDeclaration(@NotNull EnkelParser.ClassDeclarationContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -110,13 +84,26 @@ public class EnkelBaseListener implements EnkelListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterVariableDeclaration(@NotNull EnkelParser.VariableDeclarationContext ctx) { }
+	@Override public void enterDIVIDE(@NotNull EnkelParser.DIVIDEContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitVariableDeclaration(@NotNull EnkelParser.VariableDeclarationContext ctx) { }
+	@Override public void exitDIVIDE(@NotNull EnkelParser.DIVIDEContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterFunctionParamdefaultValue(@NotNull EnkelParser.FunctionParamdefaultValueContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitFunctionParamdefaultValue(@NotNull EnkelParser.FunctionParamdefaultValueContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -136,13 +123,130 @@ public class EnkelBaseListener implements EnkelListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterFunctionParamdefaultValue(@NotNull EnkelParser.FunctionParamdefaultValueContext ctx) { }
+	@Override public void enterSUBSTRACT(@NotNull EnkelParser.SUBSTRACTContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitFunctionParamdefaultValue(@NotNull EnkelParser.FunctionParamdefaultValueContext ctx) { }
+	@Override public void exitSUBSTRACT(@NotNull EnkelParser.SUBSTRACTContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterFunction(@NotNull EnkelParser.FunctionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitFunction(@NotNull EnkelParser.FunctionContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterFUNCALL(@NotNull EnkelParser.FUNCALLContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitFUNCALL(@NotNull EnkelParser.FUNCALLContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterClassBody(@NotNull EnkelParser.ClassBodyContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitClassBody(@NotNull EnkelParser.ClassBodyContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterPrimitiveType(@NotNull EnkelParser.PrimitiveTypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitPrimitiveType(@NotNull EnkelParser.PrimitiveTypeContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterValue(@NotNull EnkelParser.ValueContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitValue(@NotNull EnkelParser.ValueContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterValueExpr(@NotNull EnkelParser.ValueExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitValueExpr(@NotNull EnkelParser.ValueExprContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterBlockStatement(@NotNull EnkelParser.BlockStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitBlockStatement(@NotNull EnkelParser.BlockStatementContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterFunctionName(@NotNull EnkelParser.FunctionNameContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitFunctionName(@NotNull EnkelParser.FunctionNameContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterVariableDeclaration(@NotNull EnkelParser.VariableDeclarationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitVariableDeclaration(@NotNull EnkelParser.VariableDeclarationContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -201,19 +305,6 @@ public class EnkelBaseListener implements EnkelListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterFunction(@NotNull EnkelParser.FunctionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitFunction(@NotNull EnkelParser.FunctionContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterFunctionCall(@NotNull EnkelParser.FunctionCallContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -240,13 +331,13 @@ public class EnkelBaseListener implements EnkelListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterClassBody(@NotNull EnkelParser.ClassBodyContext ctx) { }
+	@Override public void enterMULTIPLY(@NotNull EnkelParser.MULTIPLYContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitClassBody(@NotNull EnkelParser.ClassBodyContext ctx) { }
+	@Override public void exitMULTIPLY(@NotNull EnkelParser.MULTIPLYContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -260,32 +351,6 @@ public class EnkelBaseListener implements EnkelListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitFunctionDeclaration(@NotNull EnkelParser.FunctionDeclarationContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterPrimitiveType(@NotNull EnkelParser.PrimitiveTypeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitPrimitiveType(@NotNull EnkelParser.PrimitiveTypeContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterValue(@NotNull EnkelParser.ValueContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitValue(@NotNull EnkelParser.ValueContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

@@ -1,16 +1,14 @@
 package com.bendcap.enkel.compiler.bytecodegenerator;
 
-import com.bendcap.enkel.antlr.domain.expression.Expression;
-import com.bendcap.enkel.antlr.domain.expression.Value;
-import com.bendcap.enkel.antlr.domain.scope.LocalVariable;
-import com.bendcap.enkel.antlr.domain.scope.Scope;
-import com.bendcap.enkel.antlr.domain.statement.PrintStatement;
-import com.bendcap.enkel.antlr.domain.statement.Statement;
-import com.bendcap.enkel.antlr.domain.statement.VariableDeclarationStatement;
-import com.bendcap.enkel.antlr.domain.type.BuiltInType;
-import com.bendcap.enkel.antlr.domain.type.ClassType;
-import com.bendcap.enkel.antlr.domain.type.Type;
-import org.apache.commons.lang3.StringUtils;
+import com.bendcap.enkel.compiler.domain.expression.Expression;
+import com.bendcap.enkel.compiler.domain.expression.FunctionCall;
+import com.bendcap.enkel.compiler.domain.scope.LocalVariable;
+import com.bendcap.enkel.compiler.domain.scope.Scope;
+import com.bendcap.enkel.compiler.domain.statement.PrintStatement;
+import com.bendcap.enkel.compiler.domain.statement.VariableDeclarationStatement;
+import com.bendcap.enkel.compiler.domain.type.BuiltInType;
+import com.bendcap.enkel.compiler.domain.type.ClassType;
+import com.bendcap.enkel.compiler.domain.type.Type;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
@@ -19,57 +17,41 @@ import org.objectweb.asm.Opcodes;
  */
 public class StatementGenerator {
     private MethodVisitor methodVisitor;
-    private ExpressionGenerator expressionGenerator;
+    private ExpressionGenerator expressionGenrator;
+    private Scope scope;
 
-    public StatementGenerator(MethodVisitor methodVisitor) {
+    public StatementGenerator(MethodVisitor methodVisitor, Scope scope) {
         this.methodVisitor = methodVisitor;
-        expressionGenerator = new ExpressionGenerator(methodVisitor);
+        this.scope = scope;
+        expressionGenrator = new ExpressionGenerator(methodVisitor, scope);
     }
 
-    public void generate(Statement expression, Scope scope) {
-        if (expression instanceof PrintStatement) {
-            PrintStatement printStatement = (PrintStatement) expression;
-            generate(printStatement, scope);
-        } else if (expression instanceof VariableDeclarationStatement) {
-            VariableDeclarationStatement variableDeclarationStatement = (VariableDeclarationStatement) expression;
-            generate(variableDeclarationStatement, scope);
-        } else if (expression instanceof Expression) {
-            expressionGenerator.generate((Expression) expression, scope);
-        }
-    }
-
-
-    public void generate(PrintStatement printStatement, Scope scope) {
-        ExpressionGenerator expressionGenrator = new ExpressionGenerator(methodVisitor);
+    public void generate(PrintStatement printStatement) {
         Expression expression = printStatement.getExpression();
         methodVisitor.visitFieldInsn(Opcodes.GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
-        expressionGenrator.generate(expression, scope);
+        expression.accept(expressionGenrator);
         Type type = expression.getType();
         String descriptor = "(" + type.getDescriptor() + ")V";
         ClassType owner = new ClassType("java.io.PrintStream");
         String fieldDescriptor = owner.getDescriptor();
-        methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL,fieldDescriptor, "println", descriptor, false);
+        methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, fieldDescriptor, "println", descriptor, false);
     }
 
-    public void generate(VariableDeclarationStatement variableDeclarationStatement, Scope scope) {
+    public void generate(VariableDeclarationStatement variableDeclarationStatement) {
         Expression expression = variableDeclarationStatement.getExpression();
         String name = variableDeclarationStatement.getName();
         int index = scope.getLocalVariableIndex(name);
-        if (expression instanceof Value) {
-            Value value = (Value) expression;
-            Type type = value.getType();
-            String stringValue = value.getValue();
-            if (type == BuiltInType.INT) {
-                int val = Integer.parseInt(stringValue);
-                methodVisitor.visitIntInsn(Opcodes.BIPUSH, val);
-                methodVisitor.visitVarInsn(Opcodes.ISTORE, index);
-            } else if (type == BuiltInType.STRING) {
-                stringValue = StringUtils.removeStart(stringValue, "\"");
-                stringValue = StringUtils.removeEnd(stringValue, "\"");
-                methodVisitor.visitLdcInsn(stringValue);
-                methodVisitor.visitVarInsn(Opcodes.ASTORE, index);
-            }
+        Type type = expression.getType();
+        expression.accept(expressionGenrator);
+        if (type == BuiltInType.INT) {
+            methodVisitor.visitVarInsn(Opcodes.ISTORE, index);
+        } else {
+            methodVisitor.visitVarInsn(Opcodes.ASTORE, index);
         }
         scope.addLocalVariable(new LocalVariable(name, expression.getType()));
+    }
+
+    public void generate(FunctionCall functionCall) {
+        functionCall.accept(expressionGenrator);
     }
 }

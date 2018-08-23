@@ -6,20 +6,19 @@ package com.bendcap.enkel.antlr;
 }
 
 //RULES
-compilationUnit : classDeclaration EOF ; //root rule - our code consist consist only of variables and prints (see definition below)
-classDeclaration : className superClassName* '{' classBody '}' ;
+compilationUnit : classDeclaration EOF ;
+classDeclaration : className '{' classBody '}' ;
 className : ID ;
-superClassName : ':' ID ;
 classBody :  function* ;
 function : functionDeclaration '{' (blockStatement)* '}' ;
-functionDeclaration : (type)? functionName '('  (functionArgument)* (',' functionArgument)* ')' ;
+functionDeclaration : (type)? functionName '('(functionArgument)*')' ;
 functionName : ID ;
 functionArgument : type ID functionParamdefaultValue? ;
 functionParamdefaultValue : '=' expression ;
 type : primitiveType
      | classType ;
 
-primitiveType :     'boolean' ('[' ']')*
+primitiveType :  'boolean' ('[' ']')*
                 |   'string' ('[' ']')*
                 |   'char' ('[' ']')*
                 |   'byte' ('[' ']')*
@@ -38,14 +37,23 @@ variableDeclaration : VARIABLE name EQUALS expression;
 printStatement : PRINT expression ;
 functionCall : functionName '('expressionList ')';
 name : ID ;
-expressionList : (expression)* (',' expression)* ;
-expression : varReference
-           | value
-           | functionCall ;
-varReference : ID ;
+expressionList : expression (',' expression)* ;
+
+expression : variableReference #VarReference
+           | value        #ValueExpr
+           | functionCall #FUNCALL
+           |  '('expression '*' expression')' #MULTIPLY
+           | expression '*' expression  #MULTIPLY
+           | '(' expression '/' expression ')' #DIVIDE
+           | expression '/' expression #DIVIDE
+           | '(' expression '+' expression ')' #ADD
+           | expression '+' expression #ADD
+           | '(' expression '-' expression ')' #SUBSTRACT
+           | expression '-' expression #SUBSTRACT
+           ;
+variableReference : ID ;
 value : NUMBER
       | STRING ;
-
 //TOKENS
 VARIABLE : 'var' ;
 PRINT : 'print' ;
