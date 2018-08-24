@@ -2,12 +2,15 @@ package com.bendcap.enkel.compiler.visitor;
 
 import com.bendcap.enkel.antlr.EnkelBaseVisitor;
 import com.bendcap.enkel.antlr.EnkelParser;
+import com.bendcap.enkel.compiler.domain.expression.EmptyExpression;
 import com.bendcap.enkel.compiler.domain.expression.Expression;
 import com.bendcap.enkel.compiler.domain.scope.LocalVariable;
 import com.bendcap.enkel.compiler.domain.scope.Scope;
-import com.bendcap.enkel.compiler.domain.statement.PrintStatement;
-import com.bendcap.enkel.compiler.domain.statement.Statement;
-import com.bendcap.enkel.compiler.domain.statement.VariableDeclarationStatement;
+import com.bendcap.enkel.compiler.domain.statement.*;
+import com.bendcap.enkel.compiler.domain.type.BuiltInType;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 /**
@@ -15,15 +18,16 @@ import com.bendcap.enkel.compiler.domain.statement.VariableDeclarationStatement;
  */
 public class StatementVisitor extends EnkelBaseVisitor<Statement> {
     private Scope scope;
+    private ExpressionVisitor expressionVisitor;
 
     public StatementVisitor(Scope scope) {
         this.scope = scope;
+        expressionVisitor = new ExpressionVisitor(scope);
     }
 
     @Override
     public Statement visitPrintStatement(EnkelParser.PrintStatementContext ctx) {
         EnkelParser.ExpressionContext expressionContext = ctx.expression();
-        ExpressionVisitor expressionVisitor = new ExpressionVisitor(scope);
         Expression expression = expressionContext.accept(expressionVisitor);
         return new PrintStatement(expression);
     }
@@ -33,7 +37,6 @@ public class StatementVisitor extends EnkelBaseVisitor<Statement> {
     public Statement visitVariableDeclaration(EnkelParser.VariableDeclarationContext ctx) {
         String varName = ctx.name().getText();
         EnkelParser.ExpressionContext expressionCtx = ctx.expression();
-        ExpressionVisitor expressionVisitor = new ExpressionVisitor(scope);
         Expression expression = expressionCtx.accept(expressionVisitor);
         scope.addLocalVariable(new LocalVariable(varName, expression.getType()));
         return new VariableDeclarationStatement(varName, expression);
@@ -42,5 +45,27 @@ public class StatementVisitor extends EnkelBaseVisitor<Statement> {
     @Override
     public Statement visitFunctionCall(EnkelParser.FunctionCallContext ctx) {
         return (Statement) ctx.accept(new ExpressionVisitor(scope));
+    }
+
+    @Override
+    public Statement visitRETURNVOID(EnkelParser.RETURNVOIDContext ctx) {
+        return new ReturnStatement(new EmptyExpression(BuiltInType.VOID));
+    }
+
+    @Override
+    public Statement visitRETURNWITHVALUE(EnkelParser.RETURNWITHVALUEContext ctx) {
+        Expression expression = ctx.expression().accept(expressionVisitor);
+        return new ReturnStatement(expression);
+    }
+
+    @Override
+    public Statement visitBlock(EnkelParser.BlockContext ctx) {
+        List<EnkelParser.StatementContext> blockStatementCtx = ctx.statement();
+        Scope newScope = new Scope(scope);
+        StatementVisitor statementVisitor = new StatementVisitor(newScope);
+        List<Statement> statements = blockStatementCtx.stream()
+                .map(stmt -> stmt.accept(statementVisitor))
+                .collect(Collectors.toList());
+        return new Block(newScope, statements);
     }
 }

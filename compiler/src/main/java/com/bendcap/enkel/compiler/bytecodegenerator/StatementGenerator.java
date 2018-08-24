@@ -4,13 +4,14 @@ import com.bendcap.enkel.compiler.domain.expression.Expression;
 import com.bendcap.enkel.compiler.domain.expression.FunctionCall;
 import com.bendcap.enkel.compiler.domain.scope.LocalVariable;
 import com.bendcap.enkel.compiler.domain.scope.Scope;
-import com.bendcap.enkel.compiler.domain.statement.PrintStatement;
-import com.bendcap.enkel.compiler.domain.statement.VariableDeclarationStatement;
+import com.bendcap.enkel.compiler.domain.statement.*;
 import com.bendcap.enkel.compiler.domain.type.BuiltInType;
 import com.bendcap.enkel.compiler.domain.type.ClassType;
 import com.bendcap.enkel.compiler.domain.type.Type;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
+
+import java.util.List;
 
 /**
  * Created by KevinOfNeu on 2018/8/22  15:30.
@@ -48,10 +49,29 @@ public class StatementGenerator {
         } else {
             methodVisitor.visitVarInsn(Opcodes.ASTORE, index);
         }
-        scope.addLocalVariable(new LocalVariable(name, expression.getType()));
     }
 
     public void generate(FunctionCall functionCall) {
         functionCall.accept(expressionGenrator);
+    }
+
+    public void generate(ReturnStatement returnStatement) {
+        Expression expression = returnStatement.getExpression();
+        Type type = expression.getType();
+        expression.accept(expressionGenrator);
+        if (type == BuiltInType.VOID) {
+            methodVisitor.visitInsn(Opcodes.RETURN);
+        } else if (type == BuiltInType.INT) {
+            methodVisitor.visitInsn(Opcodes.IRETURN);
+        }
+    }
+
+
+    public void generate(Block block) {
+        Scope newScope = block.getScope();
+        List<Statement> statements = block.getStatements();
+        StatementGenerator statementGenerator = new StatementGenerator(methodVisitor, newScope);
+        statements.stream()
+                .forEach(stmt -> stmt.accept(statementGenerator));
     }
 }

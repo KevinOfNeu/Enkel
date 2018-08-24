@@ -29,8 +29,14 @@ public class FunctionVisitor extends EnkelBaseVisitor<Function> {
         String name = getName(ctx);
         Type returnType = getReturnType(ctx);
         List<FunctionParameter> arguments = getArguments(ctx);
-        List<Statement> instructions = getStatements(ctx);
-        return new Function(scope, name, returnType, arguments, instructions);
+        Statement block = getBlock(ctx);
+        return new Function(name, returnType, arguments, block);
+    }
+
+    private Statement getBlock(EnkelParser.FunctionContext functionContext) {
+        StatementVisitor statementVisitor = new StatementVisitor(scope);
+        EnkelParser.BlockContext blockContext = functionContext.block();
+        return blockContext.accept(statementVisitor);
     }
 
     private String getName(EnkelParser.FunctionContext functionDeclarationContext) {
@@ -51,10 +57,4 @@ public class FunctionVisitor extends EnkelBaseVisitor<Function> {
         return parameters;
     }
 
-    private List<Statement> getStatements(@NotNull EnkelParser.FunctionContext ctx) {
-        StatementVisitor statementVisitor = new StatementVisitor(scope);
-        return ctx.blockStatement().stream()
-                .map(block -> block.accept(statementVisitor))
-                .collect(Collectors.toList());
-    }
 }

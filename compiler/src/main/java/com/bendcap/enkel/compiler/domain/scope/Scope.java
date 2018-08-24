@@ -24,7 +24,7 @@ public class Scope {
 
     public Scope(Scope scope) {
         metaData = scope.metaData;
-        localVariables = new ArrayList<>();
+        localVariables = Lists.newArrayList(scope.localVariables);
         functionSignatures = Lists.newArrayList(scope.functionSignatures);
     }
 

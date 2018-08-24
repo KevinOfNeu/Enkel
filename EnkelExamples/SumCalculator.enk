@@ -1,0 +1,10 @@
+SumCalculator {
+
+     main(string[] args) {
+        print sum(5,2, 1)
+    }
+
+    int sum (int x ,int y, int z) {
+        x+y+z
+    }
+}

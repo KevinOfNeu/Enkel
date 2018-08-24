@@ -10,8 +10,8 @@ compilationUnit : classDeclaration EOF ;
 classDeclaration : className '{' classBody '}' ;
 className : ID ;
 classBody :  function* ;
-function : functionDeclaration '{' (blockStatement)* '}' ;
-functionDeclaration : (type)? functionName '('(functionArgument)*')' ;
+function : functionDeclaration block;
+functionDeclaration : (type)? functionName '(' (functionArgument (',' functionArgument)*)?')' ;
 functionName : ID ;
 functionArgument : type ID functionParamdefaultValue? ;
 functionParamdefaultValue : '=' expression ;
@@ -30,14 +30,22 @@ primitiveType :  'boolean' ('[' ']')*
                 |   'void' ('[' ']')* ;
 classType : QUALIFIED_NAME ('[' ']')* ;
 
-blockStatement : variableDeclaration
+block : '{' statement* '}' ;
+
+statement :     block
+               | variableDeclaration
                | printStatement
-               | functionCall ;
-variableDeclaration : VARIABLE name EQUALS expression;
+               | functionCall
+               | returnStatement;
+
+variableDeclaration : VARIABLE name EQUALS expression ;
 printStatement : PRINT expression ;
-functionCall : functionName '('expressionList ')';
+returnStatement : 'return' #RETURNVOID
+                | ('return')? expression #RETURNWITHVALUE ;
+functionCall : functionName '('expressionList ')' ;
+
 name : ID ;
-expressionList : expression (',' expression)* ;
+expressionList : expression? (',' expression)* ;
 
 expression : variableReference #VarReference
            | value        #ValueExpr
@@ -59,7 +67,7 @@ VARIABLE : 'var' ;
 PRINT : 'print' ;
 EQUALS : '=' ;
 NUMBER : [0-9]+ ;
-STRING : '"'.*'"' ;
+STRING : '"'~('\r' | '\n' | '"')*'"' ;
 ID : [a-zA-Z0-9]+ ;
 QUALIFIED_NAME : ID ('.' ID)+;
 WS: [ \t\n\r]+ -> skip ;

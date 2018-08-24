@@ -24,10 +24,9 @@ public class ClassVisitor extends EnkelBaseVisitor<ClassDeclaration> {
         List<EnkelParser.FunctionContext> methodCtx = ctx.classBody().function();
         MetaData metaData = new MetaData(ctx.className().getText());
         scope = new Scope(metaData);
-        List<FunctionSignature> signatures = methodCtx.stream()
+        methodCtx.stream()
                 .map(method -> method.functionDeclaration().accept(functionSignatureVisitor))
-                .peek(scope::addSignature)
-                .collect(Collectors.toList());
+                .forEach(scope::addSignature);
         List<Function> methods = methodCtx.stream()
                 .map(method -> method.accept(new FunctionVisitor(scope)))
                 .collect(Collectors.toList());

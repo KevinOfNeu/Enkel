@@ -97,6 +97,10 @@ public class ExpressionGenerator {
         methodVisitor.visitInsn(Opcodes.IDIV);
     }
 
+    public void generate(EmptyExpression expression) {
+        // do nothing
+    }
+
     private void evaluateArthimeticComponents(ArthimeticExpression expression) {
         Expression leftExpression = expression.getLeftExpression();
         Expression rightExpression = expression.getRightExpression();

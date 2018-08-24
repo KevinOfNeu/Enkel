@@ -96,11 +96,25 @@ public interface EnkelVisitor<T> extends ParseTreeVisitor<T> {
 	T visitFUNCALL(@NotNull EnkelParser.FUNCALLContext ctx);
 
 	/**
+	 * Visit a parse tree produced by {@link EnkelParser#statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStatement(@NotNull EnkelParser.StatementContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link EnkelParser#classBody}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitClassBody(@NotNull EnkelParser.ClassBodyContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link EnkelParser#block}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBlock(@NotNull EnkelParser.BlockContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link EnkelParser#primitiveType}.
@@ -125,18 +139,19 @@ public interface EnkelVisitor<T> extends ParseTreeVisitor<T> {
 	T visitValueExpr(@NotNull EnkelParser.ValueExprContext ctx);
 
 	/**
-	 * Visit a parse tree produced by {@link EnkelParser#blockStatement}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitBlockStatement(@NotNull EnkelParser.BlockStatementContext ctx);
-
-	/**
 	 * Visit a parse tree produced by {@link EnkelParser#functionName}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitFunctionName(@NotNull EnkelParser.FunctionNameContext ctx);
+
+	/**
+	 * Visit a parse tree produced by the {@code RETURNVOID}
+	 * labeled alternative in {@link EnkelParser#returnStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitRETURNVOID(@NotNull EnkelParser.RETURNVOIDContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link EnkelParser#variableDeclaration}.
@@ -208,4 +223,12 @@ public interface EnkelVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitClassType(@NotNull EnkelParser.ClassTypeContext ctx);
+
+	/**
+	 * Visit a parse tree produced by the {@code RETURNWITHVALUE}
+	 * labeled alternative in {@link EnkelParser#returnStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitRETURNWITHVALUE(@NotNull EnkelParser.RETURNWITHVALUEContext ctx);
 }

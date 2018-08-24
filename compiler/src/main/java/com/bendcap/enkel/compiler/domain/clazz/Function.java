@@ -15,15 +15,13 @@ import java.util.List;
 public class Function {
     private String name;
     private List<FunctionParameter> arguments;
-    private List<Statement> statements;
+    private Statement rootStatement;
     private Type returnType;
-    private Scope scope;
 
-    public Function(Scope scope, String name, Type returnType, List<FunctionParameter> arguments, List<Statement> statements) {
-        this.scope = scope;
+    public Function(String name, Type returnType, List<FunctionParameter> arguments, Statement rootStatement) {
         this.name = name;
         this.arguments = arguments;
-        this.statements = statements;
+        this.rootStatement = rootStatement;
         this.returnType = returnType;
     }
 
@@ -35,12 +33,8 @@ public class Function {
         return Collections.unmodifiableList(arguments);
     }
 
-    public Collection<Statement> getStatements() {
-        return Collections.unmodifiableCollection(statements);
-    }
-
-    public Scope getScope() {
-        return scope;
+    public Statement getRootStatement() {
+        return rootStatement;
     }
 
     public Type getReturnType() {
