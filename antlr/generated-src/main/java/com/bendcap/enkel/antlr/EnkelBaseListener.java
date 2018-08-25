@@ -253,6 +253,19 @@ public class EnkelBaseListener implements EnkelListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterConditionalExpression(@NotNull EnkelParser.ConditionalExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitConditionalExpression(@NotNull EnkelParser.ConditionalExpressionContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterRETURNVOID(@NotNull EnkelParser.RETURNVOIDContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -260,6 +273,19 @@ public class EnkelBaseListener implements EnkelListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitRETURNVOID(@NotNull EnkelParser.RETURNVOIDContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterIfStatement(@NotNull EnkelParser.IfStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitIfStatement(@NotNull EnkelParser.IfStatementContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

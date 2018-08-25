@@ -8,6 +8,7 @@ import com.bendcap.enkel.compiler.domain.statement.*;
 import com.bendcap.enkel.compiler.domain.type.BuiltInType;
 import com.bendcap.enkel.compiler.domain.type.ClassType;
 import com.bendcap.enkel.compiler.domain.type.Type;
+import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
@@ -64,6 +65,22 @@ public class StatementGenerator {
         } else if (type == BuiltInType.INT) {
             methodVisitor.visitInsn(Opcodes.IRETURN);
         }
+    }
+
+    public void generate(IfStatement ifStatement) {
+        Expression condition = ifStatement.getCondition();
+        condition.accept(expressionGenrator);
+
+        Label trueLabel = new Label();
+        methodVisitor.visitJumpInsn(Opcodes.IFEQ, trueLabel);
+        ifStatement.getTrueStatement().accept(this);
+        Label falseLabel = new Label();
+        methodVisitor.visitJumpInsn(Opcodes.GOTO, falseLabel);
+        methodVisitor.visitLabel(trueLabel);
+        methodVisitor.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
+        ifStatement.getFalseStatement().accept(this);
+        methodVisitor.visitLabel(falseLabel);
+        methodVisitor.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
     }
 
 

@@ -36,13 +36,15 @@ statement :     block
                | variableDeclaration
                | printStatement
                | functionCall
-               | returnStatement;
+               | returnStatement
+               | ifStatement ;
 
 variableDeclaration : VARIABLE name EQUALS expression ;
 printStatement : PRINT expression ;
 returnStatement : 'return' #RETURNVOID
                 | ('return')? expression #RETURNWITHVALUE ;
 functionCall : functionName '('expressionList ')' ;
+ifStatement: 'if'  ('(')? expression (')')? trueStatement=statement ('else' falseStatement=statement)?;
 
 name : ID ;
 expressionList : expression? (',' expression)* ;
@@ -58,7 +60,14 @@ expression : variableReference #VarReference
            | expression '+' expression #ADD
            | '(' expression '-' expression ')' #SUBSTRACT
            | expression '-' expression #SUBSTRACT
+           | expression cmp='>' expression #conditionalExpression
+           | expression cmp='<' expression #conditionalExpression
+           | expression cmp='==' expression #conditionalExpression
+           | expression cmp='!=' expression #conditionalExpression
+           | expression cmp='>=' expression #conditionalExpression
+           | expression cmp='<=' expression #conditionalExpression
            ;
+
 variableReference : ID ;
 value : NUMBER
       | STRING ;

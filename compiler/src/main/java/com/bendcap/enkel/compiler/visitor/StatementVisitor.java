@@ -68,4 +68,13 @@ public class StatementVisitor extends EnkelBaseVisitor<Statement> {
                 .collect(Collectors.toList());
         return new Block(newScope, statements);
     }
+
+    @Override
+    public Statement visitIfStatement(EnkelParser.IfStatementContext ctx) {
+        EnkelParser.ExpressionContext conditionExpressionContext = ctx.expression();
+        Expression condition = conditionExpressionContext.accept(expressionVisitor);
+        Statement trueStatement = ctx.trueStatement.accept(this);
+        Statement falseStatement = ctx.falseStatement.accept(this);
+        return new IfStatement(condition, trueStatement, falseStatement);
+    }
 }

@@ -1,5 +1,6 @@
 package com.bendcap.enkel.compiler.bytecodegenerator;
 
+import com.bendcap.enkel.compiler.CompareSign;
 import com.bendcap.enkel.compiler.domain.expression.*;
 import com.bendcap.enkel.compiler.domain.math.*;
 import com.bendcap.enkel.compiler.domain.scope.LocalVariable;
@@ -8,8 +9,10 @@ import com.bendcap.enkel.compiler.domain.type.BuiltInType;
 import com.bendcap.enkel.compiler.domain.type.ClassType;
 import com.bendcap.enkel.compiler.domain.type.Type;
 import com.bendcap.enkel.compiler.exception.CalledFunctionDoesNotExistException;
+import com.bendcap.enkel.compiler.exception.ComparisonBetweenDiferentTypesException;
 import com.bendcap.enkel.compiler.utils.DecriptorFactory;
 import org.apache.commons.lang3.StringUtils;
+import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
@@ -100,6 +103,29 @@ public class ExpressionGenerator {
     public void generate(EmptyExpression expression) {
         // do nothing
     }
+
+    public void generate(ConditionalExpression conditionalExpression) {
+        Expression leftExpression = conditionalExpression.getLeftExpression();
+        Expression rightExpression = conditionalExpression.getRightExpression();
+        Type type = leftExpression.getType();
+        if (type != rightExpression.getType()) {
+            throw new ComparisonBetweenDiferentTypesException(leftExpression, rightExpression);
+        }
+
+        leftExpression.accept(this);
+        rightExpression.accept(this);
+        CompareSign compareSign = conditionalExpression.getCompareSign();
+        Label endLabel = new Label();
+        Label falseLabel = new Label();
+
+        methodVisitor.visitJumpInsn(compareSign.getOpcode(), falseLabel);
+        methodVisitor.visitInsn(Opcodes.ICONST_1);
+        methodVisitor.visitJumpInsn(Opcodes.GOTO, endLabel);
+        methodVisitor.visitLabel(falseLabel);
+        methodVisitor.visitInsn(Opcodes.ICONST_0);
+        methodVisitor.visitLabel(endLabel);
+    }
+
 
     private void evaluateArthimeticComponents(ArthimeticExpression expression) {
         Expression leftExpression = expression.getLeftExpression();

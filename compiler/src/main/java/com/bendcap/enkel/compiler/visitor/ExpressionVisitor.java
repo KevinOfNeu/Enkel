@@ -2,6 +2,7 @@ package com.bendcap.enkel.compiler.visitor;
 
 import com.bendcap.enkel.antlr.EnkelBaseVisitor;
 import com.bendcap.enkel.antlr.EnkelParser;
+import com.bendcap.enkel.compiler.CompareSign;
 import com.bendcap.enkel.compiler.domain.expression.*;
 import com.bendcap.enkel.compiler.domain.math.Addition;
 import com.bendcap.enkel.compiler.domain.math.Division;
@@ -10,6 +11,7 @@ import com.bendcap.enkel.compiler.domain.math.Substraction;
 import com.bendcap.enkel.compiler.domain.scope.FunctionSignature;
 import com.bendcap.enkel.compiler.domain.scope.LocalVariable;
 import com.bendcap.enkel.compiler.domain.scope.Scope;
+import com.bendcap.enkel.compiler.domain.type.BuiltInType;
 import com.bendcap.enkel.compiler.domain.type.Type;
 import com.bendcap.enkel.compiler.utils.TypeResolver;
 
@@ -97,6 +99,19 @@ public class ExpressionVisitor extends EnkelBaseVisitor<Expression> {
         Expression rightExpression = rightExpressionContext.accept(this);
 
         return new Division(leftExpression, rightExpression);
+    }
+
+    @Override
+    public Expression visitConditionalExpression(EnkelParser.ConditionalExpressionContext ctx) {
+        EnkelParser.ExpressionContext leftExpressionContext = ctx.expression(0);
+        EnkelParser.ExpressionContext rightExpressionContext = ctx.expression(1);
+
+        ExpressionVisitor expressionVisitor = new ExpressionVisitor(scope);
+        Expression leftExpression = leftExpressionContext.accept(expressionVisitor);
+        Expression rightExpression = rightExpressionContext != null ? rightExpressionContext.accept(expressionVisitor) : new Value(BuiltInType.INT, "0");
+
+        CompareSign cmpSign = ctx.cmp != null ? CompareSign.fromString(ctx.cmp.getText()) : CompareSign.NOT_EQUAL;
+        return new ConditionalExpression(leftExpression, rightExpression, cmpSign);
     }
 }
 

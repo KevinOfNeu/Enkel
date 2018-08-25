@@ -146,12 +146,27 @@ public interface EnkelVisitor<T> extends ParseTreeVisitor<T> {
 	T visitFunctionName(@NotNull EnkelParser.FunctionNameContext ctx);
 
 	/**
+	 * Visit a parse tree produced by the {@code conditionalExpression}
+	 * labeled alternative in {@link EnkelParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitConditionalExpression(@NotNull EnkelParser.ConditionalExpressionContext ctx);
+
+	/**
 	 * Visit a parse tree produced by the {@code RETURNVOID}
 	 * labeled alternative in {@link EnkelParser#returnStatement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitRETURNVOID(@NotNull EnkelParser.RETURNVOIDContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link EnkelParser#ifStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIfStatement(@NotNull EnkelParser.IfStatementContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link EnkelParser#variableDeclaration}.

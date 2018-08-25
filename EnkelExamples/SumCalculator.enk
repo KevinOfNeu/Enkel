@@ -1,10 +1,17 @@
 SumCalculator {
 
-     main(string[] args) {
-        print sum(5,2, 1)
+    main(string[] args) {
+        var expected = 8
+        var actual = sum(3,5)
+
+        if( actual == expected ) {
+            print "test passed"
+        } else {
+            print "test failed"
+        }
     }
 
-    int sum (int x ,int y, int z) {
-        x+y+z
+    int sum (int x ,int y) {
+        x+y
     }
 }
