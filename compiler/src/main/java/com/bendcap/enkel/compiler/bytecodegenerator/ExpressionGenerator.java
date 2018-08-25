@@ -116,13 +116,12 @@ public class ExpressionGenerator {
         rightExpression.accept(this);
         CompareSign compareSign = conditionalExpression.getCompareSign();
         Label endLabel = new Label();
-        Label falseLabel = new Label();
-
-        methodVisitor.visitJumpInsn(compareSign.getOpcode(), falseLabel);
-        methodVisitor.visitInsn(Opcodes.ICONST_1);
-        methodVisitor.visitJumpInsn(Opcodes.GOTO, endLabel);
-        methodVisitor.visitLabel(falseLabel);
+        Label trueLabel = new Label();
+        methodVisitor.visitJumpInsn(compareSign.getOpcode(), trueLabel);
         methodVisitor.visitInsn(Opcodes.ICONST_0);
+        methodVisitor.visitJumpInsn(Opcodes.GOTO, endLabel);
+        methodVisitor.visitLabel(trueLabel);
+        methodVisitor.visitInsn(Opcodes.ICONST_1);
         methodVisitor.visitLabel(endLabel);
     }
 

@@ -106,9 +106,8 @@ public class ExpressionVisitor extends EnkelBaseVisitor<Expression> {
         EnkelParser.ExpressionContext leftExpressionContext = ctx.expression(0);
         EnkelParser.ExpressionContext rightExpressionContext = ctx.expression(1);
 
-        ExpressionVisitor expressionVisitor = new ExpressionVisitor(scope);
-        Expression leftExpression = leftExpressionContext.accept(expressionVisitor);
-        Expression rightExpression = rightExpressionContext != null ? rightExpressionContext.accept(expressionVisitor) : new Value(BuiltInType.INT, "0");
+        Expression leftExpression = leftExpressionContext.accept(this);
+        Expression rightExpression = rightExpressionContext != null ? rightExpressionContext.accept(this) : new Value(BuiltInType.INT, "0");
 
         CompareSign cmpSign = ctx.cmp != null ? CompareSign.fromString(ctx.cmp.getText()) : CompareSign.NOT_EQUAL;
         return new ConditionalExpression(leftExpression, rightExpression, cmpSign);

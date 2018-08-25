@@ -70,17 +70,14 @@ public class StatementGenerator {
     public void generate(IfStatement ifStatement) {
         Expression condition = ifStatement.getCondition();
         condition.accept(expressionGenrator);
-
         Label trueLabel = new Label();
-        methodVisitor.visitJumpInsn(Opcodes.IFEQ, trueLabel);
-        ifStatement.getTrueStatement().accept(this);
-        Label falseLabel = new Label();
-        methodVisitor.visitJumpInsn(Opcodes.GOTO, falseLabel);
-        methodVisitor.visitLabel(trueLabel);
-        methodVisitor.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
+        Label endLabel = new Label();
+        methodVisitor.visitJumpInsn(Opcodes.IFNE, trueLabel);
         ifStatement.getFalseStatement().accept(this);
-        methodVisitor.visitLabel(falseLabel);
-        methodVisitor.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
+        methodVisitor.visitJumpInsn(Opcodes.GOTO, endLabel);
+        methodVisitor.visitLabel(trueLabel);
+        ifStatement.getTrueStatement().accept(this);
+        methodVisitor.visitLabel(endLabel);
     }
 
 
