@@ -1,0 +1,13 @@
+DefaultParamTest {
+     main(string[] args) {
+         greet("andrew")
+         print ""
+         greet("kuba","enkel")
+    }
+     greet (string name,string favouriteLanguage="java") {
+        print "Hello my name is "
+        print name
+        print "and my favourite langugage is "
+        print favouriteLanguage
+    }
+}

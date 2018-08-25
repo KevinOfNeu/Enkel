@@ -197,13 +197,6 @@ public interface EnkelVisitor<T> extends ParseTreeVisitor<T> {
 	T visitCompilationUnit(@NotNull EnkelParser.CompilationUnitContext ctx);
 
 	/**
-	 * Visit a parse tree produced by {@link EnkelParser#functionArgument}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitFunctionArgument(@NotNull EnkelParser.FunctionArgumentContext ctx);
-
-	/**
 	 * Visit a parse tree produced by {@link EnkelParser#functionCall}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -224,6 +217,13 @@ public interface EnkelVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitMULTIPLY(@NotNull EnkelParser.MULTIPLYContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link EnkelParser#functionParameter}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFunctionParameter(@NotNull EnkelParser.FunctionParameterContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link EnkelParser#functionDeclaration}.

@@ -34,14 +34,14 @@ public class EnkelParser extends Parser {
 	public static final int
 		RULE_compilationUnit = 0, RULE_classDeclaration = 1, RULE_className = 2, 
 		RULE_classBody = 3, RULE_function = 4, RULE_functionDeclaration = 5, RULE_functionName = 6, 
-		RULE_functionArgument = 7, RULE_functionParamdefaultValue = 8, RULE_type = 9, 
+		RULE_functionParameter = 7, RULE_functionParamdefaultValue = 8, RULE_type = 9, 
 		RULE_primitiveType = 10, RULE_classType = 11, RULE_block = 12, RULE_statement = 13, 
 		RULE_variableDeclaration = 14, RULE_printStatement = 15, RULE_returnStatement = 16, 
 		RULE_functionCall = 17, RULE_ifStatement = 18, RULE_name = 19, RULE_expressionList = 20, 
 		RULE_expression = 21, RULE_variableReference = 22, RULE_value = 23;
 	public static final String[] ruleNames = {
 		"compilationUnit", "classDeclaration", "className", "classBody", "function", 
-		"functionDeclaration", "functionName", "functionArgument", "functionParamdefaultValue", 
+		"functionDeclaration", "functionName", "functionParameter", "functionParamdefaultValue", 
 		"type", "primitiveType", "classType", "block", "statement", "variableDeclaration", 
 		"printStatement", "returnStatement", "functionCall", "ifStatement", "name", 
 		"expressionList", "expression", "variableReference", "value"
@@ -308,17 +308,17 @@ public class EnkelParser extends Parser {
 	}
 
 	public static class FunctionDeclarationContext extends ParserRuleContext {
+		public FunctionParameterContext functionParameter(int i) {
+			return getRuleContext(FunctionParameterContext.class,i);
+		}
 		public FunctionNameContext functionName() {
 			return getRuleContext(FunctionNameContext.class,0);
 		}
+		public List<FunctionParameterContext> functionParameter() {
+			return getRuleContexts(FunctionParameterContext.class);
+		}
 		public TypeContext type() {
 			return getRuleContext(TypeContext.class,0);
-		}
-		public List<FunctionArgumentContext> functionArgument() {
-			return getRuleContexts(FunctionArgumentContext.class);
-		}
-		public FunctionArgumentContext functionArgument(int i) {
-			return getRuleContext(FunctionArgumentContext.class,i);
 		}
 		public FunctionDeclarationContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -360,7 +360,7 @@ public class EnkelParser extends Parser {
 			_la = _input.LA(1);
 			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__28) | (1L << T__25) | (1L << T__24) | (1L << T__22) | (1L << T__18) | (1L << T__17) | (1L << T__16) | (1L << T__12) | (1L << T__11) | (1L << T__4) | (1L << QUALIFIED_NAME))) != 0)) {
 				{
-				setState(72); functionArgument();
+				setState(72); functionParameter();
 				setState(77);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
@@ -368,7 +368,7 @@ public class EnkelParser extends Parser {
 					{
 					{
 					setState(73); match(T__13);
-					setState(74); functionArgument();
+					setState(74); functionParameter();
 					}
 					}
 					setState(79);
@@ -433,7 +433,7 @@ public class EnkelParser extends Parser {
 		return _localctx;
 	}
 
-	public static class FunctionArgumentContext extends ParserRuleContext {
+	public static class FunctionParameterContext extends ParserRuleContext {
 		public TerminalNode ID() { return getToken(EnkelParser.ID, 0); }
 		public FunctionParamdefaultValueContext functionParamdefaultValue() {
 			return getRuleContext(FunctionParamdefaultValueContext.class,0);
@@ -441,28 +441,28 @@ public class EnkelParser extends Parser {
 		public TypeContext type() {
 			return getRuleContext(TypeContext.class,0);
 		}
-		public FunctionArgumentContext(ParserRuleContext parent, int invokingState) {
+		public FunctionParameterContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_functionArgument; }
+		@Override public int getRuleIndex() { return RULE_functionParameter; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof EnkelListener ) ((EnkelListener)listener).enterFunctionArgument(this);
+			if ( listener instanceof EnkelListener ) ((EnkelListener)listener).enterFunctionParameter(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof EnkelListener ) ((EnkelListener)listener).exitFunctionArgument(this);
+			if ( listener instanceof EnkelListener ) ((EnkelListener)listener).exitFunctionParameter(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof EnkelVisitor ) return ((EnkelVisitor<? extends T>)visitor).visitFunctionArgument(this);
+			if ( visitor instanceof EnkelVisitor ) return ((EnkelVisitor<? extends T>)visitor).visitFunctionParameter(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final FunctionArgumentContext functionArgument() throws RecognitionException {
-		FunctionArgumentContext _localctx = new FunctionArgumentContext(_ctx, getState());
-		enterRule(_localctx, 14, RULE_functionArgument);
+	public final FunctionParameterContext functionParameter() throws RecognitionException {
+		FunctionParameterContext _localctx = new FunctionParameterContext(_ctx, getState());
+		enterRule(_localctx, 14, RULE_functionParameter);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);

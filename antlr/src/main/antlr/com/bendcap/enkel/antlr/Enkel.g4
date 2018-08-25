@@ -11,9 +11,9 @@ classDeclaration : className '{' classBody '}' ;
 className : ID ;
 classBody :  function* ;
 function : functionDeclaration block;
-functionDeclaration : (type)? functionName '(' (functionArgument (',' functionArgument)*)?')' ;
+functionDeclaration : (type)? functionName '(' (functionParameter (',' functionParameter)*)?')' ;
 functionName : ID ;
-functionArgument : type ID functionParamdefaultValue? ;
+functionParameter : type ID functionParamdefaultValue? ;
 functionParamdefaultValue : '=' expression ;
 type : primitiveType
      | classType ;

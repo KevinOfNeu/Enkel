@@ -344,19 +344,6 @@ public class EnkelBaseListener implements EnkelListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterFunctionArgument(@NotNull EnkelParser.FunctionArgumentContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitFunctionArgument(@NotNull EnkelParser.FunctionArgumentContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterFunctionCall(@NotNull EnkelParser.FunctionCallContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -390,6 +377,19 @@ public class EnkelBaseListener implements EnkelListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitMULTIPLY(@NotNull EnkelParser.MULTIPLYContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterFunctionParameter(@NotNull EnkelParser.FunctionParameterContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitFunctionParameter(@NotNull EnkelParser.FunctionParameterContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

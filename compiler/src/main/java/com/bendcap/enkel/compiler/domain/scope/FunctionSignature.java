@@ -10,12 +10,12 @@ import java.util.List;
  */
 public class FunctionSignature {
     private String name;
-    private List<FunctionParameter> arguments;
+    private List<FunctionParameter> parameters;
     private Type returnType;
 
-    public FunctionSignature(String name, List<FunctionParameter> arguments, Type returnType) {
+    public FunctionSignature(String name, List<FunctionParameter> parameters, Type returnType) {
         this.name = name;
-        this.arguments = arguments;
+        this.parameters = parameters;
         this.returnType = returnType;
     }
 
@@ -23,8 +23,8 @@ public class FunctionSignature {
         return name;
     }
 
-    public List<FunctionParameter> getArguments() {
-        return arguments;
+    public List<FunctionParameter> getParameters() {
+        return parameters;
     }
 
     public Type getReturnType() {

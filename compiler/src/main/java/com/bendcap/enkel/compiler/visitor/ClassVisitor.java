@@ -20,7 +20,7 @@ public class ClassVisitor extends EnkelBaseVisitor<ClassDeclaration> {
     @Override
     public ClassDeclaration visitClassDeclaration(EnkelParser.ClassDeclarationContext ctx) {
         String name = ctx.className().getText();
-        FunctionSignatureVisitor functionSignatureVisitor = new FunctionSignatureVisitor();
+        FunctionSignatureVisitor functionSignatureVisitor = new FunctionSignatureVisitor(scope);
         List<EnkelParser.FunctionContext> methodCtx = ctx.classBody().function();
         MetaData metaData = new MetaData(ctx.className().getText());
         scope = new Scope(metaData);
