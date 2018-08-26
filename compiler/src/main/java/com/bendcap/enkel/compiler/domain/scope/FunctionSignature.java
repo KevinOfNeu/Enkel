@@ -2,6 +2,7 @@ package com.bendcap.enkel.compiler.domain.scope;
 
 import com.bendcap.enkel.compiler.domain.expression.FunctionParameter;
 import com.bendcap.enkel.compiler.domain.type.Type;
+import com.bendcap.enkel.compiler.exception.ParameterForNameNotFoundException;
 
 import java.util.List;
 
@@ -26,6 +27,19 @@ public class FunctionSignature {
     public List<FunctionParameter> getParameters() {
         return parameters;
     }
+
+    public FunctionParameter getParameterForName(String name) {
+        return parameters.stream()
+                .filter(param -> param.getName().equals(name))
+                .findFirst()
+                .orElseThrow(() -> new ParameterForNameNotFoundException(name, parameters));
+    }
+
+    public int getIndexOfParameters(String parameterName) {
+        FunctionParameter parameter = getParameterForName(parameterName);
+        return parameters.indexOf(parameter);
+    }
+
 
     public Type getReturnType() {
         return returnType;

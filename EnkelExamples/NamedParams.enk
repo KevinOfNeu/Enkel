@@ -1,0 +1,11 @@
+NamedParamsTest {
+     main(string[] args) {
+        greet("enkel" -> favouriteLanguage,"kubaaa"  -> name)
+    }
+     greet (string name,string favouriteLanguage="java") {
+        print "Hello my name is "
+        print name
+        print "and my favourite langugage is "
+        print favouriteLanguage
+    }
+}

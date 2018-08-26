@@ -22,6 +22,13 @@ public interface EnkelVisitor<T> extends ParseTreeVisitor<T> {
 	T visitADD(@NotNull EnkelParser.ADDContext ctx);
 
 	/**
+	 * Visit a parse tree produced by {@link EnkelParser#argument}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArgument(@NotNull EnkelParser.ArgumentContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link EnkelParser#variableReference}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -181,13 +188,6 @@ public interface EnkelVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitPrintStatement(@NotNull EnkelParser.PrintStatementContext ctx);
-
-	/**
-	 * Visit a parse tree produced by {@link EnkelParser#expressionList}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitExpressionList(@NotNull EnkelParser.ExpressionListContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link EnkelParser#compilationUnit}.

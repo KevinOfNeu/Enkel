@@ -24,6 +24,17 @@ public interface EnkelListener extends ParseTreeListener {
 	void exitADD(@NotNull EnkelParser.ADDContext ctx);
 
 	/**
+	 * Enter a parse tree produced by {@link EnkelParser#argument}.
+	 * @param ctx the parse tree
+	 */
+	void enterArgument(@NotNull EnkelParser.ArgumentContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link EnkelParser#argument}.
+	 * @param ctx the parse tree
+	 */
+	void exitArgument(@NotNull EnkelParser.ArgumentContext ctx);
+
+	/**
 	 * Enter a parse tree produced by {@link EnkelParser#variableReference}.
 	 * @param ctx the parse tree
 	 */
@@ -278,17 +289,6 @@ public interface EnkelListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitPrintStatement(@NotNull EnkelParser.PrintStatementContext ctx);
-
-	/**
-	 * Enter a parse tree produced by {@link EnkelParser#expressionList}.
-	 * @param ctx the parse tree
-	 */
-	void enterExpressionList(@NotNull EnkelParser.ExpressionListContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link EnkelParser#expressionList}.
-	 * @param ctx the parse tree
-	 */
-	void exitExpressionList(@NotNull EnkelParser.ExpressionListContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link EnkelParser#compilationUnit}.

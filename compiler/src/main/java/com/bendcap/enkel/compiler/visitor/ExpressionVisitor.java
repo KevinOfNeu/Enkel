@@ -15,8 +15,11 @@ import com.bendcap.enkel.compiler.domain.type.BuiltInType;
 import com.bendcap.enkel.compiler.domain.type.Type;
 import com.bendcap.enkel.compiler.utils.TypeResolver;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * Created by KevinOfNeu on 2018/8/22  16:04.
@@ -49,12 +52,18 @@ public class ExpressionVisitor extends EnkelBaseVisitor<Expression> {
     public Expression visitFunctionCall(EnkelParser.FunctionCallContext ctx) {
         String funName = ctx.functionName().getText();
         FunctionSignature signature = scope.getSignature(funName);
-        List<EnkelParser.ExpressionContext> calledParameters = ctx.expressionList().expression();
-        List<Expression> arguments = calledParameters.stream()
-                .map((expressionContext -> expressionContext.accept(this)))
-                .collect(Collectors.toList());
+        List<EnkelParser.ArgumentContext> argumentCtx = ctx.argument();
+        Comparator<EnkelParser.ArgumentContext> argumentComparator = (arg1, arg2) -> {
+            if (arg1.name() == null) return 0;
+            String arg1Name = arg1.name().getText();
+            String arg2Name = arg2.name().getText();
+            return signature.getIndexOfParameters(arg1Name) - signature.getIndexOfParameters(arg2Name);
+        };
+        List<Expression> arguments = argumentCtx.stream()
+                .sorted(argumentComparator)
+                .map(argument -> argument.expression().accept(this))
+                .collect(toList());
         return new FunctionCall(signature, arguments, null);
-
     }
 
     @Override
