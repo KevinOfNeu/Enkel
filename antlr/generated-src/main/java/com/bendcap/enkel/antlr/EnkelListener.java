@@ -46,6 +46,17 @@ public interface EnkelListener extends ParseTreeListener {
 	void exitVariableReference(@NotNull EnkelParser.VariableReferenceContext ctx);
 
 	/**
+	 * Enter a parse tree produced by {@link EnkelParser#forConditions}.
+	 * @param ctx the parse tree
+	 */
+	void enterForConditions(@NotNull EnkelParser.ForConditionsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link EnkelParser#forConditions}.
+	 * @param ctx the parse tree
+	 */
+	void exitForConditions(@NotNull EnkelParser.ForConditionsContext ctx);
+
+	/**
 	 * Enter a parse tree produced by {@link EnkelParser#className}.
 	 * @param ctx the parse tree
 	 */
@@ -256,6 +267,17 @@ public interface EnkelListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitRETURNVOID(@NotNull EnkelParser.RETURNVOIDContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link EnkelParser#forStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterForStatement(@NotNull EnkelParser.ForStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link EnkelParser#forStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitForStatement(@NotNull EnkelParser.ForStatementContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link EnkelParser#ifStatement}.

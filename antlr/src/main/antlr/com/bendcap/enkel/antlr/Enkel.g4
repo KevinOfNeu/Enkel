@@ -37,6 +37,7 @@ statement :     block
                | printStatement
                | functionCall
                | returnStatement
+               | forStatement
                | ifStatement ;
 
 variableDeclaration : VARIABLE name EQUALS expression ;
@@ -46,6 +47,9 @@ returnStatement : 'return' #RETURNVOID
 functionCall : functionName '('argument? (',' argument)* ')';
 
 ifStatement: 'if'  ('(')? expression (')')? trueStatement=statement ('else' falseStatement=statement)?;
+
+forStatement : 'for' ('(')? forConditions (')')? statement ;
+forConditions : iterator=variableReference  'from' startExpr=expression range='to' endExpr=expression ;
 
 name : ID ;
 argument : expression

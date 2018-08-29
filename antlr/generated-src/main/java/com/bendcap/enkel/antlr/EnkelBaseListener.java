@@ -58,6 +58,19 @@ public class EnkelBaseListener implements EnkelListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterForConditions(@NotNull EnkelParser.ForConditionsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitForConditions(@NotNull EnkelParser.ForConditionsContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterClassName(@NotNull EnkelParser.ClassNameContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -286,6 +299,19 @@ public class EnkelBaseListener implements EnkelListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitRETURNVOID(@NotNull EnkelParser.RETURNVOIDContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterForStatement(@NotNull EnkelParser.ForStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitForStatement(@NotNull EnkelParser.ForStatementContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

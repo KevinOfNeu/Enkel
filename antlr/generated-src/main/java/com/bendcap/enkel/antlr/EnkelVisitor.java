@@ -36,6 +36,13 @@ public interface EnkelVisitor<T> extends ParseTreeVisitor<T> {
 	T visitVariableReference(@NotNull EnkelParser.VariableReferenceContext ctx);
 
 	/**
+	 * Visit a parse tree produced by {@link EnkelParser#forConditions}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitForConditions(@NotNull EnkelParser.ForConditionsContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link EnkelParser#className}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -167,6 +174,13 @@ public interface EnkelVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitRETURNVOID(@NotNull EnkelParser.RETURNVOIDContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link EnkelParser#forStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitForStatement(@NotNull EnkelParser.ForStatementContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link EnkelParser#ifStatement}.
