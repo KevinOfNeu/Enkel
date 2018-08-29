@@ -1481,9 +1481,9 @@ public class EnkelParser extends Parser {
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(250); expression(0);
+				setState(250); name();
 				setState(251); match(T__13);
-				setState(252); name();
+				setState(252); expression(0);
 				}
 				break;
 			}
@@ -2125,8 +2125,8 @@ public class EnkelParser extends Parser {
 		"\u00f2\u00f1\3\2\2\2\u00f2\u00f3\3\2\2\2\u00f3\u00f4\3\2\2\2\u00f4\u00f7"+
 		"\5\34\17\2\u00f5\u00f6\7\36\2\2\u00f6\u00f8\5\34\17\2\u00f7\u00f5\3\2"+
 		"\2\2\u00f7\u00f8\3\2\2\2\u00f8\'\3\2\2\2\u00f9\u00fa\7\'\2\2\u00fa)\3"+
-		"\2\2\2\u00fb\u0101\5,\27\2\u00fc\u00fd\5,\27\2\u00fd\u00fe\7\24\2\2\u00fe"+
-		"\u00ff\5(\25\2\u00ff\u0101\3\2\2\2\u0100\u00fb\3\2\2\2\u0100\u00fc\3\2"+
+		"\2\2\2\u00fb\u0101\5,\27\2\u00fc\u00fd\5(\25\2\u00fd\u00fe\7\24\2\2\u00fe"+
+		"\u00ff\5,\27\2\u00ff\u0101\3\2\2\2\u0100\u00fb\3\2\2\2\u0100\u00fc\3\2"+
 		"\2\2\u0101+\3\2\2\2\u0102\u0103\b\27\1\2\u0103\u011f\5.\30\2\u0104\u011f"+
 		"\5\60\31\2\u0105\u011f\5$\23\2\u0106\u0107\7\21\2\2\u0107\u0108\5,\27"+
 		"\2\u0108\u0109\7\22\2\2\u0109\u010a\5,\27\2\u010a\u010b\7\37\2\2\u010b"+

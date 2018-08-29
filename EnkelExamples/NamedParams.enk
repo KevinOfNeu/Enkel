@@ -1,11 +1,18 @@
 NamedParamsTest {
      main(string[] args) {
-        greet("enkel" -> favouriteLanguage,"kubaaa"  -> name)
-    }
-     greet (string name,string favouriteLanguage="java") {
-        print "Hello my name is "
-        print name
-        print "and my favourite langugage is "
-        print favouriteLanguage
-    }
+         createRectangle(x1->25,x2-> -25,y1->50,y2->-50)
+         createRectangle(25,50,-25,-50)
+         otherStuff()
+     }
+
+     otherStuff() {
+        return
+     }
+
+     createRectangle (int x1,int y1,int x2, int y2) {
+         print "x1=" + x1
+         print "x2=" + x2
+         print "y1=" + y1
+         print "y2=" + y2
+     }
 }

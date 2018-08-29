@@ -16,7 +16,7 @@ public abstract class ArthimeticExpression extends Expression {
         super(type);
         this.leftExpression = leftExpression;
         this.rightExpression = rightExpression;
-        if (type != BuiltInType.INT) {
+        if (type != BuiltInType.INT && type != BuiltInType.STRING) {
             throw new UnsupportedArthimeticOperationException(this);
         }
     }

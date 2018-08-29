@@ -49,7 +49,7 @@ ifStatement: 'if'  ('(')? expression (')')? trueStatement=statement ('else' fals
 
 name : ID ;
 argument : expression
-         | expression '->' name ;
+         | name '->' expression ;
 
 expression : variableReference #VarReference
            | value        #ValueExpr
@@ -77,7 +77,7 @@ value : NUMBER
 VARIABLE : 'var' ;
 PRINT : 'print' ;
 EQUALS : '=' ;
-NUMBER : [0-9]+ ;
+NUMBER : '-'?[0-9]+ ;
 STRING : '"'~('\r' | '\n' | '"')*'"' ;
 ID : [a-zA-Z0-9]+ ;
 QUALIFIED_NAME : ID ('.' ID)+;

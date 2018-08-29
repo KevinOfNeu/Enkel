@@ -93,8 +93,30 @@ public class ExpressionGenerator {
     }
 
     public void generate(Addition expression) {
+        if (expression.getType().equals(BuiltInType.STRING)) {
+            generateStringAppend(expression);
+            return;
+        }
         evaluateArthimeticComponents(expression);
         methodVisitor.visitInsn(Opcodes.IADD);
+    }
+
+
+    public void generateStringAppend(Addition expression) {
+        methodVisitor.visitTypeInsn(Opcodes.NEW, "java/lang/StringBuilder");
+        methodVisitor.visitInsn(Opcodes.DUP);
+        methodVisitor.visitMethodInsn(Opcodes.INVOKESPECIAL, "java/lang/StringBuilder", "<init>", "()V", false);
+        Expression leftExpression = expression.getLeftExpression();
+        leftExpression.accept(this);
+        String leftExprDescriptor = leftExpression.getType().getDescriptor();
+        String descriptor = "("+leftExprDescriptor+ ")Ljava/lang/StringBuilder;";
+        methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/StringBuilder", "append", descriptor, false);
+        Expression rightExpression = expression.getRightExpression();
+        rightExpression.accept(this);
+        String rightExprDescriptor = rightExpression.getType().getDescriptor();
+        descriptor = "("+rightExprDescriptor+ ")Ljava/lang/StringBuilder;";
+        methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/StringBuilder", "append", descriptor, false);
+        methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/StringBuilder", "toString", "()Ljava/lang/String;", false);
     }
 
 

@@ -40,6 +40,7 @@ public class MethodGenerator {
 
 
     private void appendReturnIfNotExists(Function function, Block block, StatementGenerator statementGenerator) {
+        if (block.getStatements().size() == 0) return;
         Statement lastStatement = block.getStatements().get(block.getStatements().size() - 1);
         if (!(lastStatement instanceof ReturnStatement)) {
             EmptyExpression emptyExpression = new EmptyExpression(function.getReturnType());
