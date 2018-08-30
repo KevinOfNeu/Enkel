@@ -1,11 +1,11 @@
 package com.bendcap.enkel.compiler.exception;
 
-import com.bendcap.enkel.compiler.domain.expression.FunctionCall;
+import com.bendcap.enkel.compiler.domain.expression.Call;
 
 /**
  * Created by KevinOfNeu on 2018/8/25  19:38.
  */
 public class BadArgumentsToFunctionCallException extends RuntimeException {
-    public BadArgumentsToFunctionCallException(FunctionCall functionCall) {
+    public BadArgumentsToFunctionCallException(Call functionCall) {
     }
 }

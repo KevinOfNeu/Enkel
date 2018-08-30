@@ -7,12 +7,13 @@ import com.bendcap.enkel.compiler.domain.type.Type;
 /**
  * Created by KevinOfNeu on 2018/8/23  16:42.
  */
-public abstract class ArthimeticExpression extends Expression {
+public abstract class ArthimeticExpression implements Expression {
     private Expression leftExpression;
     private Expression rightExpression;
+    private Type type;
 
     public ArthimeticExpression(Expression leftExpression, Expression rightExpression) {
-        super(getCommonType(leftExpression, rightExpression));
+        this.type = getCommonType(leftExpression, rightExpression);
         this.leftExpression = leftExpression;
         this.rightExpression = rightExpression;
     }
@@ -28,5 +29,10 @@ public abstract class ArthimeticExpression extends Expression {
 
     public Expression getRightExpression() {
         return rightExpression;
+    }
+
+    @Override
+    public Type getType() {
+        return type;
     }
 }

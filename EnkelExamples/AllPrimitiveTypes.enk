@@ -1,5 +1,5 @@
 AllPrimitiveTypes {
-     main(string[] args) {
+     start() {
         var stringVar = "str"
         var booleanVar = false
         var integerVar = 2745

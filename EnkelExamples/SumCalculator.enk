@@ -1,6 +1,5 @@
 SumCalculator {
-
-    main(string[] args) {
+    start () {
         var expected = 8
         var actual = sum(3,5)
 

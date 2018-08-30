@@ -35,16 +35,15 @@ block : '{' statement* '}' ;
 statement :     block
                | variableDeclaration
                | printStatement
-               | functionCall
-               | returnStatement
                | forStatement
-               | ifStatement ;
+               | returnStatement
+               | ifStatement
+               | expression ;
 
 variableDeclaration : VARIABLE name EQUALS expression ;
 printStatement : PRINT expression ;
-returnStatement : 'return' #RETURNVOID
-                | ('return')? expression #RETURNWITHVALUE ;
-functionCall : functionName '('argument? (',' argument)* ')';
+returnStatement : 'return' expression #RETURNWITHVALUE
+                | 'return' #RETURNVOID ;
 
 ifStatement: 'if'  ('(')? expression (')')? trueStatement=statement ('else' falseStatement=statement)?;
 
@@ -56,8 +55,11 @@ argument : expression
          | name '->' expression ;
 
 expression : variableReference #VarReference
+           | owner=expression '.' functionName '('argument? (',' argument)* ')' #functionCall
+           | functionName '('argument? (',' argument)* ')' #functionCall
+           | superCall='super' '('argument? (',' argument)* ')' #supercall
+           | newCall='new' className '('argument? (',' argument)* ')' #constructorCall
            | value        #ValueExpr
-           | functionCall #FUNCALL
            |  '('expression '*' expression')' #MULTIPLY
            | expression '*' expression  #MULTIPLY
            | '(' expression '/' expression ')' #DIVIDE

@@ -84,6 +84,19 @@ public class EnkelBaseListener implements EnkelListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterConstructorCall(@NotNull EnkelParser.ConstructorCallContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitConstructorCall(@NotNull EnkelParser.ConstructorCallContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterType(@NotNull EnkelParser.TypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -169,19 +182,6 @@ public class EnkelBaseListener implements EnkelListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitFunction(@NotNull EnkelParser.FunctionContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterFUNCALL(@NotNull EnkelParser.FUNCALLContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitFUNCALL(@NotNull EnkelParser.FUNCALLContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -364,6 +364,19 @@ public class EnkelBaseListener implements EnkelListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitCompilationUnit(@NotNull EnkelParser.CompilationUnitContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterSupercall(@NotNull EnkelParser.SupercallContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSupercall(@NotNull EnkelParser.SupercallContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

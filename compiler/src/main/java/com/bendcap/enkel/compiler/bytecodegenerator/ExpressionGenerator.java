@@ -55,25 +55,45 @@ public class ExpressionGenerator {
         methodVisitor.visitLdcInsn(transformedValue);
     }
 
+    public void generate(ConstructorCall constructorCall) {
+        String ownerDescriptor = scope.getClassInternalName();
+        methodVisitor.visitTypeInsn(Opcodes.NEW, ownerDescriptor);
+        methodVisitor.visitInsn(Opcodes.DUP);
+        FunctionSignature methodCallSignature = scope.getMethodCallSignature(constructorCall.getIdentifier());
+        String methodDescriptor = DecriptorFactory.getMethodDescriptor(methodCallSignature);
+        generateArguments(constructorCall);
+        methodVisitor.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerDescriptor, "<init>", methodDescriptor, false);
+    }
+
+    public void generate(SuperCall superCall) {
+        methodVisitor.visitVarInsn(Opcodes.ALOAD, 0);
+        generateArguments(superCall);
+        String ownerDescriptor = scope.getSuperClassInternalName();
+        methodVisitor.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerDescriptor, "<init>", "()V" /*TODO Handle super calls with arguments*/, false);
+    }
 
     public void generate(FunctionCall functionCall) {
-        String functionName = functionCall.getFunctionName();
-        FunctionSignature signature = functionCall.getSignature();
-        List<Expression> arguments = functionCall.getArguments();
+        functionCall.getOwner().accept(this);
+        generateArguments(functionCall);
+        String functionName = functionCall.getIdentifier();
+        String methodDescriptor = DecriptorFactory.getMethodDescriptor(functionCall.getSignature());
+        String ownerDescriptor = functionCall.getOwnerType().getInternalName();
+        methodVisitor.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerDescriptor, functionName, methodDescriptor, false);
+    }
+
+    public void generateArguments(Call call) {
+        FunctionSignature signature = scope.getMethodCallSignature(call.getIdentifier());
+        List<Expression> arguments = call.getArguments();
         List<FunctionParameter> parameters = signature.getParameters();
         if (arguments.size() > parameters.size()) {
-            throw new BadArgumentsToFunctionCallException(functionCall);
+            throw new BadArgumentsToFunctionCallException(call);
         }
         arguments.forEach(argument -> argument.accept(this));
-        for(int i=arguments.size();i<parameters.size();i++) {
+        for (int i = arguments.size(); i < parameters.size(); i++) {
             Expression defaultParameter = parameters.get(i).getDefaultValue()
-                    .orElseThrow(() -> new BadArgumentsToFunctionCallException(functionCall));
+                    .orElseThrow(() -> new BadArgumentsToFunctionCallException(call));
             defaultParameter.accept(this);
         }
-        Type owner = functionCall.getOwner().orElse(new ClassType(scope.getClassName()));
-        String methodDescriptor = getFunctionDescriptor(functionCall);
-        String ownerDescriptor = owner.getInternalName();
-        methodVisitor.visitMethodInsn(Opcodes.INVOKESTATIC, ownerDescriptor, functionName, methodDescriptor, false);
     }
 
     public void generate(Addition expression) {
@@ -145,36 +165,11 @@ public class ExpressionGenerator {
         methodVisitor.visitLabel(endLabel);
     }
 
-
     private void evaluateArthimeticComponents(ArthimeticExpression expression) {
         Expression leftExpression = expression.getLeftExpression();
         Expression rightExpression = expression.getRightExpression();
         leftExpression.accept(this);
         rightExpression.accept(this);
-    }
-
-    public String getFunctionDescriptor(FunctionCall functionCall) {
-        return Optional.of(getDescriptorForFunctionInScope(functionCall, scope))
-                .orElse(getDescriptorForFunctionOnClasspath(functionCall, scope))
-                .orElseThrow(() -> new CalledFunctionDoesNotExistException(functionCall, scope));
-    }
-
-    private Optional<String> getDescriptorForFunctionInScope(FunctionCall functionCall, Scope scope) {
-        return Optional.ofNullable(DecriptorFactory.getMethodDescriptor(functionCall.getSignature()));//TODO check errors here (not found function tec)
-    }
-
-    private Optional<String> getDescriptorForFunctionOnClasspath(FunctionCall functionCall, Scope scope) {
-        try {
-            String functionName = functionCall.getFunctionName();
-            Optional<Type> owner = functionCall.getOwner();
-            String className = owner.isPresent() ? owner.get().getName() : scope.getClassName();
-            Class<?> aClass = Class.forName(className);
-            Method method = aClass.getMethod(functionName);
-            String methodDescriptor = org.objectweb.asm.Type.getMethodDescriptor(method);
-            return Optional.of(methodDescriptor);
-        } catch (ReflectiveOperationException e) {
-            return Optional.empty();
-        }
     }
 
 }

@@ -68,6 +68,19 @@ public interface EnkelListener extends ParseTreeListener {
 	void exitClassName(@NotNull EnkelParser.ClassNameContext ctx);
 
 	/**
+	 * Enter a parse tree produced by the {@code constructorCall}
+	 * labeled alternative in {@link EnkelParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterConstructorCall(@NotNull EnkelParser.ConstructorCallContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code constructorCall}
+	 * labeled alternative in {@link EnkelParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitConstructorCall(@NotNull EnkelParser.ConstructorCallContext ctx);
+
+	/**
 	 * Enter a parse tree produced by {@link EnkelParser#type}.
 	 * @param ctx the parse tree
 	 */
@@ -149,19 +162,6 @@ public interface EnkelListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitFunction(@NotNull EnkelParser.FunctionContext ctx);
-
-	/**
-	 * Enter a parse tree produced by the {@code FUNCALL}
-	 * labeled alternative in {@link EnkelParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void enterFUNCALL(@NotNull EnkelParser.FUNCALLContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code FUNCALL}
-	 * labeled alternative in {@link EnkelParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void exitFUNCALL(@NotNull EnkelParser.FUNCALLContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link EnkelParser#statement}.
@@ -324,12 +324,27 @@ public interface EnkelListener extends ParseTreeListener {
 	void exitCompilationUnit(@NotNull EnkelParser.CompilationUnitContext ctx);
 
 	/**
-	 * Enter a parse tree produced by {@link EnkelParser#functionCall}.
+	 * Enter a parse tree produced by the {@code supercall}
+	 * labeled alternative in {@link EnkelParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterSupercall(@NotNull EnkelParser.SupercallContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code supercall}
+	 * labeled alternative in {@link EnkelParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitSupercall(@NotNull EnkelParser.SupercallContext ctx);
+
+	/**
+	 * Enter a parse tree produced by the {@code functionCall}
+	 * labeled alternative in {@link EnkelParser#expression}.
 	 * @param ctx the parse tree
 	 */
 	void enterFunctionCall(@NotNull EnkelParser.FunctionCallContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link EnkelParser#functionCall}.
+	 * Exit a parse tree produced by the {@code functionCall}
+	 * labeled alternative in {@link EnkelParser#expression}.
 	 * @param ctx the parse tree
 	 */
 	void exitFunctionCall(@NotNull EnkelParser.FunctionCallContext ctx);

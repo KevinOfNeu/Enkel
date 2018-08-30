@@ -1,5 +1,5 @@
 Loops {
-    main(string[] args) {
+    start() {
         print "incrementing from 1 to 10"
         for x from 1 to 10 {
             print x

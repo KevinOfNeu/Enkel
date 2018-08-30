@@ -2,6 +2,7 @@ package com.bendcap.enkel.compiler.visitor;
 
 import com.bendcap.enkel.antlr.EnkelBaseVisitor;
 import com.bendcap.enkel.antlr.EnkelParser;
+import com.bendcap.enkel.compiler.domain.clazz.Constructor;
 import com.bendcap.enkel.compiler.domain.clazz.Function;
 import com.bendcap.enkel.compiler.domain.scope.FunctionSignature;
 import com.bendcap.enkel.compiler.domain.scope.LocalVariable;
@@ -21,9 +22,13 @@ public class FunctionVisitor extends EnkelBaseVisitor<Function> {
 
     @Override
     public Function visitFunction(@NotNull EnkelParser.FunctionContext ctx) {
-        FunctionSignature signature = scope.getSignature(ctx.functionDeclaration().functionName().getText());
+        FunctionSignature signature = scope.getMethodCallSignature(ctx.functionDeclaration().functionName().getText());
+        scope.addLocalVariable(new LocalVariable("this",scope.getClassType()));
         addParametersAsLocalVariables(signature);
         Statement block = getBlock(ctx);
+        if(signature.getName().equals(scope.getClassName())) {
+            return new Constructor(signature,block);
+        }
         return new Function(signature, block);
     }
 

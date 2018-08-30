@@ -3,6 +3,7 @@ package com.bendcap.enkel.compiler.domain.statement;
 import com.bendcap.enkel.compiler.bytecodegenerator.StatementGenerator;
 import com.bendcap.enkel.compiler.domain.scope.Scope;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -15,6 +16,10 @@ public class Block implements Statement {
     public Block( Scope scope, List<Statement> statements) {
         this.statements = statements;
         this.scope = scope;
+    }
+
+    public static Block empty(Scope scope) {
+        return new Block(scope, Collections.emptyList());
     }
 
     @Override

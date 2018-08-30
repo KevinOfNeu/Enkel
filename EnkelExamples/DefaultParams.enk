@@ -1,5 +1,5 @@
 DefaultParamTest {
-     main(string[] args) {
+    start() {
          greet("andrew")
          print ""
          greet("kuba","enkel")

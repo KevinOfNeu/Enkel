@@ -1,5 +1,6 @@
 package com.bendcap.enkel.compiler.domain.clazz;
 
+import com.bendcap.enkel.compiler.bytecodegenerator.MethodGenerator;
 import com.bendcap.enkel.compiler.domain.expression.FunctionParameter;
 import com.bendcap.enkel.compiler.domain.scope.FunctionSignature;
 import com.bendcap.enkel.compiler.domain.statement.Statement;
@@ -24,7 +25,7 @@ public class Function {
         return functionSignature.getName();
     }
 
-    public List<FunctionParameter> getParameter() {
+    public List<FunctionParameter> getParameters() {
         return Collections.unmodifiableList(functionSignature.getParameters());
     }
 
@@ -34,5 +35,9 @@ public class Function {
 
     public Type getReturnType() {
         return functionSignature.getReturnType();
+    }
+
+    public void accept(MethodGenerator generator) {
+        generator.generate(this);
     }
 }

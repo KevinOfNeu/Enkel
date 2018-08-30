@@ -1,6 +1,7 @@
 package com.bendcap.enkel.compiler.domain.math;
 
 import com.bendcap.enkel.compiler.bytecodegenerator.ExpressionGenerator;
+import com.bendcap.enkel.compiler.bytecodegenerator.StatementGenerator;
 import com.bendcap.enkel.compiler.domain.expression.Expression;
 import com.bendcap.enkel.compiler.domain.type.Type;
 
@@ -14,6 +15,11 @@ public class Multiplication extends ArthimeticExpression{
 
     @Override
     public void accept(ExpressionGenerator generator) {
+        generator.generate(this);
+    }
+
+    @Override
+    public void accept(StatementGenerator generator) {
         generator.generate(this);
     }
 }

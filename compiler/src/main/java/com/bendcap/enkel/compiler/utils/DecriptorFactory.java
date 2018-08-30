@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 public class DecriptorFactory {
 
     public static String getMethodDescriptor(Function function) {
-        Collection<FunctionParameter> parameters = function.getParameter();
+        Collection<FunctionParameter> parameters = function.getParameters();
         Type returnType = function.getReturnType();
         return getMethodDescriptor(parameters, returnType);
     }

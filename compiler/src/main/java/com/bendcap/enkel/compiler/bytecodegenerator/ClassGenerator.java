@@ -29,7 +29,8 @@ public class ClassGenerator {
                 null
         );
         List<Function> methods = classDeclaration.getMethods();
-        methods.forEach(function -> new MethodGenerator(classWriter).generate(function));
+        MethodGenerator methodGenerator = new MethodGenerator(classWriter);
+        methods.forEach(f -> f.accept(methodGenerator));
         classWriter.visitEnd();
         return classWriter;
     }

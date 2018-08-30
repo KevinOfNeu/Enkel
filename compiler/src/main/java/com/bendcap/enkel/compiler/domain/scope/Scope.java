@@ -1,12 +1,25 @@
 package com.bendcap.enkel.compiler.domain.scope;
 
 import com.bendcap.enkel.compiler.domain.global.MetaData;
+import com.bendcap.enkel.compiler.domain.type.BuiltInType;
+import com.bendcap.enkel.compiler.domain.type.ClassType;
+import com.bendcap.enkel.compiler.domain.type.Type;
+import com.bendcap.enkel.compiler.exception.ClassNotFoundForNameException;
 import com.bendcap.enkel.compiler.exception.LocalVariableNotFoundException;
 import com.bendcap.enkel.compiler.exception.MethodSignatureNotFoundException;
+import com.bendcap.enkel.compiler.utils.ReflectionObjectToSignatureMapper;
 import com.google.common.collect.Lists;
+import org.apache.commons.lang3.ClassUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.reflect.ConstructorUtils;
+import org.apache.commons.lang3.reflect.MethodUtils;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by KevinOfNeu on 2018/8/22  09:37.
@@ -32,11 +45,19 @@ public class Scope {
         functionSignatures.add(signature);
     }
 
-    public FunctionSignature getSignature(String methodName) {
+    public FunctionSignature getMethodCallSignature(String identifier) {
+        if (identifier.equals("super")) {
+            return new FunctionSignature("super", Collections.emptyList(), BuiltInType.VOID);
+        }
         return functionSignatures.stream()
-                .filter(signature -> signature.getName().equals(methodName))
+                .filter(signature -> signature.getName().equals(identifier))
                 .findFirst()
-                .orElseThrow(() -> new MethodSignatureNotFoundException(this, methodName));
+                .orElseThrow(() -> new MethodSignatureNotFoundException(this, identifier));
+    }
+
+
+    public String getSuperClassName() {
+        return metaData.getSuperClassName();
     }
 
     public void addLocalVariable(LocalVariable localVariable) {
@@ -62,8 +83,43 @@ public class Scope {
         return localVariables.indexOf(localVariable);
     }
 
+    Optional<FunctionSignature> getSignatureOnClassPath(String fullMethodName) {
+        String methodName = StringUtils.removePattern(fullMethodName, ".*\\.");
+        String className = fullMethodName; // StringUtils.difference(fullMethodName, methodName);
+        Class<?> methodOwnerClass = null;
+        try {
+            methodOwnerClass = ClassUtils.getClass(className);
+        } catch (ClassNotFoundException e) {
+            throw new ClassNotFoundForNameException(className);
+        }
+        Method accessibleMethod = MethodUtils.getAccessibleMethod(methodOwnerClass, methodName);
+        if (accessibleMethod != null) {
+            FunctionSignature signature = ReflectionObjectToSignatureMapper.fromMethod(accessibleMethod);
+            return Optional.of(signature);
+        }
+        Constructor<?> accessibleConstructor = ConstructorUtils.getAccessibleConstructor(methodOwnerClass);
+        if (accessibleConstructor != null) {
+            FunctionSignature signature = ReflectionObjectToSignatureMapper.fromConstructor(accessibleConstructor);
+            return Optional.of(signature);
+        }
+        return Optional.empty();
+    }
+
     public String getClassName() {
         return metaData.getClassName();
+    }
+
+    public String getSuperClassInternalName() {
+        return new ClassType(getSuperClassName()).getInternalName();
+    }
+
+    public Type getClassType() {
+        String className = getClassName();
+        return new ClassType(className);
+    }
+
+    public String getClassInternalName() {
+        return getClassType().getInternalName();
     }
 
 }

@@ -50,6 +50,14 @@ public interface EnkelVisitor<T> extends ParseTreeVisitor<T> {
 	T visitClassName(@NotNull EnkelParser.ClassNameContext ctx);
 
 	/**
+	 * Visit a parse tree produced by the {@code constructorCall}
+	 * labeled alternative in {@link EnkelParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitConstructorCall(@NotNull EnkelParser.ConstructorCallContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link EnkelParser#type}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -100,14 +108,6 @@ public interface EnkelVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitFunction(@NotNull EnkelParser.FunctionContext ctx);
-
-	/**
-	 * Visit a parse tree produced by the {@code FUNCALL}
-	 * labeled alternative in {@link EnkelParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitFUNCALL(@NotNull EnkelParser.FUNCALLContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link EnkelParser#statement}.
@@ -211,7 +211,16 @@ public interface EnkelVisitor<T> extends ParseTreeVisitor<T> {
 	T visitCompilationUnit(@NotNull EnkelParser.CompilationUnitContext ctx);
 
 	/**
-	 * Visit a parse tree produced by {@link EnkelParser#functionCall}.
+	 * Visit a parse tree produced by the {@code supercall}
+	 * labeled alternative in {@link EnkelParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSupercall(@NotNull EnkelParser.SupercallContext ctx);
+
+	/**
+	 * Visit a parse tree produced by the {@code functionCall}
+	 * labeled alternative in {@link EnkelParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */

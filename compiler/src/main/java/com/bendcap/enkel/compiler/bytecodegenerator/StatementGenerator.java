@@ -1,10 +1,11 @@
 package com.bendcap.enkel.compiler.bytecodegenerator;
 
 import com.bendcap.enkel.compiler.CompareSign;
-import com.bendcap.enkel.compiler.domain.expression.ConditionalExpression;
-import com.bendcap.enkel.compiler.domain.expression.Expression;
-import com.bendcap.enkel.compiler.domain.expression.FunctionCall;
-import com.bendcap.enkel.compiler.domain.expression.VarReference;
+import com.bendcap.enkel.compiler.domain.expression.*;
+import com.bendcap.enkel.compiler.domain.math.Addition;
+import com.bendcap.enkel.compiler.domain.math.Division;
+import com.bendcap.enkel.compiler.domain.math.Multiplication;
+import com.bendcap.enkel.compiler.domain.math.Substraction;
 import com.bendcap.enkel.compiler.domain.scope.LocalVariable;
 import com.bendcap.enkel.compiler.domain.scope.Scope;
 import com.bendcap.enkel.compiler.domain.statement.*;
@@ -17,6 +18,7 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by KevinOfNeu on 2018/8/22  15:30.
@@ -67,7 +69,10 @@ public class StatementGenerator {
         Label trueLabel = new Label();
         Label endLabel = new Label();
         methodVisitor.visitJumpInsn(Opcodes.IFNE, trueLabel);
-        ifStatement.getFalseStatement().accept(this);
+        Optional<Statement> falseStatement = ifStatement.getFalseStatement();
+        if(falseStatement.isPresent()) {
+            falseStatement.get().accept(this);
+        }
         methodVisitor.visitJumpInsn(Opcodes.GOTO, endLabel);
         methodVisitor.visitLabel(trueLabel);
         ifStatement.getTrueStatement().accept(this);
@@ -128,5 +133,49 @@ public class StatementGenerator {
         Type type = assignmentStatement.getExpression().getType();
         int index = scope.getLocalVariableIndex(varName);
         methodVisitor.visitVarInsn(type.getStoreVariableOpcode(), index);
+    }
+
+    public void generate(SuperCall superCall) {
+        expressionGenrator.generate(superCall);
+    }
+
+    public void generate(ConstructorCall constructorCall) {
+        expressionGenrator.generate(constructorCall);
+    }
+
+    public void generate(Addition addition) {
+        expressionGenrator.generate(addition);
+    }
+
+    public void generate(FunctionParameter functionParameter) {
+        expressionGenrator.generate(functionParameter);
+    }
+
+    public void generate(ConditionalExpression conditionalExpression) {
+        expressionGenrator.generate(conditionalExpression);
+    }
+
+    public void generate(Multiplication multiplication) {
+        expressionGenrator.generate(multiplication);
+    }
+
+    public void generate(Value value) {
+        expressionGenrator.generate(value);
+    }
+
+    public void generate(VarReference varReference) {
+        expressionGenrator.generate(varReference);
+    }
+
+    public void generate(Substraction substraction) {
+        expressionGenrator.generate(substraction);
+    }
+
+    public void generate(Division division) {
+        expressionGenrator.generate(division);
+    }
+
+    public void generate(EmptyExpression emptyExpression) {
+        expressionGenrator.generate(emptyExpression);
     }
 }
