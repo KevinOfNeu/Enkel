@@ -28,7 +28,7 @@ primitiveType :  'boolean' ('[' ']')*
                 |   'float' ('[' ']')*
                 |   'double' ('[' ']')*
                 |   'void' ('[' ']')* ;
-classType : QUALIFIED_NAME ('[' ']')* ;
+classType : qualifiedName ('[' ']')* ;
 
 block : '{' statement* '}' ;
 
@@ -80,6 +80,7 @@ variableReference : ID ;
 value : NUMBER
       | BOOL
       | STRING ;
+qualifiedName : ID ('.' ID)+;
 
 //TOKENS
 VARIABLE : 'var' ;
@@ -89,5 +90,4 @@ NUMBER : '-'?[0-9.]+ ;
 BOOL : 'true' | 'false' ;
 STRING : '"'~('\r' | '\n' | '"')*'"' ;
 ID : [a-zA-Z0-9]+ ;
-QUALIFIED_NAME : ID ('.' ID)+;
 WS: [ \t\n\r]+ -> skip ;

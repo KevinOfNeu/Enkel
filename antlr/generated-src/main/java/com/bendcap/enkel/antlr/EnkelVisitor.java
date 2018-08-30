@@ -168,6 +168,13 @@ public interface EnkelVisitor<T> extends ParseTreeVisitor<T> {
 	T visitConditionalExpression(@NotNull EnkelParser.ConditionalExpressionContext ctx);
 
 	/**
+	 * Visit a parse tree produced by {@link EnkelParser#qualifiedName}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitQualifiedName(@NotNull EnkelParser.QualifiedNameContext ctx);
+
+	/**
 	 * Visit a parse tree produced by the {@code RETURNVOID}
 	 * labeled alternative in {@link EnkelParser#returnStatement}.
 	 * @param ctx the parse tree

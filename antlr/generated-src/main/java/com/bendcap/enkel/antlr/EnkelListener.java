@@ -256,6 +256,17 @@ public interface EnkelListener extends ParseTreeListener {
 	void exitConditionalExpression(@NotNull EnkelParser.ConditionalExpressionContext ctx);
 
 	/**
+	 * Enter a parse tree produced by {@link EnkelParser#qualifiedName}.
+	 * @param ctx the parse tree
+	 */
+	void enterQualifiedName(@NotNull EnkelParser.QualifiedNameContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link EnkelParser#qualifiedName}.
+	 * @param ctx the parse tree
+	 */
+	void exitQualifiedName(@NotNull EnkelParser.QualifiedNameContext ctx);
+
+	/**
 	 * Enter a parse tree produced by the {@code RETURNVOID}
 	 * labeled alternative in {@link EnkelParser#returnStatement}.
 	 * @param ctx the parse tree
