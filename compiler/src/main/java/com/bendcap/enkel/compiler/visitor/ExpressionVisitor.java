@@ -55,7 +55,7 @@ public class ExpressionVisitor extends EnkelBaseVisitor<Expression> {
         }
         List<EnkelParser.ArgumentContext> argumentsCtx = ctx.argument();
         List<Expression> arguments = getArgumentsForCall(argumentsCtx, functionName);
-        FunctionSignature signature = scope.getMethodCallSignature(functionName);
+        FunctionSignature signature = scope.getMethodCallSignature(functionName, arguments);
         boolean ownerIsExplicit = ctx.owner != null;
         if(ownerIsExplicit) {
             Expression owner = ctx.owner.accept(this);
@@ -81,7 +81,8 @@ public class ExpressionVisitor extends EnkelBaseVisitor<Expression> {
     }
 
     private List<Expression> getArgumentsForCall(List<EnkelParser.ArgumentContext> argumentsCtx,String identifier) {
-        FunctionSignature signature = scope.getMethodCallSignature(identifier);
+        List<Expression> arguments = argumentsCtx.stream().map(a -> a.accept(this)).collect(toList());
+        FunctionSignature signature = scope.getMethodCallSignature(identifier,arguments);
         Comparator<EnkelParser.ArgumentContext> argumentComparator = (arg1, arg2) -> {
             if(arg1.name() == null) return 0;
             String arg1Name = arg1.name().getText();

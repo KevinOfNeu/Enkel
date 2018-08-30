@@ -1,5 +1,6 @@
 package com.bendcap.enkel.compiler.domain.scope;
 
+import com.bendcap.enkel.compiler.domain.expression.Expression;
 import com.bendcap.enkel.compiler.domain.global.MetaData;
 import com.bendcap.enkel.compiler.domain.type.BuiltInType;
 import com.bendcap.enkel.compiler.domain.type.ClassType;
@@ -16,10 +17,9 @@ import org.apache.commons.lang3.reflect.MethodUtils;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * Created by KevinOfNeu on 2018/8/22  09:37.
@@ -45,14 +45,33 @@ public class Scope {
         functionSignatures.add(signature);
     }
 
-    public FunctionSignature getMethodCallSignature(String identifier) {
+    public boolean parameterLessSignatureExists(String identifier) {
+        return signatureExists(identifier, Collections.emptyList());
+    }
+
+    public boolean signatureExists(String identifier, List<Type> parameters) {
+        if (identifier.equals("super")) return true;
+        return functionSignatures.stream()
+                .anyMatch(signature -> signature.matches(identifier, parameters));
+    }
+
+    public FunctionSignature getMethodCallSignatureWithoutParameters(String identifier) {
+        return getMethodCallSignature(identifier, Collections.<Type>emptyList());
+    }
+
+    public FunctionSignature getMethodCallSignature(String identifier, Collection<Expression> arguments) {
+        List<Type> argumentTypes = arguments.stream().map(e -> e.getType()).collect(toList());
+        return getMethodCallSignature(identifier, argumentTypes);
+    }
+
+    public FunctionSignature getMethodCallSignature(String identifier, List<Type> parameterTypes) {
         if (identifier.equals("super")) {
             return new FunctionSignature("super", Collections.emptyList(), BuiltInType.VOID);
         }
         return functionSignatures.stream()
-                .filter(signature -> signature.getName().equals(identifier))
+                .filter(signature -> signature.matches(identifier, parameterTypes))
                 .findFirst()
-                .orElseThrow(() -> new MethodSignatureNotFoundException(this, identifier));
+                .orElseThrow(() -> new MethodSignatureNotFoundException(this, identifier, parameterTypes));
     }
 
 

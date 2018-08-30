@@ -33,18 +33,15 @@ public class ClassVisitor extends EnkelBaseVisitor<ClassDeclaration> {
         List<EnkelParser.FunctionContext> methodsCtx = ctx.classBody().function();
         MetaData metaData = new MetaData(ctx.className().getText(),"java.lang.Object");
         scope = new Scope(metaData);
-        boolean constructorExists = methodsCtx.stream().anyMatch(f -> f.functionDeclaration().functionName().getText().equals(name));
-        if(!constructorExists) {
-            FunctionSignature constructorSignature = new FunctionSignature(name, Collections.emptyList(), BuiltInType.VOID);
-            scope.addSignature(constructorSignature);
-        }
         methodsCtx.stream()
                 .map(method -> method.functionDeclaration().accept(functionSignatureVisitor))
                 .forEach(scope::addSignature);
+        boolean defaultConstructorExists = scope.parameterLessSignatureExists(name);
+        addDefaultConstructorSignatureToScope(name, defaultConstructorExists);
         List<Function> methods = methodsCtx.stream()
                 .map(method -> method.accept(new FunctionVisitor(scope)))
                 .collect(Collectors.toList());
-        if(!constructorExists) {
+        if(!defaultConstructorExists) {
             methods.add(getDefaultConstructor());
         }
         methods.add(getGeneratedMainMethod());
@@ -52,8 +49,15 @@ public class ClassVisitor extends EnkelBaseVisitor<ClassDeclaration> {
         return new ClassDeclaration(name, methods);
     }
 
+    private void addDefaultConstructorSignatureToScope(String name, boolean defaultConstructorExists) {
+        if(!defaultConstructorExists) {
+            FunctionSignature constructorSignature = new FunctionSignature(name, Collections.emptyList(), BuiltInType.VOID);
+            scope.addSignature(constructorSignature);
+        }
+    }
+
     private Constructor getDefaultConstructor() {
-        FunctionSignature signature = scope.getMethodCallSignature(scope.getClassName());
+        FunctionSignature signature = scope.getMethodCallSignatureWithoutParameters(scope.getClassName());
         Constructor constructor = new Constructor(signature, Block.empty(scope));
         return constructor;
     }

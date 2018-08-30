@@ -1,8 +1,0 @@
-ConstructorTest {
-     ConstructorTest() {
-        print "Hey I am constructor"
-    }
-     start() {
-        print "Hey I am 'start' method. Am I static? hell no"
-    }
-}

@@ -1,0 +1,11 @@
+ConstructorWithParams {
+    ConstructorWithParams(int x) {
+        print "Hey I am constructor with parameter x = " + x
+    }
+    start() {
+        new ConstructorWithParams(5).doStuff()
+    }
+    doStuff() {
+        print "doing stuff on ConstructorWithParams object"
+    }
+}

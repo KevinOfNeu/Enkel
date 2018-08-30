@@ -8,7 +8,13 @@ import com.bendcap.enkel.compiler.domain.scope.FunctionSignature;
 import com.bendcap.enkel.compiler.domain.scope.LocalVariable;
 import com.bendcap.enkel.compiler.domain.scope.Scope;
 import com.bendcap.enkel.compiler.domain.statement.Statement;
+import com.bendcap.enkel.compiler.domain.type.Type;
+import com.bendcap.enkel.compiler.utils.TypeResolver;
 import org.antlr.v4.runtime.misc.NotNull;
+
+import java.util.List;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * Created by KevinOfNeu on 2018/8/22  16:03.
@@ -22,7 +28,9 @@ public class FunctionVisitor extends EnkelBaseVisitor<Function> {
 
     @Override
     public Function visitFunction(@NotNull EnkelParser.FunctionContext ctx) {
-        FunctionSignature signature = scope.getMethodCallSignature(ctx.functionDeclaration().functionName().getText());
+        List<Type> parameterTypes = ctx.functionDeclaration().functionParameter().stream()
+                .map(p -> TypeResolver.getFromTypeName(p.type())).collect(toList());
+        FunctionSignature signature = scope.getMethodCallSignature(ctx.functionDeclaration().functionName().getText(),parameterTypes);
         scope.addLocalVariable(new LocalVariable("this",scope.getClassType()));
         addParametersAsLocalVariables(signature);
         Statement block = getBlock(ctx);

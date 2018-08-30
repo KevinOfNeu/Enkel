@@ -1,0 +1,11 @@
+ParameterLessConstructor {
+     ParameterLessConstructor() {
+        print "Hey I am constructor without parameters"
+    }
+     start() {
+        doStuff()
+    }
+     doStuff() {
+        print "doing stuff on ParameterLessConstructor object"
+    }
+}
