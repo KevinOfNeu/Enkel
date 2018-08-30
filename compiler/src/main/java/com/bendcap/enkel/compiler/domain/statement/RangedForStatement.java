@@ -3,8 +3,8 @@ package com.bendcap.enkel.compiler.domain.statement;
 import com.bendcap.enkel.compiler.bytecodegenerator.StatementGenerator;
 import com.bendcap.enkel.compiler.domain.expression.Expression;
 import com.bendcap.enkel.compiler.domain.scope.Scope;
-import com.bendcap.enkel.compiler.domain.type.BuiltInType;
 import com.bendcap.enkel.compiler.domain.type.Type;
+import com.bendcap.enkel.compiler.domain.type.TypeChecker;
 import com.bendcap.enkel.compiler.exception.UnsupportedRangedLoopTypes;
 
 /**
@@ -20,7 +20,10 @@ public class RangedForStatement implements Statement {
 
     public RangedForStatement(Statement iteratorVariable, Expression startExpression, Expression endExpression, Statement statement, String iteratorVarName, Scope scope) {
         this.scope = scope;
-        if (startExpression.getType() != BuiltInType.INT || endExpression.getType() != BuiltInType.INT) {
+        Type startExpressionType = startExpression.getType();
+        Type endExpressionType = endExpression.getType();
+        boolean typesAreIntegers = TypeChecker.isInt(startExpressionType) || TypeChecker.isInt(endExpressionType);
+        if(!typesAreIntegers) {
             throw new UnsupportedRangedLoopTypes(startExpression, endExpression);
         }
         this.iteratorVariable = iteratorVariable;

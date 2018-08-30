@@ -8,7 +8,7 @@ import com.bendcap.enkel.compiler.domain.expression.Expression;
  */
 public class Division extends ArthimeticExpression {
     public Division(Expression leftExpression, Expression rightExpression) {
-        super(leftExpression.getType(), leftExpression, rightExpression);
+        super(leftExpression, rightExpression);
     }
 
     @Override

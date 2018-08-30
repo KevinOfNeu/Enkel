@@ -4,6 +4,11 @@ import com.bendcap.enkel.antlr.EnkelParser;
 import com.bendcap.enkel.compiler.domain.type.BuiltInType;
 import com.bendcap.enkel.compiler.domain.type.ClassType;
 import com.bendcap.enkel.compiler.domain.type.Type;
+import com.bendcap.enkel.compiler.domain.type.TypeChecker;
+import com.google.common.primitives.Doubles;
+import com.google.common.primitives.Floats;
+import com.google.common.primitives.Ints;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 
@@ -26,11 +31,36 @@ public class TypeResolver {
     public static Type getFromValue(String value) {
         if (StringUtils.isEmpty(value)) return BuiltInType.VOID;
         if (NumberUtils.isNumber(value)) {
-            return BuiltInType.INT;
+            if (Ints.tryParse(value) != null) {
+                return BuiltInType.INT;
+            } else if (Floats.tryParse(value) != null) {
+                return BuiltInType.FLOAT;
+            } else if (Doubles.tryParse(value) != null) {
+                return BuiltInType.DOUBLE;
+            }
+        } else if (BooleanUtils.toBoolean(value)) {
+            return BuiltInType.BOOLEAN;
         }
         return BuiltInType.STRING;
     }
 
+    public static Object getValueFromString(String stringValue, Type type) {
+        if (TypeChecker.isInt(type)) {
+            return Integer.valueOf(stringValue);
+        } else if (TypeChecker.isFloat(type)) {
+            return Float.valueOf(stringValue);
+        } else if (TypeChecker.isDouble(type)) {
+            return Double.valueOf(stringValue);
+        } else if (TypeChecker.isBool(type)) {
+            return Boolean.valueOf(stringValue);
+        } else if (type == BuiltInType.STRING) {
+            stringValue = StringUtils.removeStart(stringValue, "\"");
+            stringValue = StringUtils.removeEnd(stringValue, "\"");
+            return stringValue;
+        } else {
+            throw new AssertionError("Objects not yet implemented!");
+        }
+    }
 
     private static Optional<BuiltInType> getBuiltInType(String typeName) {
         return Arrays.stream(BuiltInType.values())

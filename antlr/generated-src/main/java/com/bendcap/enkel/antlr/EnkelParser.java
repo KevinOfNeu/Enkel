@@ -24,14 +24,14 @@ public class EnkelParser extends Parser {
 		T__17=17, T__16=18, T__15=19, T__14=20, T__13=21, T__12=22, T__11=23, 
 		T__10=24, T__9=25, T__8=26, T__7=27, T__6=28, T__5=29, T__4=30, T__3=31, 
 		T__2=32, T__1=33, T__0=34, VARIABLE=35, PRINT=36, EQUALS=37, NUMBER=38, 
-		STRING=39, ID=40, QUALIFIED_NAME=41, WS=42;
+		BOOL=39, STRING=40, ID=41, QUALIFIED_NAME=42, WS=43;
 	public static final String[] tokenNames = {
 		"<INVALID>", "'/'", "'char'", "'return'", "'!='", "'float'", "'void'", 
 		"'{'", "'byte'", "'}'", "'for'", "'if'", "'<='", "'short'", "'double'", 
 		"'from'", "'int'", "'('", "'*'", "','", "'->'", "'boolean'", "'long'", 
 		"'to'", "'>='", "'['", "'=='", "'<'", "']'", "'>'", "'string'", "'else'", 
-		"')'", "'+'", "'-'", "'var'", "'print'", "'='", "NUMBER", "STRING", "ID", 
-		"QUALIFIED_NAME", "WS"
+		"')'", "'+'", "'-'", "'var'", "'print'", "'='", "NUMBER", "BOOL", "STRING", 
+		"ID", "QUALIFIED_NAME", "WS"
 	};
 	public static final int
 		RULE_compilationUnit = 0, RULE_classDeclaration = 1, RULE_className = 2, 
@@ -941,7 +941,7 @@ public class EnkelParser extends Parser {
 			setState(196);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__31) | (1L << T__27) | (1L << T__24) | (1L << T__23) | (1L << T__17) | (1L << VARIABLE) | (1L << PRINT) | (1L << NUMBER) | (1L << STRING) | (1L << ID))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__31) | (1L << T__27) | (1L << T__24) | (1L << T__23) | (1L << T__17) | (1L << VARIABLE) | (1L << PRINT) | (1L << NUMBER) | (1L << BOOL) | (1L << STRING) | (1L << ID))) != 0)) {
 				{
 				{
 				setState(193); statement();
@@ -1299,7 +1299,7 @@ public class EnkelParser extends Parser {
 			setState(226); match(T__17);
 			setState(228);
 			_la = _input.LA(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__17) | (1L << NUMBER) | (1L << STRING) | (1L << ID))) != 0)) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__17) | (1L << NUMBER) | (1L << BOOL) | (1L << STRING) | (1L << ID))) != 0)) {
 				{
 				setState(227); argument();
 				}
@@ -2094,6 +2094,7 @@ public class EnkelParser extends Parser {
 	}
 
 	public static class ValueContext extends ParserRuleContext {
+		public TerminalNode BOOL() { return getToken(EnkelParser.BOOL, 0); }
 		public TerminalNode STRING() { return getToken(EnkelParser.STRING, 0); }
 		public TerminalNode NUMBER() { return getToken(EnkelParser.NUMBER, 0); }
 		public ValueContext(ParserRuleContext parent, int invokingState) {
@@ -2124,7 +2125,7 @@ public class EnkelParser extends Parser {
 			{
 			setState(344);
 			_la = _input.LA(1);
-			if ( !(_la==NUMBER || _la==STRING) ) {
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << NUMBER) | (1L << BOOL) | (1L << STRING))) != 0)) ) {
 			_errHandler.recoverInline(this);
 			}
 			consume();
@@ -2173,7 +2174,7 @@ public class EnkelParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3,\u015d\4\2\t\2\4"+
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3-\u015d\4\2\t\2\4"+
 		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t"+
 		"\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
 		"\4\23\t\23\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27\4\30\t\30\4\31\t\31"+
@@ -2201,19 +2202,19 @@ public class EnkelParser extends Parser {
 		"\3\31\3\31\3\31\3\31\3\31\3\31\3\31\3\31\3\31\3\31\3\31\3\31\3\31\3\31"+
 		"\3\31\7\31\u0154\n\31\f\31\16\31\u0157\13\31\3\32\3\32\3\33\3\33\3\33"+
 		"\2\3\60\34\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \"$&(*,.\60\62\64\2"+
-		"\3\3\2()\u017d\2\66\3\2\2\2\49\3\2\2\2\6>\3\2\2\2\bC\3\2\2\2\nF\3\2\2"+
+		"\3\3\2(*\u017d\2\66\3\2\2\2\49\3\2\2\2\6>\3\2\2\2\bC\3\2\2\2\nF\3\2\2"+
 		"\2\fJ\3\2\2\2\16Z\3\2\2\2\20\\\3\2\2\2\22a\3\2\2\2\24f\3\2\2\2\26\u00b8"+
 		"\3\2\2\2\30\u00ba\3\2\2\2\32\u00c2\3\2\2\2\34\u00d2\3\2\2\2\36\u00d4\3"+
 		"\2\2\2 \u00d9\3\2\2\2\"\u00e1\3\2\2\2$\u00e3\3\2\2\2&\u00f1\3\2\2\2(\u00fe"+
 		"\3\2\2\2*\u0108\3\2\2\2,\u010e\3\2\2\2.\u0115\3\2\2\2\60\u0133\3\2\2\2"+
 		"\62\u0158\3\2\2\2\64\u015a\3\2\2\2\66\67\5\4\3\2\678\7\2\2\38\3\3\2\2"+
-		"\29:\5\6\4\2:;\7\t\2\2;<\5\b\5\2<=\7\13\2\2=\5\3\2\2\2>?\7*\2\2?\7\3\2"+
+		"\29:\5\6\4\2:;\7\t\2\2;<\5\b\5\2<=\7\13\2\2=\5\3\2\2\2>?\7+\2\2?\7\3\2"+
 		"\2\2@B\5\n\6\2A@\3\2\2\2BE\3\2\2\2CA\3\2\2\2CD\3\2\2\2D\t\3\2\2\2EC\3"+
 		"\2\2\2FG\5\f\7\2GH\5\32\16\2H\13\3\2\2\2IK\5\24\13\2JI\3\2\2\2JK\3\2\2"+
 		"\2KL\3\2\2\2LM\5\16\b\2MV\7\23\2\2NS\5\20\t\2OP\7\25\2\2PR\5\20\t\2QO"+
 		"\3\2\2\2RU\3\2\2\2SQ\3\2\2\2ST\3\2\2\2TW\3\2\2\2US\3\2\2\2VN\3\2\2\2V"+
-		"W\3\2\2\2WX\3\2\2\2XY\7\"\2\2Y\r\3\2\2\2Z[\7*\2\2[\17\3\2\2\2\\]\5\24"+
-		"\13\2]_\7*\2\2^`\5\22\n\2_^\3\2\2\2_`\3\2\2\2`\21\3\2\2\2ab\7\'\2\2bc"+
+		"W\3\2\2\2WX\3\2\2\2XY\7\"\2\2Y\r\3\2\2\2Z[\7+\2\2[\17\3\2\2\2\\]\5\24"+
+		"\13\2]_\7+\2\2^`\5\22\n\2_^\3\2\2\2_`\3\2\2\2`\21\3\2\2\2ab\7\'\2\2bc"+
 		"\5\60\31\2c\23\3\2\2\2dg\5\26\f\2eg\5\30\r\2fd\3\2\2\2fe\3\2\2\2g\25\3"+
 		"\2\2\2hm\7\27\2\2ij\7\33\2\2jl\7\36\2\2ki\3\2\2\2lo\3\2\2\2mk\3\2\2\2"+
 		"mn\3\2\2\2n\u00b9\3\2\2\2om\3\2\2\2pu\7 \2\2qr\7\33\2\2rt\7\36\2\2sq\3"+
@@ -2240,7 +2241,7 @@ public class EnkelParser extends Parser {
 		"\u00b5\3\2\2\2\u00b8h\3\2\2\2\u00b8p\3\2\2\2\u00b8x\3\2\2\2\u00b8\u0080"+
 		"\3\2\2\2\u00b8\u0088\3\2\2\2\u00b8\u0090\3\2\2\2\u00b8\u0098\3\2\2\2\u00b8"+
 		"\u00a0\3\2\2\2\u00b8\u00a8\3\2\2\2\u00b8\u00b0\3\2\2\2\u00b9\27\3\2\2"+
-		"\2\u00ba\u00bf\7+\2\2\u00bb\u00bc\7\33\2\2\u00bc\u00be\7\36\2\2\u00bd"+
+		"\2\u00ba\u00bf\7,\2\2\u00bb\u00bc\7\33\2\2\u00bc\u00be\7\36\2\2\u00bd"+
 		"\u00bb\3\2\2\2\u00be\u00c1\3\2\2\2\u00bf\u00bd\3\2\2\2\u00bf\u00c0\3\2"+
 		"\2\2\u00c0\31\3\2\2\2\u00c1\u00bf\3\2\2\2\u00c2\u00c6\7\t\2\2\u00c3\u00c5"+
 		"\5\34\17\2\u00c4\u00c3\3\2\2\2\u00c5\u00c8\3\2\2\2\u00c6\u00c4\3\2\2\2"+
@@ -2268,7 +2269,7 @@ public class EnkelParser extends Parser {
 		"\u0105\7\"\2\2\u0104\u0103\3\2\2\2\u0104\u0105\3\2\2\2\u0105\u0106\3\2"+
 		"\2\2\u0106\u0107\5\34\17\2\u0107)\3\2\2\2\u0108\u0109\5\62\32\2\u0109"+
 		"\u010a\7\21\2\2\u010a\u010b\5\60\31\2\u010b\u010c\7\31\2\2\u010c\u010d"+
-		"\5\60\31\2\u010d+\3\2\2\2\u010e\u010f\7*\2\2\u010f-\3\2\2\2\u0110\u0116"+
+		"\5\60\31\2\u010d+\3\2\2\2\u010e\u010f\7+\2\2\u010f-\3\2\2\2\u0110\u0116"+
 		"\5\60\31\2\u0111\u0112\5,\27\2\u0112\u0113\7\26\2\2\u0113\u0114\5\60\31"+
 		"\2\u0114\u0116\3\2\2\2\u0115\u0110\3\2\2\2\u0115\u0111\3\2\2\2\u0116/"+
 		"\3\2\2\2\u0117\u0118\b\31\1\2\u0118\u0134\5\62\32\2\u0119\u0134\5\64\33"+
@@ -2295,7 +2296,7 @@ public class EnkelParser extends Parser {
 		"\2\2\u0153\u0144\3\2\2\2\u0153\u0147\3\2\2\2\u0153\u014a\3\2\2\2\u0153"+
 		"\u014d\3\2\2\2\u0153\u0150\3\2\2\2\u0154\u0157\3\2\2\2\u0155\u0153\3\2"+
 		"\2\2\u0155\u0156\3\2\2\2\u0156\61\3\2\2\2\u0157\u0155\3\2\2\2\u0158\u0159"+
-		"\7*\2\2\u0159\63\3\2\2\2\u015a\u015b\t\2\2\2\u015b\65\3\2\2\2#CJSV_fm"+
+		"\7+\2\2\u0159\63\3\2\2\2\u015a\u015b\t\2\2\2\u015b\65\3\2\2\2#CJSV_fm"+
 		"u}\u0085\u008d\u0095\u009d\u00a5\u00ad\u00b5\u00b8\u00bf\u00c6\u00d2\u00de"+
 		"\u00e1\u00e6\u00ec\u00f3\u00f7\u00fc\u0100\u0104\u0115\u0133\u0153\u0155";
 	public static final ATN _ATN =

@@ -11,4 +11,18 @@ public interface Type {
     String getDescriptor();
 
     String getInternalName();
+
+    int getLoadVariableOpcode();
+
+    int getStoreVariableOpcode();
+
+    int getReturnOpcode();
+
+    int getAddOpcode();
+
+    int getSubstractOpcode();
+
+    int getMultiplyOpcode();
+
+    int getDividOpcode();
 }

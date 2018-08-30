@@ -11,15 +11,13 @@ import com.bendcap.enkel.compiler.domain.type.ClassType;
 import com.bendcap.enkel.compiler.domain.type.Type;
 import com.bendcap.enkel.compiler.exception.BadArgumentsToFunctionCallException;
 import com.bendcap.enkel.compiler.exception.CalledFunctionDoesNotExistException;
-import com.bendcap.enkel.compiler.exception.ComparisonBetweenDiferentTypesException;
 import com.bendcap.enkel.compiler.utils.DecriptorFactory;
-import org.apache.commons.lang3.StringUtils;
+import com.bendcap.enkel.compiler.utils.TypeResolver;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
 import java.lang.reflect.Method;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,35 +38,21 @@ public class ExpressionGenerator {
         int index = scope.getLocalVariableIndex(varName);
         LocalVariable localVariable = scope.getLocalVariable(varName);
         Type type = localVariable.getType();
-        if (type == BuiltInType.INT) {
-            methodVisitor.visitVarInsn(Opcodes.ILOAD, index);
-        } else {
-            methodVisitor.visitVarInsn(Opcodes.ALOAD, index);
-        }
+        methodVisitor.visitVarInsn(type.getLoadVariableOpcode(), index);
     }
 
     public void generate(FunctionParameter parameter) {
         Type type = parameter.getType();
         int index = scope.getLocalVariableIndex(parameter.getName());
-        if (type == BuiltInType.INT) {
-            methodVisitor.visitVarInsn(Opcodes.ILOAD, index);
-        } else {
-            methodVisitor.visitVarInsn(Opcodes.ALOAD, index);
-        }
+        methodVisitor.visitVarInsn(type.getLoadVariableOpcode(), index);
     }
 
 
     public void generate(Value value) {
         Type type = value.getType();
         String stringValue = value.getValue();
-        if (type == BuiltInType.INT) {
-            int intValue = Integer.parseInt(stringValue);
-            methodVisitor.visitIntInsn(Opcodes.BIPUSH, intValue);
-        } else if (type == BuiltInType.STRING) {
-            stringValue = StringUtils.removeStart(stringValue, "\"");
-            stringValue = StringUtils.removeEnd(stringValue, "\"");
-            methodVisitor.visitLdcInsn(stringValue);
-        }
+        Object transformedValue = TypeResolver.getValueFromString(stringValue, type);
+        methodVisitor.visitLdcInsn(transformedValue);
     }
 
 
@@ -98,7 +82,8 @@ public class ExpressionGenerator {
             return;
         }
         evaluateArthimeticComponents(expression);
-        methodVisitor.visitInsn(Opcodes.IADD);
+        Type type = expression.getType();
+        methodVisitor.visitInsn(type.getAddOpcode());
     }
 
 
@@ -121,18 +106,22 @@ public class ExpressionGenerator {
 
 
     public void generate(Substraction expression) {
+        Type type = expression.getType();
         evaluateArthimeticComponents(expression);
         methodVisitor.visitInsn(Opcodes.ISUB);
+        methodVisitor.visitInsn(type.getSubstractOpcode());
     }
 
     public void generate(Multiplication expression) {
         evaluateArthimeticComponents(expression);
-        methodVisitor.visitInsn(Opcodes.IMUL);
+        Type type = expression.getType();
+        methodVisitor.visitInsn(type.getMultiplyOpcode());
     }
 
     public void generate(Division expression) {
         evaluateArthimeticComponents(expression);
-        methodVisitor.visitInsn(Opcodes.IDIV);
+        Type type = expression.getType();
+        methodVisitor.visitInsn(type.getDividOpcode());
     }
 
     public void generate(EmptyExpression expression) {
@@ -142,10 +131,6 @@ public class ExpressionGenerator {
     public void generate(ConditionalExpression conditionalExpression) {
         Expression leftExpression = conditionalExpression.getLeftExpression();
         Expression rightExpression = conditionalExpression.getRightExpression();
-        Type type = leftExpression.getType();
-        if (type != rightExpression.getType()) {
-            throw new ComparisonBetweenDiferentTypesException(leftExpression, rightExpression);
-        }
 
         leftExpression.accept(this);
         rightExpression.accept(this);

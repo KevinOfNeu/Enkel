@@ -45,8 +45,6 @@ public class StatementGenerator {
 
     public void generate(VariableDeclarationStatement variableDeclarationStatement) {
         Expression expression = variableDeclarationStatement.getExpression();
-        String name = variableDeclarationStatement.getName();
-        Type type = expression.getType();
         expression.accept(expressionGenrator);
         AssignmentStatement assignmentStatement = new AssignmentStatement(variableDeclarationStatement);
         generate(assignmentStatement);
@@ -60,11 +58,7 @@ public class StatementGenerator {
         Expression expression = returnStatement.getExpression();
         Type type = expression.getType();
         expression.accept(expressionGenrator);
-        if (type == BuiltInType.VOID) {
-            methodVisitor.visitInsn(Opcodes.RETURN);
-        } else if (type == BuiltInType.INT) {
-            methodVisitor.visitInsn(Opcodes.IRETURN);
-        }
+        methodVisitor.visitInsn(type.getReturnOpcode());
     }
 
     public void generate(IfStatement ifStatement) {
@@ -133,10 +127,6 @@ public class StatementGenerator {
         String varName = assignmentStatement.getVarName();
         Type type = assignmentStatement.getExpression().getType();
         int index = scope.getLocalVariableIndex(varName);
-        if (type == BuiltInType.INT || type == BuiltInType.BOOLEAN) {
-            methodVisitor.visitVarInsn(Opcodes.ISTORE, index);
-        } else {
-            methodVisitor.visitVarInsn(Opcodes.ASTORE, index);
-        }
+        methodVisitor.visitVarInsn(type.getStoreVariableOpcode(), index);
     }
 }

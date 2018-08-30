@@ -9,7 +9,7 @@ import com.bendcap.enkel.compiler.domain.type.Type;
  */
 public class Multiplication extends ArthimeticExpression{
     public Multiplication(Expression leftExpression, Expression rightExpression) {
-        super(leftExpression.getType(), leftExpression, rightExpression);
+        super(leftExpression, rightExpression);
     }
 
     @Override
