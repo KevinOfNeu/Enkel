@@ -1,6 +1,6 @@
 package com.bendcap.enkel.compiler.exception;
 
-import com.bendcap.enkel.compiler.domain.expression.FunctionCall;
+import com.bendcap.enkel.compiler.domain.node.expression.FunctionCall;
 import com.bendcap.enkel.compiler.domain.scope.Scope;
 
 /**

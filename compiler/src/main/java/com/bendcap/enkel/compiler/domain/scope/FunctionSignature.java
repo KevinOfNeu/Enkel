@@ -1,10 +1,12 @@
 package com.bendcap.enkel.compiler.domain.scope;
 
-import com.bendcap.enkel.compiler.domain.expression.FunctionParameter;
+import com.bendcap.enkel.compiler.domain.node.expression.Argument;
+import com.bendcap.enkel.compiler.domain.node.expression.Parameter;
 import com.bendcap.enkel.compiler.domain.type.Type;
 import com.bendcap.enkel.compiler.exception.ParameterForNameNotFoundException;
 
 import java.util.List;
+import java.util.stream.IntStream;
 
 import static java.util.stream.Collectors.toList;
 
@@ -13,10 +15,10 @@ import static java.util.stream.Collectors.toList;
  */
 public class FunctionSignature {
     private String name;
-    private List<FunctionParameter> parameters;
+    private List<Parameter> parameters;
     private Type returnType;
 
-    public FunctionSignature(String name, List<FunctionParameter> parameters, Type returnType) {
+    public FunctionSignature(String name, List<Parameter> parameters, Type returnType) {
         this.name = name;
         this.parameters = parameters;
         this.returnType = returnType;
@@ -26,11 +28,11 @@ public class FunctionSignature {
         return name;
     }
 
-    public List<FunctionParameter> getParameters() {
+    public List<Parameter> getParameters() {
         return parameters;
     }
 
-    public FunctionParameter getParameterForName(String name) {
+    public Parameter getParameterForName(String name) {
         return parameters.stream()
                 .filter(param -> param.getName().equals(name))
                 .findFirst()
@@ -38,16 +40,33 @@ public class FunctionSignature {
     }
 
     public int getIndexOfParameters(String parameterName) {
-        FunctionParameter parameter = getParameterForName(parameterName);
+        Parameter parameter = getParameterForName(parameterName);
         return parameters.indexOf(parameter);
     }
 
-    public boolean matches(String otherSignatureName, List<Type> otherSignatureParams) {
+    public boolean matches(String otherSignatureName, List<Argument> arguments) {
         boolean namesAreEqual = this.name.equals(otherSignatureName);
         if (!namesAreEqual) return false;
-        List<Type> paramTypes = parameters.stream().map(p -> p.getType()).collect(toList());
-        boolean sameParameterTypes = paramTypes.containsAll(otherSignatureParams) && otherSignatureParams.containsAll(paramTypes);
-        return sameParameterTypes;
+        long nonDefaultParametersCount = parameters.stream()
+                .filter(p -> !p.getDefaultValue().isPresent())
+                .count();
+        if(nonDefaultParametersCount > arguments.size()) return false;
+        boolean isNamedArgList = arguments.stream().anyMatch(a -> a.getParameterName().isPresent());
+        if(isNamedArgList) {
+            return arguments.stream().allMatch(a -> {
+                String paramName = a.getParameterName().get();
+                return parameters.stream()
+                        .map(Parameter::getName)
+                        .anyMatch(paramName::equals);
+            });
+        }
+        return IntStream.range(0, arguments.size())
+                .allMatch(i -> {
+                    Type argumentType = arguments.get(i).getType();
+                    Type parameterType = parameters.get(i).getType();
+                    return argumentType.equals(parameterType);
+                });
+
     }
 
     public Type getReturnType() {

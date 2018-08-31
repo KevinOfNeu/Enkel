@@ -1,10 +1,9 @@
 package com.bendcap.enkel.compiler.utils;
 
 import com.bendcap.enkel.antlr.EnkelParser;
-import com.bendcap.enkel.compiler.domain.type.BuiltInType;
+import com.bendcap.enkel.compiler.domain.type.BultInType;
 import com.bendcap.enkel.compiler.domain.type.ClassType;
 import com.bendcap.enkel.compiler.domain.type.Type;
-import com.bendcap.enkel.compiler.domain.type.TypeChecker;
 import com.google.common.primitives.Doubles;
 import com.google.common.primitives.Floats;
 import com.google.common.primitives.Ints;
@@ -18,52 +17,55 @@ import java.util.Optional;
 /**
  * Created by KevinOfNeu on 2018/8/22  11:00.
  */
-public class TypeResolver {
+public final class TypeResolver {
     public static Type getFromTypeName(EnkelParser.TypeContext typeContext) {
-        if (typeContext == null) return BuiltInType.VOID;
+        if(typeContext == null) return BultInType.VOID;
         String typeName = typeContext.getText();
-        if (typeName.equals("java.lang.String")) return BuiltInType.STRING;
-        Optional<? extends Type> buildInType = getBuiltInType(typeName);
-        if (buildInType.isPresent()) return buildInType.get();
+        if(typeName.equals("java.lang.String")) return BultInType.STRING;
+        Optional<? extends Type> builtInType = getBuiltInType(typeName);
+        if(builtInType.isPresent()) return builtInType.get();
         return new ClassType(typeName);
     }
 
     public static Type getFromValue(String value) {
-        if (StringUtils.isEmpty(value)) return BuiltInType.VOID;
-        if (NumberUtils.isNumber(value)) {
+        if(StringUtils.isEmpty(value)) return BultInType.VOID;
+        if(NumberUtils.isNumber(value)) {
             if (Ints.tryParse(value) != null) {
-                return BuiltInType.INT;
-            } else if (Floats.tryParse(value) != null) {
-                return BuiltInType.FLOAT;
-            } else if (Doubles.tryParse(value) != null) {
-                return BuiltInType.DOUBLE;
+                return BultInType.INT;
+            } else if(Floats.tryParse(value) != null) {
+                return BultInType.FLOAT;
+            } else if(Doubles.tryParse(value) != null) {
+                return BultInType.DOUBLE;
             }
         } else if (BooleanUtils.toBoolean(value)) {
-            return BuiltInType.BOOLEAN;
+            return BultInType.BOOLEAN;
         }
-        return BuiltInType.STRING;
+        return BultInType.STRING;
     }
 
     public static Object getValueFromString(String stringValue, Type type) {
         if (TypeChecker.isInt(type)) {
             return Integer.valueOf(stringValue);
-        } else if (TypeChecker.isFloat(type)) {
+        }
+        if (TypeChecker.isFloat(type)) {
             return Float.valueOf(stringValue);
-        } else if (TypeChecker.isDouble(type)) {
+        }
+        if (TypeChecker.isDouble(type)) {
             return Double.valueOf(stringValue);
-        } else if (TypeChecker.isBool(type)) {
+        }
+        if (TypeChecker.isBool(type)) {
             return Boolean.valueOf(stringValue);
-        } else if (type == BuiltInType.STRING) {
+        }
+        if (type == BultInType.STRING) {
             stringValue = StringUtils.removeStart(stringValue, "\"");
             stringValue = StringUtils.removeEnd(stringValue, "\"");
             return stringValue;
-        } else {
-            throw new AssertionError("Objects not yet implemented!");
         }
+        throw new AssertionError("Objects not yet implemented!");
     }
 
-    private static Optional<BuiltInType> getBuiltInType(String typeName) {
-        return Arrays.stream(BuiltInType.values())
+    private static Optional<BultInType> getBuiltInType(String typeName) {
+        return Arrays.stream(BultInType.values())
                 .filter(type -> type.getName().equals(typeName))
                 .findFirst();
     }

@@ -14,12 +14,28 @@ import org.antlr.v4.runtime.tree.ParseTreeVisitor;
  */
 public interface EnkelVisitor<T> extends ParseTreeVisitor<T> {
 	/**
-	 * Visit a parse tree produced by the {@code ADD}
+	 * Visit a parse tree produced by the {@code UnnamedArgumentsList}
+	 * labeled alternative in {@link EnkelParser#argumentList}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitUnnamedArgumentsList(@NotNull EnkelParser.UnnamedArgumentsListContext ctx);
+
+	/**
+	 * Visit a parse tree produced by the {@code Add}
 	 * labeled alternative in {@link EnkelParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitADD(@NotNull EnkelParser.ADDContext ctx);
+	T visitAdd(@NotNull EnkelParser.AddContext ctx);
+
+	/**
+	 * Visit a parse tree produced by the {@code ReturnVoid}
+	 * labeled alternative in {@link EnkelParser#returnStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitReturnVoid(@NotNull EnkelParser.ReturnVoidContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link EnkelParser#argument}.
@@ -50,14 +66,6 @@ public interface EnkelVisitor<T> extends ParseTreeVisitor<T> {
 	T visitClassName(@NotNull EnkelParser.ClassNameContext ctx);
 
 	/**
-	 * Visit a parse tree produced by the {@code constructorCall}
-	 * labeled alternative in {@link EnkelParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitConstructorCall(@NotNull EnkelParser.ConstructorCallContext ctx);
-
-	/**
 	 * Visit a parse tree produced by {@link EnkelParser#type}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -72,19 +80,12 @@ public interface EnkelVisitor<T> extends ParseTreeVisitor<T> {
 	T visitClassDeclaration(@NotNull EnkelParser.ClassDeclarationContext ctx);
 
 	/**
-	 * Visit a parse tree produced by the {@code DIVIDE}
+	 * Visit a parse tree produced by the {@code Divide}
 	 * labeled alternative in {@link EnkelParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitDIVIDE(@NotNull EnkelParser.DIVIDEContext ctx);
-
-	/**
-	 * Visit a parse tree produced by {@link EnkelParser#functionParamdefaultValue}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitFunctionParamdefaultValue(@NotNull EnkelParser.FunctionParamdefaultValueContext ctx);
+	T visitDivide(@NotNull EnkelParser.DivideContext ctx);
 
 	/**
 	 * Visit a parse tree produced by the {@code VarReference}
@@ -95,12 +96,12 @@ public interface EnkelVisitor<T> extends ParseTreeVisitor<T> {
 	T visitVarReference(@NotNull EnkelParser.VarReferenceContext ctx);
 
 	/**
-	 * Visit a parse tree produced by the {@code SUBSTRACT}
-	 * labeled alternative in {@link EnkelParser#expression}.
+	 * Visit a parse tree produced by the {@code ReturnWithValue}
+	 * labeled alternative in {@link EnkelParser#returnStatement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitSUBSTRACT(@NotNull EnkelParser.SUBSTRACTContext ctx);
+	T visitReturnWithValue(@NotNull EnkelParser.ReturnWithValueContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link EnkelParser#function}.
@@ -110,11 +111,34 @@ public interface EnkelVisitor<T> extends ParseTreeVisitor<T> {
 	T visitFunction(@NotNull EnkelParser.FunctionContext ctx);
 
 	/**
+	 * Visit a parse tree produced by {@link EnkelParser#parameter}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitParameter(@NotNull EnkelParser.ParameterContext ctx);
+
+	/**
+	 * Visit a parse tree produced by the {@code Multiply}
+	 * labeled alternative in {@link EnkelParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMultiply(@NotNull EnkelParser.MultiplyContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link EnkelParser#statement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitStatement(@NotNull EnkelParser.StatementContext ctx);
+
+	/**
+	 * Visit a parse tree produced by the {@code Supercall}
+	 * labeled alternative in {@link EnkelParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSupercall(@NotNull EnkelParser.SupercallContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link EnkelParser#classBody}.
@@ -131,11 +155,42 @@ public interface EnkelVisitor<T> extends ParseTreeVisitor<T> {
 	T visitBlock(@NotNull EnkelParser.BlockContext ctx);
 
 	/**
+	 * Visit a parse tree produced by the {@code FunctionCall}
+	 * labeled alternative in {@link EnkelParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFunctionCall(@NotNull EnkelParser.FunctionCallContext ctx);
+
+	/**
+	 * Visit a parse tree produced by the {@code ConstructorCall}
+	 * labeled alternative in {@link EnkelParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitConstructorCall(@NotNull EnkelParser.ConstructorCallContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link EnkelParser#primitiveType}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitPrimitiveType(@NotNull EnkelParser.PrimitiveTypeContext ctx);
+
+	/**
+	 * Visit a parse tree produced by the {@code NamedArgumentsList}
+	 * labeled alternative in {@link EnkelParser#argumentList}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNamedArgumentsList(@NotNull EnkelParser.NamedArgumentsListContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link EnkelParser#namedArgument}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNamedArgument(@NotNull EnkelParser.NamedArgumentContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link EnkelParser#value}.
@@ -160,14 +215,6 @@ public interface EnkelVisitor<T> extends ParseTreeVisitor<T> {
 	T visitFunctionName(@NotNull EnkelParser.FunctionNameContext ctx);
 
 	/**
-	 * Visit a parse tree produced by the {@code conditionalExpression}
-	 * labeled alternative in {@link EnkelParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitConditionalExpression(@NotNull EnkelParser.ConditionalExpressionContext ctx);
-
-	/**
 	 * Visit a parse tree produced by {@link EnkelParser#qualifiedName}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -175,12 +222,12 @@ public interface EnkelVisitor<T> extends ParseTreeVisitor<T> {
 	T visitQualifiedName(@NotNull EnkelParser.QualifiedNameContext ctx);
 
 	/**
-	 * Visit a parse tree produced by the {@code RETURNVOID}
-	 * labeled alternative in {@link EnkelParser#returnStatement}.
+	 * Visit a parse tree produced by the {@code ConditionalExpression}
+	 * labeled alternative in {@link EnkelParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitRETURNVOID(@NotNull EnkelParser.RETURNVOIDContext ctx);
+	T visitConditionalExpression(@NotNull EnkelParser.ConditionalExpressionContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link EnkelParser#forStatement}.
@@ -204,6 +251,14 @@ public interface EnkelVisitor<T> extends ParseTreeVisitor<T> {
 	T visitVariableDeclaration(@NotNull EnkelParser.VariableDeclarationContext ctx);
 
 	/**
+	 * Visit a parse tree produced by the {@code Substract}
+	 * labeled alternative in {@link EnkelParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSubstract(@NotNull EnkelParser.SubstractContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link EnkelParser#printStatement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -218,20 +273,11 @@ public interface EnkelVisitor<T> extends ParseTreeVisitor<T> {
 	T visitCompilationUnit(@NotNull EnkelParser.CompilationUnitContext ctx);
 
 	/**
-	 * Visit a parse tree produced by the {@code supercall}
-	 * labeled alternative in {@link EnkelParser#expression}.
+	 * Visit a parse tree produced by {@link EnkelParser#parameterWithDefaultValue}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitSupercall(@NotNull EnkelParser.SupercallContext ctx);
-
-	/**
-	 * Visit a parse tree produced by the {@code functionCall}
-	 * labeled alternative in {@link EnkelParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitFunctionCall(@NotNull EnkelParser.FunctionCallContext ctx);
+	T visitParameterWithDefaultValue(@NotNull EnkelParser.ParameterWithDefaultValueContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link EnkelParser#name}.
@@ -241,19 +287,11 @@ public interface EnkelVisitor<T> extends ParseTreeVisitor<T> {
 	T visitName(@NotNull EnkelParser.NameContext ctx);
 
 	/**
-	 * Visit a parse tree produced by the {@code MULTIPLY}
-	 * labeled alternative in {@link EnkelParser#expression}.
+	 * Visit a parse tree produced by {@link EnkelParser#parametersList}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitMULTIPLY(@NotNull EnkelParser.MULTIPLYContext ctx);
-
-	/**
-	 * Visit a parse tree produced by {@link EnkelParser#functionParameter}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitFunctionParameter(@NotNull EnkelParser.FunctionParameterContext ctx);
+	T visitParametersList(@NotNull EnkelParser.ParametersListContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link EnkelParser#functionDeclaration}.
@@ -268,12 +306,4 @@ public interface EnkelVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitClassType(@NotNull EnkelParser.ClassTypeContext ctx);
-
-	/**
-	 * Visit a parse tree produced by the {@code RETURNWITHVALUE}
-	 * labeled alternative in {@link EnkelParser#returnStatement}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitRETURNWITHVALUE(@NotNull EnkelParser.RETURNWITHVALUEContext ctx);
 }

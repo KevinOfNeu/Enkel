@@ -1,7 +1,7 @@
 package com.bendcap.enkel.compiler.exception;
 
-import com.bendcap.enkel.compiler.domain.expression.Expression;
-import com.bendcap.enkel.compiler.domain.math.ArthimeticExpression;
+import com.bendcap.enkel.compiler.domain.node.expression.arthimetic.ArthimeticExpression;
+import com.bendcap.enkel.compiler.domain.node.expression.Expression;
 
 /**
  * Created by KevinOfNeu on 2018/8/23  16:17.

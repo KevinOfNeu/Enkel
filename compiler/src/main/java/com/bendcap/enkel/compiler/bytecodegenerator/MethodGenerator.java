@@ -1,19 +1,18 @@
 package com.bendcap.enkel.compiler.bytecodegenerator;
 
-import com.bendcap.enkel.compiler.domain.clazz.Constructor;
-import com.bendcap.enkel.compiler.domain.clazz.Function;
-import com.bendcap.enkel.compiler.domain.expression.EmptyExpression;
-import com.bendcap.enkel.compiler.domain.expression.SuperCall;
+import com.bendcap.enkel.compiler.bytecodegenerator.statement.StatementGenerator;
+import com.bendcap.enkel.compiler.domain.Constructor;
+import com.bendcap.enkel.compiler.domain.Function;
+import com.bendcap.enkel.compiler.domain.node.expression.EmptyExpression;
+import com.bendcap.enkel.compiler.domain.node.expression.SuperCall;
 import com.bendcap.enkel.compiler.domain.scope.Scope;
-import com.bendcap.enkel.compiler.domain.statement.Block;
-import com.bendcap.enkel.compiler.domain.statement.ReturnStatement;
-import com.bendcap.enkel.compiler.domain.statement.Statement;
+import com.bendcap.enkel.compiler.domain.node.statement.Block;
+import com.bendcap.enkel.compiler.domain.node.statement.ReturnStatement;
+import com.bendcap.enkel.compiler.domain.node.statement.Statement;
 import org.objectweb.asm.ClassWriter;
-import com.bendcap.enkel.compiler.utils.DecriptorFactory;
+import com.bendcap.enkel.compiler.utils.DescriptorFactory;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
-
-import java.util.Collection;
 
 /**
  * Created by KevinOfNeu on 2018/8/22  15:44.
@@ -29,7 +28,7 @@ public class MethodGenerator {
     public void generate(Function function) {
         String name = function.getName();
         boolean isMain = name.equals(MAIN_FUN_NAME);
-        String description = DecriptorFactory.getMethodDescriptor(function);
+        String description = DescriptorFactory.getMethodDescriptor(function);
         Block block = (Block) function.getRootStatement();
         Scope scope = block.getScope();
         int access = Opcodes.ACC_PUBLIC + (isMain ? Opcodes.ACC_STATIC : 0);
@@ -47,7 +46,7 @@ public class MethodGenerator {
         Block block = (Block) constructor.getRootStatement();
         Scope scope = block.getScope();
         int access = Opcodes.ACC_PUBLIC;
-        String description = DecriptorFactory.getMethodDescriptor(constructor);
+        String description = DescriptorFactory.getMethodDescriptor(constructor);
         MethodVisitor mv = classWriter.visitMethod(access, "<init>", description, null, null);
         mv.visitCode();
         StatementGenerator statementScopeGenerator = new StatementGenerator(mv, scope);
@@ -61,7 +60,7 @@ public class MethodGenerator {
 
     private void appendReturnIfNotExists(Function function, Block block, StatementGenerator statementScopeGenrator) {
         boolean isLastStatementReturn = false;
-        if(block.getStatements().size() >0) {
+        if(!block.getStatements().isEmpty()) {
             Statement lastStatement = block.getStatements().get(block.getStatements().size() - 1);
             isLastStatementReturn = lastStatement instanceof ReturnStatement;
         }

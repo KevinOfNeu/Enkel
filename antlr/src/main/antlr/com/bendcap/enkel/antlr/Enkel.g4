@@ -11,10 +11,13 @@ classDeclaration : className '{' classBody '}' ;
 className : ID ;
 classBody :  function* ;
 function : functionDeclaration block;
-functionDeclaration : (type)? functionName '(' (functionParameter (',' functionParameter)*)?')' ;
+functionDeclaration : (type)? functionName '('? parametersList? ')'? ;
+parametersList:  parameter (',' parameter)*
+          |  parameter (',' parameterWithDefaultValue)*
+          |  parameterWithDefaultValue (',' parameterWithDefaultValue)* ;
 functionName : ID ;
-functionParameter : type ID functionParamdefaultValue? ;
-functionParamdefaultValue : '=' expression ;
+parameter : type ID ;
+parameterWithDefaultValue : type ID '=' defaultValue=expression ;
 type : primitiveType
      | classType ;
 
@@ -42,8 +45,8 @@ statement :     block
 
 variableDeclaration : VARIABLE name EQUALS expression ;
 printStatement : PRINT expression ;
-returnStatement : 'return' expression #RETURNWITHVALUE
-                | 'return' #RETURNVOID ;
+returnStatement : 'return' expression #ReturnWithValue
+                | 'return' #ReturnVoid ;
 
 ifStatement: 'if'  ('(')? expression (')')? trueStatement=statement ('else' falseStatement=statement)?;
 
@@ -51,29 +54,31 @@ forStatement : 'for' ('(')? forConditions (')')? statement ;
 forConditions : iterator=variableReference  'from' startExpr=expression range='to' endExpr=expression ;
 
 name : ID ;
-argument : expression
-         | name '->' expression ;
+argumentList : argument? (',' a=argument)* #UnnamedArgumentsList
+             | namedArgument? (',' namedArgument)* #NamedArgumentsList ;
+argument : expression ;
+namedArgument : name '->' expression ;
 
 expression : variableReference #VarReference
-           | owner=expression '.' functionName '('argument? (',' argument)* ')' #functionCall
-           | functionName '('argument? (',' argument)* ')' #functionCall
-           | superCall='super' '('argument? (',' argument)* ')' #supercall
-           | newCall='new' className '('argument? (',' argument)* ')' #constructorCall
+           | owner=expression '.' functionName '(' argumentList ')' #FunctionCall
+           | functionName '(' argumentList ')' #FunctionCall
+           | superCall='super' '('argumentList ')' #Supercall
+           | newCall='new' className '('argumentList ')' #ConstructorCall
            | value        #ValueExpr
-           |  '('expression '*' expression')' #MULTIPLY
-           | expression '*' expression  #MULTIPLY
-           | '(' expression '/' expression ')' #DIVIDE
-           | expression '/' expression #DIVIDE
-           | '(' expression '+' expression ')' #ADD
-           | expression '+' expression #ADD
-           | '(' expression '-' expression ')' #SUBSTRACT
-           | expression '-' expression #SUBSTRACT
-           | expression cmp='>' expression #conditionalExpression
-           | expression cmp='<' expression #conditionalExpression
-           | expression cmp='==' expression #conditionalExpression
-           | expression cmp='!=' expression #conditionalExpression
-           | expression cmp='>=' expression #conditionalExpression
-           | expression cmp='<=' expression #conditionalExpression
+           |  '('expression '*' expression')' #Multiply
+           | expression '*' expression  #Multiply
+           | '(' expression '/' expression ')' #Divide
+           | expression '/' expression #Divide
+           | '(' expression '+' expression ')' #Add
+           | expression '+' expression #Add
+           | '(' expression '-' expression ')' #Substract
+           | expression '-' expression #Substract
+           | expression cmp='>' expression #ConditionalExpression
+           | expression cmp='<' expression #ConditionalExpression
+           | expression cmp='==' expression #ConditionalExpression
+           | expression cmp='!=' expression #ConditionalExpression
+           | expression cmp='>=' expression #ConditionalExpression
+           | expression cmp='<=' expression #ConditionalExpression
            ;
 
 variableReference : ID ;

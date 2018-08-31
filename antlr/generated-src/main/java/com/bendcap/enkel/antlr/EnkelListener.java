@@ -11,17 +11,43 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
  */
 public interface EnkelListener extends ParseTreeListener {
 	/**
-	 * Enter a parse tree produced by the {@code ADD}
-	 * labeled alternative in {@link EnkelParser#expression}.
+	 * Enter a parse tree produced by the {@code UnnamedArgumentsList}
+	 * labeled alternative in {@link EnkelParser#argumentList}.
 	 * @param ctx the parse tree
 	 */
-	void enterADD(@NotNull EnkelParser.ADDContext ctx);
+	void enterUnnamedArgumentsList(@NotNull EnkelParser.UnnamedArgumentsListContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code ADD}
+	 * Exit a parse tree produced by the {@code UnnamedArgumentsList}
+	 * labeled alternative in {@link EnkelParser#argumentList}.
+	 * @param ctx the parse tree
+	 */
+	void exitUnnamedArgumentsList(@NotNull EnkelParser.UnnamedArgumentsListContext ctx);
+
+	/**
+	 * Enter a parse tree produced by the {@code Add}
 	 * labeled alternative in {@link EnkelParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void exitADD(@NotNull EnkelParser.ADDContext ctx);
+	void enterAdd(@NotNull EnkelParser.AddContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code Add}
+	 * labeled alternative in {@link EnkelParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitAdd(@NotNull EnkelParser.AddContext ctx);
+
+	/**
+	 * Enter a parse tree produced by the {@code ReturnVoid}
+	 * labeled alternative in {@link EnkelParser#returnStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterReturnVoid(@NotNull EnkelParser.ReturnVoidContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code ReturnVoid}
+	 * labeled alternative in {@link EnkelParser#returnStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitReturnVoid(@NotNull EnkelParser.ReturnVoidContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link EnkelParser#argument}.
@@ -68,19 +94,6 @@ public interface EnkelListener extends ParseTreeListener {
 	void exitClassName(@NotNull EnkelParser.ClassNameContext ctx);
 
 	/**
-	 * Enter a parse tree produced by the {@code constructorCall}
-	 * labeled alternative in {@link EnkelParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void enterConstructorCall(@NotNull EnkelParser.ConstructorCallContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code constructorCall}
-	 * labeled alternative in {@link EnkelParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void exitConstructorCall(@NotNull EnkelParser.ConstructorCallContext ctx);
-
-	/**
 	 * Enter a parse tree produced by {@link EnkelParser#type}.
 	 * @param ctx the parse tree
 	 */
@@ -103,28 +116,17 @@ public interface EnkelListener extends ParseTreeListener {
 	void exitClassDeclaration(@NotNull EnkelParser.ClassDeclarationContext ctx);
 
 	/**
-	 * Enter a parse tree produced by the {@code DIVIDE}
+	 * Enter a parse tree produced by the {@code Divide}
 	 * labeled alternative in {@link EnkelParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void enterDIVIDE(@NotNull EnkelParser.DIVIDEContext ctx);
+	void enterDivide(@NotNull EnkelParser.DivideContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code DIVIDE}
+	 * Exit a parse tree produced by the {@code Divide}
 	 * labeled alternative in {@link EnkelParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void exitDIVIDE(@NotNull EnkelParser.DIVIDEContext ctx);
-
-	/**
-	 * Enter a parse tree produced by {@link EnkelParser#functionParamdefaultValue}.
-	 * @param ctx the parse tree
-	 */
-	void enterFunctionParamdefaultValue(@NotNull EnkelParser.FunctionParamdefaultValueContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link EnkelParser#functionParamdefaultValue}.
-	 * @param ctx the parse tree
-	 */
-	void exitFunctionParamdefaultValue(@NotNull EnkelParser.FunctionParamdefaultValueContext ctx);
+	void exitDivide(@NotNull EnkelParser.DivideContext ctx);
 
 	/**
 	 * Enter a parse tree produced by the {@code VarReference}
@@ -140,17 +142,17 @@ public interface EnkelListener extends ParseTreeListener {
 	void exitVarReference(@NotNull EnkelParser.VarReferenceContext ctx);
 
 	/**
-	 * Enter a parse tree produced by the {@code SUBSTRACT}
-	 * labeled alternative in {@link EnkelParser#expression}.
+	 * Enter a parse tree produced by the {@code ReturnWithValue}
+	 * labeled alternative in {@link EnkelParser#returnStatement}.
 	 * @param ctx the parse tree
 	 */
-	void enterSUBSTRACT(@NotNull EnkelParser.SUBSTRACTContext ctx);
+	void enterReturnWithValue(@NotNull EnkelParser.ReturnWithValueContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code SUBSTRACT}
-	 * labeled alternative in {@link EnkelParser#expression}.
+	 * Exit a parse tree produced by the {@code ReturnWithValue}
+	 * labeled alternative in {@link EnkelParser#returnStatement}.
 	 * @param ctx the parse tree
 	 */
-	void exitSUBSTRACT(@NotNull EnkelParser.SUBSTRACTContext ctx);
+	void exitReturnWithValue(@NotNull EnkelParser.ReturnWithValueContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link EnkelParser#function}.
@@ -164,6 +166,30 @@ public interface EnkelListener extends ParseTreeListener {
 	void exitFunction(@NotNull EnkelParser.FunctionContext ctx);
 
 	/**
+	 * Enter a parse tree produced by {@link EnkelParser#parameter}.
+	 * @param ctx the parse tree
+	 */
+	void enterParameter(@NotNull EnkelParser.ParameterContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link EnkelParser#parameter}.
+	 * @param ctx the parse tree
+	 */
+	void exitParameter(@NotNull EnkelParser.ParameterContext ctx);
+
+	/**
+	 * Enter a parse tree produced by the {@code Multiply}
+	 * labeled alternative in {@link EnkelParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterMultiply(@NotNull EnkelParser.MultiplyContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code Multiply}
+	 * labeled alternative in {@link EnkelParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitMultiply(@NotNull EnkelParser.MultiplyContext ctx);
+
+	/**
 	 * Enter a parse tree produced by {@link EnkelParser#statement}.
 	 * @param ctx the parse tree
 	 */
@@ -173,6 +199,19 @@ public interface EnkelListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitStatement(@NotNull EnkelParser.StatementContext ctx);
+
+	/**
+	 * Enter a parse tree produced by the {@code Supercall}
+	 * labeled alternative in {@link EnkelParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterSupercall(@NotNull EnkelParser.SupercallContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code Supercall}
+	 * labeled alternative in {@link EnkelParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitSupercall(@NotNull EnkelParser.SupercallContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link EnkelParser#classBody}.
@@ -197,6 +236,32 @@ public interface EnkelListener extends ParseTreeListener {
 	void exitBlock(@NotNull EnkelParser.BlockContext ctx);
 
 	/**
+	 * Enter a parse tree produced by the {@code FunctionCall}
+	 * labeled alternative in {@link EnkelParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterFunctionCall(@NotNull EnkelParser.FunctionCallContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code FunctionCall}
+	 * labeled alternative in {@link EnkelParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitFunctionCall(@NotNull EnkelParser.FunctionCallContext ctx);
+
+	/**
+	 * Enter a parse tree produced by the {@code ConstructorCall}
+	 * labeled alternative in {@link EnkelParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterConstructorCall(@NotNull EnkelParser.ConstructorCallContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code ConstructorCall}
+	 * labeled alternative in {@link EnkelParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitConstructorCall(@NotNull EnkelParser.ConstructorCallContext ctx);
+
+	/**
 	 * Enter a parse tree produced by {@link EnkelParser#primitiveType}.
 	 * @param ctx the parse tree
 	 */
@@ -206,6 +271,30 @@ public interface EnkelListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitPrimitiveType(@NotNull EnkelParser.PrimitiveTypeContext ctx);
+
+	/**
+	 * Enter a parse tree produced by the {@code NamedArgumentsList}
+	 * labeled alternative in {@link EnkelParser#argumentList}.
+	 * @param ctx the parse tree
+	 */
+	void enterNamedArgumentsList(@NotNull EnkelParser.NamedArgumentsListContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code NamedArgumentsList}
+	 * labeled alternative in {@link EnkelParser#argumentList}.
+	 * @param ctx the parse tree
+	 */
+	void exitNamedArgumentsList(@NotNull EnkelParser.NamedArgumentsListContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link EnkelParser#namedArgument}.
+	 * @param ctx the parse tree
+	 */
+	void enterNamedArgument(@NotNull EnkelParser.NamedArgumentContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link EnkelParser#namedArgument}.
+	 * @param ctx the parse tree
+	 */
+	void exitNamedArgument(@NotNull EnkelParser.NamedArgumentContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link EnkelParser#value}.
@@ -243,19 +332,6 @@ public interface EnkelListener extends ParseTreeListener {
 	void exitFunctionName(@NotNull EnkelParser.FunctionNameContext ctx);
 
 	/**
-	 * Enter a parse tree produced by the {@code conditionalExpression}
-	 * labeled alternative in {@link EnkelParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void enterConditionalExpression(@NotNull EnkelParser.ConditionalExpressionContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code conditionalExpression}
-	 * labeled alternative in {@link EnkelParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void exitConditionalExpression(@NotNull EnkelParser.ConditionalExpressionContext ctx);
-
-	/**
 	 * Enter a parse tree produced by {@link EnkelParser#qualifiedName}.
 	 * @param ctx the parse tree
 	 */
@@ -267,17 +343,17 @@ public interface EnkelListener extends ParseTreeListener {
 	void exitQualifiedName(@NotNull EnkelParser.QualifiedNameContext ctx);
 
 	/**
-	 * Enter a parse tree produced by the {@code RETURNVOID}
-	 * labeled alternative in {@link EnkelParser#returnStatement}.
+	 * Enter a parse tree produced by the {@code ConditionalExpression}
+	 * labeled alternative in {@link EnkelParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void enterRETURNVOID(@NotNull EnkelParser.RETURNVOIDContext ctx);
+	void enterConditionalExpression(@NotNull EnkelParser.ConditionalExpressionContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code RETURNVOID}
-	 * labeled alternative in {@link EnkelParser#returnStatement}.
+	 * Exit a parse tree produced by the {@code ConditionalExpression}
+	 * labeled alternative in {@link EnkelParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void exitRETURNVOID(@NotNull EnkelParser.RETURNVOIDContext ctx);
+	void exitConditionalExpression(@NotNull EnkelParser.ConditionalExpressionContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link EnkelParser#forStatement}.
@@ -313,6 +389,19 @@ public interface EnkelListener extends ParseTreeListener {
 	void exitVariableDeclaration(@NotNull EnkelParser.VariableDeclarationContext ctx);
 
 	/**
+	 * Enter a parse tree produced by the {@code Substract}
+	 * labeled alternative in {@link EnkelParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterSubstract(@NotNull EnkelParser.SubstractContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code Substract}
+	 * labeled alternative in {@link EnkelParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitSubstract(@NotNull EnkelParser.SubstractContext ctx);
+
+	/**
 	 * Enter a parse tree produced by {@link EnkelParser#printStatement}.
 	 * @param ctx the parse tree
 	 */
@@ -335,30 +424,15 @@ public interface EnkelListener extends ParseTreeListener {
 	void exitCompilationUnit(@NotNull EnkelParser.CompilationUnitContext ctx);
 
 	/**
-	 * Enter a parse tree produced by the {@code supercall}
-	 * labeled alternative in {@link EnkelParser#expression}.
+	 * Enter a parse tree produced by {@link EnkelParser#parameterWithDefaultValue}.
 	 * @param ctx the parse tree
 	 */
-	void enterSupercall(@NotNull EnkelParser.SupercallContext ctx);
+	void enterParameterWithDefaultValue(@NotNull EnkelParser.ParameterWithDefaultValueContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code supercall}
-	 * labeled alternative in {@link EnkelParser#expression}.
+	 * Exit a parse tree produced by {@link EnkelParser#parameterWithDefaultValue}.
 	 * @param ctx the parse tree
 	 */
-	void exitSupercall(@NotNull EnkelParser.SupercallContext ctx);
-
-	/**
-	 * Enter a parse tree produced by the {@code functionCall}
-	 * labeled alternative in {@link EnkelParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void enterFunctionCall(@NotNull EnkelParser.FunctionCallContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code functionCall}
-	 * labeled alternative in {@link EnkelParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void exitFunctionCall(@NotNull EnkelParser.FunctionCallContext ctx);
+	void exitParameterWithDefaultValue(@NotNull EnkelParser.ParameterWithDefaultValueContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link EnkelParser#name}.
@@ -372,28 +446,15 @@ public interface EnkelListener extends ParseTreeListener {
 	void exitName(@NotNull EnkelParser.NameContext ctx);
 
 	/**
-	 * Enter a parse tree produced by the {@code MULTIPLY}
-	 * labeled alternative in {@link EnkelParser#expression}.
+	 * Enter a parse tree produced by {@link EnkelParser#parametersList}.
 	 * @param ctx the parse tree
 	 */
-	void enterMULTIPLY(@NotNull EnkelParser.MULTIPLYContext ctx);
+	void enterParametersList(@NotNull EnkelParser.ParametersListContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code MULTIPLY}
-	 * labeled alternative in {@link EnkelParser#expression}.
+	 * Exit a parse tree produced by {@link EnkelParser#parametersList}.
 	 * @param ctx the parse tree
 	 */
-	void exitMULTIPLY(@NotNull EnkelParser.MULTIPLYContext ctx);
-
-	/**
-	 * Enter a parse tree produced by {@link EnkelParser#functionParameter}.
-	 * @param ctx the parse tree
-	 */
-	void enterFunctionParameter(@NotNull EnkelParser.FunctionParameterContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link EnkelParser#functionParameter}.
-	 * @param ctx the parse tree
-	 */
-	void exitFunctionParameter(@NotNull EnkelParser.FunctionParameterContext ctx);
+	void exitParametersList(@NotNull EnkelParser.ParametersListContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link EnkelParser#functionDeclaration}.
@@ -416,17 +477,4 @@ public interface EnkelListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitClassType(@NotNull EnkelParser.ClassTypeContext ctx);
-
-	/**
-	 * Enter a parse tree produced by the {@code RETURNWITHVALUE}
-	 * labeled alternative in {@link EnkelParser#returnStatement}.
-	 * @param ctx the parse tree
-	 */
-	void enterRETURNWITHVALUE(@NotNull EnkelParser.RETURNWITHVALUEContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code RETURNWITHVALUE}
-	 * labeled alternative in {@link EnkelParser#returnStatement}.
-	 * @param ctx the parse tree
-	 */
-	void exitRETURNWITHVALUE(@NotNull EnkelParser.RETURNWITHVALUEContext ctx);
 }

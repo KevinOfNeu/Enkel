@@ -1,7 +1,7 @@
 package com.bendcap.enkel.compiler.bytecodegenerator;
 
-import com.bendcap.enkel.compiler.domain.global.ClassDeclaration;
-import com.bendcap.enkel.compiler.domain.global.CompilationUnit;
+import com.bendcap.enkel.compiler.domain.ClassDeclaration;
+import com.bendcap.enkel.compiler.domain.CompilationUnit;
 
 /**
  * Created by KevinOfNeu on 2018/8/22  11:49.
