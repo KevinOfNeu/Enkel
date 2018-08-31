@@ -12,6 +12,7 @@ import org.antlr.v4.runtime.misc.NotNull;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by KevinOfNeu on 2018/8/31  12:22.
@@ -32,13 +33,14 @@ public class CallExpressionVisitor extends EnkelBaseVisitor<Call> {
             throw new FunctionNameEqualClassException(functionName);
         }
         List<Argument> arguments = getArgumentsForCall(ctx.argumentList());
-        FunctionSignature signature = scope.getMethodCallSignature(functionName, arguments);
         boolean ownerIsExplicit = ctx.owner != null;
         if (ownerIsExplicit) {
             Expression owner = ctx.owner.accept(expressionVisitor);
+            FunctionSignature signature = scope.getMethodCallSignature(Optional.of(owner.getType()),functionName, arguments);
             return new FunctionCall(signature, arguments, owner);
         }
         ClassType thisType = new ClassType(scope.getClassName());
+        FunctionSignature signature = scope.getMethodCallSignature(functionName, arguments);
         return new FunctionCall(signature, arguments, new VariableReference("this", thisType));
     }
 

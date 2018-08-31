@@ -1,0 +1,13 @@
+Client {
+
+    start {
+        var someString = "someString"
+        print someString + " to upper case : " +  someString.toUpperCase()
+
+        print "Client: Calling my own 'Library' class:"
+        var myLibrary = new Library()
+        var addition = myLibrary.add(5,2)
+        print "Client: Result returned from 'Library.add' = " + addition
+    }
+
+}

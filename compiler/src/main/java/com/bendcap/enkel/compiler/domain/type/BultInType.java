@@ -4,7 +4,7 @@ package com.bendcap.enkel.compiler.domain.type;
  * Created by KevinOfNeu on 2018/8/22  10:02.
  */
 public enum BultInType implements Type {
-    BOOLEAN("bool", boolean.class, "Z", TypeSpecificOpcodes.INT),
+    BOOLEAN("boolean",boolean.class,"Z", TypeSpecificOpcodes.INT),
     INT("int", int.class, "I", TypeSpecificOpcodes.INT),
     CHAR("char", char.class, "C", TypeSpecificOpcodes.INT),
     BYTE("byte", byte.class, "B", TypeSpecificOpcodes.INT),

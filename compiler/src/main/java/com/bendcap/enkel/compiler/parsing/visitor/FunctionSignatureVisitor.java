@@ -25,7 +25,7 @@ public class FunctionSignatureVisitor extends EnkelBaseVisitor<FunctionSignature
     @Override
     public FunctionSignature visitFunctionDeclaration(@NotNull EnkelParser.FunctionDeclarationContext ctx) {
         String functionName = ctx.functionName().getText();
-        Type returnType = TypeResolver.getFromTypeName(ctx.type());
+        Type returnType = TypeResolver.getFromTypeContext(ctx.type());
         EnkelParser.ParametersListContext parametersCtx = ctx.parametersList();
         if(parametersCtx != null) {
             List<Parameter> parameters = parametersCtx.accept(new ParameterExpressionListVisitor(expressionVisitor));

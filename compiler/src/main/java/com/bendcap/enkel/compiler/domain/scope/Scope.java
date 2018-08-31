@@ -20,6 +20,8 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.*;
 
+import static java.util.stream.Collectors.toList;
+
 
 /**
  * Created by KevinOfNeu on 2018/8/22  09:37.
@@ -62,6 +64,29 @@ public class Scope {
         return getMethodCallSignature(identifier, Collections.<Argument>emptyList());
     }
 
+    public FunctionSignature getConstructorCallSignature(String className,List<Argument> arguments) {
+        boolean isDifferentThanCurrentClass = !className.equals(getClassName());
+        if(isDifferentThanCurrentClass) {
+            List<Type> argumentsTypes = arguments.stream().map(Argument::getType).collect(toList());
+            return new ClassPathScope().getConstructorSignature(className, argumentsTypes)
+                    .orElseThrow(() -> new MethodSignatureNotFoundException(this,className,arguments));
+        }
+        return getConstructorCallSignatureForCurrentClass(arguments);
+    }
+    private FunctionSignature getConstructorCallSignatureForCurrentClass(List<Argument> arguments) {
+        return getMethodCallSignature(Optional.empty(), getClassName(), arguments);
+    }
+    public FunctionSignature getMethodCallSignature(Optional<Type> owner,String methodName,List<Argument> arguments) {
+        boolean isDifferentThanCurrentClass = owner.isPresent() && !owner.get().equals(getClassType());
+        if(isDifferentThanCurrentClass) {
+            List<Type> argumentsTypes = arguments.stream().map(Argument::getType).collect(toList());
+            return new ClassPathScope().getMethodSignature(owner.get(), methodName, argumentsTypes)
+                    .orElseThrow(() -> new MethodSignatureNotFoundException(this,methodName,arguments));
+        }
+        return getMethodCallSignature(methodName, arguments);
+    }
+
+
     public FunctionSignature getMethodCallSignature(String identifier,List<Argument> arguments) {
         if(identifier.equals("super")){
             return new FunctionSignature("super", Collections.emptyList(), BultInType.VOID);
@@ -95,28 +120,6 @@ public class Scope {
     public int getLocalVariableIndex(String varName) {
         LocalVariable localVariable = getLocalVariable(varName);
         return localVariables.indexOf(localVariable);
-    }
-
-    Optional<FunctionSignature> getSignatureOnClassPath(String fullMethodName) {
-        String methodName = StringUtils.removePattern(fullMethodName,".*\\.");
-        String className = fullMethodName; // StringUtils.difference(fullMethodName, methodName);
-        Class<?> methodOwnerClass = null;
-        try {
-            methodOwnerClass = ClassUtils.getClass(className);
-        } catch (ClassNotFoundException e) {
-            throw new ClassNotFoundForNameException(className);
-        }
-        Method accessibleMethod = MethodUtils.getAccessibleMethod(methodOwnerClass, methodName);
-        if(accessibleMethod != null) {
-            FunctionSignature signature = ReflectionObjectToSignatureMapper.fromMethod(accessibleMethod);
-            return Optional.of(signature);
-        }
-        Constructor<?> accessibleConstructor = ConstructorUtils.getAccessibleConstructor(methodOwnerClass);
-        if(accessibleConstructor != null) {
-            FunctionSignature signature = ReflectionObjectToSignatureMapper.fromConstructor(accessibleConstructor);
-            return Optional.of(signature);
-        }
-        return Optional.empty();
     }
 
     public String getClassName() {

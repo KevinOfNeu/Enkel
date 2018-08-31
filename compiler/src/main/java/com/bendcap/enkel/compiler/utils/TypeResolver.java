@@ -18,9 +18,14 @@ import java.util.Optional;
  * Created by KevinOfNeu on 2018/8/22  11:00.
  */
 public final class TypeResolver {
-    public static Type getFromTypeName(EnkelParser.TypeContext typeContext) {
+
+    public static Type getFromTypeContext(EnkelParser.TypeContext typeContext) {
         if(typeContext == null) return BultInType.VOID;
-        String typeName = typeContext.getText();
+        return getFromTypeName(typeContext.getText());
+    }
+
+
+    public static Type getFromTypeName(String typeName) {
         if(typeName.equals("java.lang.String")) return BultInType.STRING;
         Optional<? extends Type> builtInType = getBuiltInType(typeName);
         if(builtInType.isPresent()) return builtInType.get();

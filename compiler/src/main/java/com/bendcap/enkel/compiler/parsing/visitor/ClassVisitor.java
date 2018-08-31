@@ -44,7 +44,10 @@ public class ClassVisitor extends EnkelBaseVisitor<ClassDeclaration> {
         if(!defaultConstructorExists) {
             methods.add(getDefaultConstructor());
         }
-        methods.add(getGeneratedMainMethod());
+        boolean startMethodDefined = scope.isParameterLessSignatureExists("start");
+        if(startMethodDefined) {
+            methods.add(getGeneratedMainMethod());
+        }
 
         return new ClassDeclaration(name, methods);
     }

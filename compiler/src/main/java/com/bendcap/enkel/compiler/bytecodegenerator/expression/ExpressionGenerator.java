@@ -14,14 +14,14 @@ import org.objectweb.asm.MethodVisitor;
 public class ExpressionGenerator {
     private final VariableReferenceExpressionGenerator variableReferenceExpressionGenerator;
     private final ValueExpressionGenerator valueExpressionGenerator;
-    private final CallExpressionVisitor callExpressionVisitor;
+    private final CallExpressionGenerator callExpressionGenerator;
     private final ArithmeticExpressionGenerator arithmeticExpressionGenerator;
     private final ConditionalExpressionGenerator conditionalExpressionGenerator;
     private final ParameterExpressionGenerator parameterExpressionGenerator;
     public ExpressionGenerator(MethodVisitor methodVisitor, Scope scope) {
         variableReferenceExpressionGenerator = new VariableReferenceExpressionGenerator(methodVisitor,scope);
         valueExpressionGenerator = new ValueExpressionGenerator(methodVisitor);
-        callExpressionVisitor = new CallExpressionVisitor(this, scope, methodVisitor);
+        callExpressionGenerator = new CallExpressionGenerator(this, scope, methodVisitor);
         arithmeticExpressionGenerator = new ArithmeticExpressionGenerator(this, methodVisitor);
         conditionalExpressionGenerator = new ConditionalExpressionGenerator(this, methodVisitor);
         parameterExpressionGenerator = new ParameterExpressionGenerator(methodVisitor, scope);
@@ -36,13 +36,13 @@ public class ExpressionGenerator {
         valueExpressionGenerator.generate(value);
     }
     public void generate(ConstructorCall constructorCall) {
-        callExpressionVisitor.generate(constructorCall);
+        callExpressionGenerator.generate(constructorCall);
     }
     public void generate(SuperCall superCall) {
-        callExpressionVisitor.generate(superCall);
+        callExpressionGenerator.generate(superCall);
     }
     public void generate(FunctionCall functionCall) {
-        callExpressionVisitor.generate(functionCall);
+        callExpressionGenerator.generate(functionCall);
     }
     public void generate(Addition expression) {
         arithmeticExpressionGenerator.generate(expression);

@@ -22,13 +22,13 @@ public class ParameterExpressionVisitor extends EnkelBaseVisitor<Parameter> {
     @Override
     public Parameter visitParameter(@NotNull EnkelParser.ParameterContext ctx) {
         String name = ctx.ID().getText();
-        Type type = TypeResolver.getFromTypeName(ctx.type());
+        Type type = TypeResolver.getFromTypeContext(ctx.type());
         return new Parameter(name, type, Optional.empty());
     }
     @Override
     public Parameter visitParameterWithDefaultValue(@NotNull EnkelParser.ParameterWithDefaultValueContext ctx) {
         String name = ctx.ID().getText();
-        Type type = TypeResolver.getFromTypeName(ctx.type());
+        Type type = TypeResolver.getFromTypeContext(ctx.type());
         Expression defaultValue = ctx.defaultValue.accept(expressionVisitor);
         return new Parameter(name, type, Optional.of(defaultValue));
     }

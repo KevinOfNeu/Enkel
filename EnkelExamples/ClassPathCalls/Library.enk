@@ -1,0 +1,6 @@
+Library {
+    int add(int x,int y) {
+        print "Library: add() method called"
+        return x+y
+    }
+ }

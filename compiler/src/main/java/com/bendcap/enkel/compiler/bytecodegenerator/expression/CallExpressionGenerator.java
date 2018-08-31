@@ -3,6 +3,7 @@ package com.bendcap.enkel.compiler.bytecodegenerator.expression;
 import com.bendcap.enkel.compiler.domain.node.expression.*;
 import com.bendcap.enkel.compiler.domain.scope.FunctionSignature;
 import com.bendcap.enkel.compiler.domain.scope.Scope;
+import com.bendcap.enkel.compiler.domain.type.ClassType;
 import com.bendcap.enkel.compiler.exception.BadArgumentsToFunctionCallException;
 import com.bendcap.enkel.compiler.exception.WrongArgumentNameException;
 import com.bendcap.enkel.compiler.utils.DescriptorFactory;
@@ -12,28 +13,29 @@ import org.objectweb.asm.Opcodes;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by KevinOfNeu on 2018/8/31  13:11.
  */
-public class CallExpressionVisitor {
+public class CallExpressionGenerator {
     private final ExpressionGenerator expressionGenerator;
     private final Scope scope;
     private final MethodVisitor methodVisitor;
 
-    public CallExpressionVisitor(ExpressionGenerator expressionGenerator, Scope scope, MethodVisitor methodVisitor) {
+    public CallExpressionGenerator(ExpressionGenerator expressionGenerator, Scope scope, MethodVisitor methodVisitor) {
         this.expressionGenerator = expressionGenerator;
         this.scope = scope;
         this.methodVisitor = methodVisitor;
     }
 
     public void generate(ConstructorCall constructorCall) {
-        String ownerDescriptor = scope.getClassInternalName();
+        FunctionSignature signature = scope.getConstructorCallSignature(constructorCall.getIdentifier(), constructorCall.getArguments());
+        String ownerDescriptor = new ClassType(signature.getName()).getDescriptor();
         methodVisitor.visitTypeInsn(Opcodes.NEW, ownerDescriptor);
         methodVisitor.visitInsn(Opcodes.DUP);
-        FunctionSignature methodCallSignature = scope.getMethodCallSignature(constructorCall.getIdentifier(), constructorCall.getArguments());
-        String methodDescriptor = DescriptorFactory.getMethodDescriptor(methodCallSignature);
-        generateArguments(constructorCall);
+        String methodDescriptor = DescriptorFactory.getMethodDescriptor(signature);
+        generateArguments(constructorCall,signature);
         methodVisitor.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerDescriptor, "<init>", methodDescriptor, false);
     }
 
@@ -45,7 +47,8 @@ public class CallExpressionVisitor {
     }
 
     public void generate(FunctionCall functionCall) {
-        functionCall.getOwner().accept(expressionGenerator);
+        Expression owner = functionCall.getOwner();
+        owner.accept(expressionGenerator);
         generateArguments(functionCall);
         String functionName = functionCall.getIdentifier();
         String methodDescriptor = DescriptorFactory.getMethodDescriptor(functionCall.getSignature());
@@ -53,8 +56,22 @@ public class CallExpressionVisitor {
         methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, ownerDescriptor, functionName, methodDescriptor, false);
     }
 
-    public void generateArguments(Call call) {
+    private void generateArguments(FunctionCall call) {
+        FunctionSignature signature = scope.getMethodCallSignature(Optional.of(call.getOwnerType()),call.getIdentifier(),call.getArguments());
+        generateArguments(call,signature);
+    }
+
+    private void generateArguments(SuperCall call) {
         FunctionSignature signature = scope.getMethodCallSignature(call.getIdentifier(),call.getArguments());
+        generateArguments(call,signature);
+    }
+
+    private void generateArguments(ConstructorCall call) {
+        FunctionSignature signature = scope.getConstructorCallSignature(call.getIdentifier(),call.getArguments());
+        generateArguments(call,signature);
+    }
+
+    private void generateArguments(Call call, FunctionSignature signature) {
         List<Parameter> parameters = signature.getParameters();
         List<Argument> arguments = call.getArguments();
         if (arguments.size() > parameters.size()) {

@@ -4,6 +4,7 @@ import com.bendcap.enkel.compiler.bytecodegenerator.expression.ExpressionGenerat
 import com.bendcap.enkel.compiler.bytecodegenerator.statement.StatementGenerator;
 import com.bendcap.enkel.compiler.domain.type.ClassType;
 import com.bendcap.enkel.compiler.domain.type.Type;
+import lombok.ToString;
 
 import java.util.Collections;
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
 /**
  * Created by KevinOfNeu on 2018/8/30  15:29.
  */
+@ToString
 public class ConstructorCall implements Call {
     private List<Argument> arguments;
     private Type type;
