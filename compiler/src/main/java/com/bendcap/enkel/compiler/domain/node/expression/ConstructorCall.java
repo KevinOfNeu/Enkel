@@ -25,7 +25,7 @@ public class ConstructorCall implements Call {
     public ConstructorCall(String className, List<Argument> arguments) {
         this.type = new ClassType(className);
         this.arguments = arguments;
-        this.identifier = className;
+        this.identifier = type.getName();
     }
 
     @Override
