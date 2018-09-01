@@ -4,6 +4,7 @@ import com.bendcap.enkel.antlr.EnkelBaseVisitor;
 import com.bendcap.enkel.antlr.EnkelParser;
 import com.bendcap.enkel.compiler.domain.node.expression.*;
 import com.bendcap.enkel.compiler.domain.scope.FunctionSignature;
+import com.bendcap.enkel.compiler.domain.scope.LocalVariable;
 import com.bendcap.enkel.compiler.domain.scope.Scope;
 import com.bendcap.enkel.compiler.domain.type.ClassType;
 import com.bendcap.enkel.compiler.exception.FunctionNameEqualClassException;
@@ -41,7 +42,8 @@ public class CallExpressionVisitor extends EnkelBaseVisitor<Call> {
         }
         ClassType thisType = new ClassType(scope.getClassName());
         FunctionSignature signature = scope.getMethodCallSignature(functionName, arguments);
-        return new FunctionCall(signature, arguments, new VariableReference("this", thisType));
+        LocalVariable thisVariable = new LocalVariable("this",thisType);
+        return new FunctionCall(signature, arguments, new LocalVariableReference(thisVariable));
     }
 
     @Override

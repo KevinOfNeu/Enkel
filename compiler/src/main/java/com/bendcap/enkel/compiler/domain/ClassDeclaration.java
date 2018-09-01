@@ -1,7 +1,8 @@
 package com.bendcap.enkel.compiler.domain;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import com.bendcap.enkel.compiler.domain.scope.Field;
+
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -9,10 +10,12 @@ import java.util.List;
  */
 public class ClassDeclaration {
     private String name;
-    private Collection<Function> methods;
+    private List<Field> fields;
+    private List<Function> methods;
 
-    public ClassDeclaration(String name, Collection<Function> methods) {
+    public ClassDeclaration(String name, List<Field> fields, List<Function> methods) {
         this.name = name;
+        this.fields = fields;
         this.methods = methods;
     }
 
@@ -20,7 +23,11 @@ public class ClassDeclaration {
         return name;
     }
 
+    public List<Field> getFields() {
+        return Collections.unmodifiableList(fields);
+    }
+
     public List<Function> getMethods() {
-        return new ArrayList<>(methods);
+        return Collections.unmodifiableList(methods);
     }
 }

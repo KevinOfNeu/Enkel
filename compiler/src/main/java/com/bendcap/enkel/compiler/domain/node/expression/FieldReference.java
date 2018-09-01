@@ -2,22 +2,21 @@ package com.bendcap.enkel.compiler.domain.node.expression;
 
 import com.bendcap.enkel.compiler.bytecodegenerator.expression.ExpressionGenerator;
 import com.bendcap.enkel.compiler.bytecodegenerator.statement.StatementGenerator;
+import com.bendcap.enkel.compiler.domain.scope.Field;
 import com.bendcap.enkel.compiler.domain.type.Type;
 
 /**
  * Created by KevinOfNeu on 2018/8/22  10:11.
  */
-public class VariableReference implements Expression {
-    private String varName;
-    private Type type;
+public class FieldReference implements Reference {
+    private Field field;
 
-    public VariableReference(String varName, Type type) {
-        this.type = type;
-        this.varName = varName;
+    public FieldReference(Field field) {
+        this.field = field;
     }
 
     public String geName() {
-        return varName;
+        return field.getName();
     }
 
     @Override
@@ -33,6 +32,10 @@ public class VariableReference implements Expression {
 
     @Override
     public Type getType() {
-        return type;
+        return field.getType();
+    }
+
+    public String getOwnerInternalName() {
+        return field.getOwnerInternalName();
     }
 }

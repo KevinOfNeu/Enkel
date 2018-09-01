@@ -12,22 +12,25 @@ import org.objectweb.asm.MethodVisitor;
  * Created by KevinOfNeu on 2018/8/31  11:43.
  */
 public class ExpressionGenerator {
-    private final VariableReferenceExpressionGenerator variableReferenceExpressionGenerator;
+    private final ReferenceExpressionGenerator referenceExpressionGenerator;
     private final ValueExpressionGenerator valueExpressionGenerator;
     private final CallExpressionGenerator callExpressionGenerator;
     private final ArithmeticExpressionGenerator arithmeticExpressionGenerator;
     private final ConditionalExpressionGenerator conditionalExpressionGenerator;
     private final ParameterExpressionGenerator parameterExpressionGenerator;
     public ExpressionGenerator(MethodVisitor methodVisitor, Scope scope) {
-        variableReferenceExpressionGenerator = new VariableReferenceExpressionGenerator(methodVisitor,scope);
+        referenceExpressionGenerator = new ReferenceExpressionGenerator(methodVisitor,scope);
         valueExpressionGenerator = new ValueExpressionGenerator(methodVisitor);
         callExpressionGenerator = new CallExpressionGenerator(this, scope, methodVisitor);
         arithmeticExpressionGenerator = new ArithmeticExpressionGenerator(this, methodVisitor);
         conditionalExpressionGenerator = new ConditionalExpressionGenerator(this, methodVisitor);
         parameterExpressionGenerator = new ParameterExpressionGenerator(methodVisitor, scope);
     }
-    public void generate(VariableReference variableReference) {
-        variableReferenceExpressionGenerator.generate(variableReference);
+    public void generate(FieldReference fieldReference) {
+        referenceExpressionGenerator.generate(fieldReference);
+    }
+    public void generate(LocalVariableReference reference) {
+        referenceExpressionGenerator.generate(reference);
     }
     public void generate(Parameter parameter) {
         parameterExpressionGenerator.generate(parameter);

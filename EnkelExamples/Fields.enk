@@ -1,0 +1,7 @@
+Fields {
+ int field
+ start {
+    field = 5
+    print field
+ }
+}

@@ -332,6 +332,17 @@ public interface EnkelListener extends ParseTreeListener {
 	void exitFunctionName(@NotNull EnkelParser.FunctionNameContext ctx);
 
 	/**
+	 * Enter a parse tree produced by {@link EnkelParser#assignment}.
+	 * @param ctx the parse tree
+	 */
+	void enterAssignment(@NotNull EnkelParser.AssignmentContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link EnkelParser#assignment}.
+	 * @param ctx the parse tree
+	 */
+	void exitAssignment(@NotNull EnkelParser.AssignmentContext ctx);
+
+	/**
 	 * Enter a parse tree produced by {@link EnkelParser#qualifiedName}.
 	 * @param ctx the parse tree
 	 */
@@ -422,6 +433,17 @@ public interface EnkelListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitCompilationUnit(@NotNull EnkelParser.CompilationUnitContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link EnkelParser#field}.
+	 * @param ctx the parse tree
+	 */
+	void enterField(@NotNull EnkelParser.FieldContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link EnkelParser#field}.
+	 * @param ctx the parse tree
+	 */
+	void exitField(@NotNull EnkelParser.FieldContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link EnkelParser#parameterWithDefaultValue}.

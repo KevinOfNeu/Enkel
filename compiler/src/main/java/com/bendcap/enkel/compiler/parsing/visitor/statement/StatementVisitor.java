@@ -20,6 +20,7 @@ public class StatementVisitor extends EnkelBaseVisitor<Statement> {
     private final BlockStatementVisitor blockStatementVisitor;
     private final IfStatementVisitor ifStatementVisitor;
     private final ForStatementVisitor forStatementVisitor;
+    private final AssignmentStatementVisitor assignmentStatementVisitor;
 
     public StatementVisitor(Scope scope) {
         expressionVisitor = new ExpressionVisitor(scope);
@@ -29,6 +30,7 @@ public class StatementVisitor extends EnkelBaseVisitor<Statement> {
         blockStatementVisitor = new BlockStatementVisitor(scope);
         ifStatementVisitor = new IfStatementVisitor(this, expressionVisitor);
         forStatementVisitor = new ForStatementVisitor(scope);
+        assignmentStatementVisitor = new AssignmentStatementVisitor(expressionVisitor);
     }
 
     @Override
@@ -114,5 +116,10 @@ public class StatementVisitor extends EnkelBaseVisitor<Statement> {
     @Override
     public Statement visitForStatement(@NotNull EnkelParser.ForStatementContext ctx) {
         return forStatementVisitor.visitForStatement(ctx);
+    }
+
+    @Override
+    public Statement visitAssignment(EnkelParser.AssignmentContext ctx) {
+        return assignmentStatementVisitor.visitAssignment(ctx);
     }
 }

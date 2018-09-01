@@ -5,19 +5,13 @@ import com.bendcap.enkel.compiler.domain.node.expression.Argument;
 import com.bendcap.enkel.compiler.domain.type.BultInType;
 import com.bendcap.enkel.compiler.domain.type.ClassType;
 import com.bendcap.enkel.compiler.domain.type.Type;
-import com.bendcap.enkel.compiler.exception.ClassNotFoundForNameException;
+import com.bendcap.enkel.compiler.exception.FieldNotFoundException;
 import com.bendcap.enkel.compiler.exception.LocalVariableNotFoundException;
 import com.bendcap.enkel.compiler.exception.MethodSignatureNotFoundException;
 import com.bendcap.enkel.compiler.exception.MethodWithNameAlreadyDefinedException;
-import com.bendcap.enkel.compiler.utils.ReflectionObjectToSignatureMapper;
 import com.google.common.collect.Lists;
-import org.apache.commons.lang3.ClassUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.reflect.ConstructorUtils;
-import org.apache.commons.lang3.reflect.MethodUtils;
+import org.apache.commons.collections4.map.LinkedMap;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
 import java.util.*;
 
 import static java.util.stream.Collectors.toList;
@@ -27,20 +21,23 @@ import static java.util.stream.Collectors.toList;
  * Created by KevinOfNeu on 2018/8/22  09:37.
  */
 public class Scope {
-    private final List<LocalVariable> localVariables;
     private final List<FunctionSignature> functionSignatures;
     private final MetaData metaData;
+    private final LinkedMap<String,LocalVariable> localVariables;
+    private final Map<String,Field> fields;
 
     public Scope(MetaData metaData) {
-        localVariables = new ArrayList<>();
-        functionSignatures = new ArrayList<>();
         this.metaData = metaData;
+        functionSignatures = new ArrayList<>();
+        localVariables = new LinkedMap<>();
+        fields =  new LinkedMap<>();
     }
 
     public Scope(Scope scope) {
         metaData = scope.metaData;
-        localVariables =  Lists.newArrayList(scope.localVariables);
         functionSignatures = Lists.newArrayList(scope.functionSignatures);
+        fields = new LinkedMap<>(scope.fields);
+        localVariables = new LinkedMap<>(scope.localVariables);
     }
 
     public void addSignature(FunctionSignature signature) {
@@ -101,25 +98,32 @@ public class Scope {
         return metaData.getSuperClassName();
     }
 
-    public void addLocalVariable(LocalVariable localVariable) {
-        localVariables.add(localVariable);
+    public void addLocalVariable(LocalVariable variable) {
+        localVariables.put(variable.getName(),variable);
     }
 
     public LocalVariable getLocalVariable(String varName) {
-        return localVariables.stream()
-                .filter(variable -> variable.getName().equals(varName))
-                .findFirst()
+        return Optional.ofNullable(localVariables.get(varName))
                 .orElseThrow(() -> new LocalVariableNotFoundException(this, varName));
     }
 
-    public boolean isLocalVariableExists(String varName) {
-        return localVariables.stream()
-                .anyMatch(variable -> variable.getName().equals(varName));
+    public int getLocalVariableIndex(String varName) {
+        return localVariables.indexOf(varName);
     }
 
-    public int getLocalVariableIndex(String varName) {
-        LocalVariable localVariable = getLocalVariable(varName);
-        return localVariables.indexOf(localVariable);
+    public boolean isLocalVariableExists(String varName) {
+        return localVariables.containsKey(varName);
+    }
+
+    public void addField(Field field) {
+        fields.put(field.getName(),field);
+    }
+    public Field getField(String fieldName) {
+        return Optional.ofNullable(fields.get(fieldName))
+                .orElseThrow(() -> new FieldNotFoundException(this, fieldName));
+    }
+    public boolean isFieldExists(String varName) {
+        return fields.containsKey(varName);
     }
 
     public String getClassName() {

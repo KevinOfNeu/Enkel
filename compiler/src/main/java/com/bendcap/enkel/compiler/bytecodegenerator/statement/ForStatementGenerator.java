@@ -4,9 +4,11 @@ import com.bendcap.enkel.compiler.bytecodegenerator.expression.ExpressionGenerat
 import com.bendcap.enkel.compiler.domain.CompareSign;
 import com.bendcap.enkel.compiler.domain.node.expression.ConditionalExpression;
 import com.bendcap.enkel.compiler.domain.node.expression.Expression;
-import com.bendcap.enkel.compiler.domain.node.expression.VariableReference;
+import com.bendcap.enkel.compiler.domain.node.expression.FieldReference;
+import com.bendcap.enkel.compiler.domain.node.expression.LocalVariableReference;
 import com.bendcap.enkel.compiler.domain.node.statement.RangedForStatement;
 import com.bendcap.enkel.compiler.domain.node.statement.Statement;
+import com.bendcap.enkel.compiler.domain.scope.LocalVariable;
 import com.bendcap.enkel.compiler.domain.scope.Scope;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
@@ -30,7 +32,8 @@ public class ForStatementGenerator {
         Label endLoopSection = new Label();
         String iteratorVarName = rangedForStatement.getIteratorVarName();
         Expression endExpression = rangedForStatement.getEndExpression();
-        Expression iteratorVariable = new VariableReference(iteratorVarName, rangedForStatement.getType());
+        LocalVariable variable = new LocalVariable(iteratorVarName,rangedForStatement.getType());
+        Expression iteratorVariable = new LocalVariableReference(variable);
         ConditionalExpression iteratorGreaterThanEndConditional = new ConditionalExpression(iteratorVariable, endExpression, CompareSign.GREATER);
         ConditionalExpression iteratorLessThanEndConditional = new ConditionalExpression(iteratorVariable, endExpression, CompareSign.LESS);
         iterator.accept(scopeGeneratorWithNewScope);

@@ -215,6 +215,13 @@ public interface EnkelVisitor<T> extends ParseTreeVisitor<T> {
 	T visitFunctionName(@NotNull EnkelParser.FunctionNameContext ctx);
 
 	/**
+	 * Visit a parse tree produced by {@link EnkelParser#assignment}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAssignment(@NotNull EnkelParser.AssignmentContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link EnkelParser#qualifiedName}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -271,6 +278,13 @@ public interface EnkelVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitCompilationUnit(@NotNull EnkelParser.CompilationUnitContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link EnkelParser#field}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitField(@NotNull EnkelParser.FieldContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link EnkelParser#parameterWithDefaultValue}.
