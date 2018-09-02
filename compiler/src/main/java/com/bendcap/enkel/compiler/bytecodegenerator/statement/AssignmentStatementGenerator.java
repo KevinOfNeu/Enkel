@@ -4,6 +4,7 @@ import com.bendcap.enkel.compiler.bytecodegenerator.expression.ExpressionGenerat
 import com.bendcap.enkel.compiler.domain.node.expression.Expression;
 import com.bendcap.enkel.compiler.domain.node.statement.Assignment;
 import com.bendcap.enkel.compiler.domain.scope.Field;
+import com.bendcap.enkel.compiler.domain.scope.LocalVariable;
 import com.bendcap.enkel.compiler.domain.scope.Scope;
 import com.bendcap.enkel.compiler.domain.type.Type;
 import org.objectweb.asm.MethodVisitor;
@@ -27,6 +28,9 @@ public class AssignmentStatementGenerator {
         Type type = expression.getType();
         if(scope.isLocalVariableExists(varName)) {
             int index = scope.getLocalVariableIndex(varName);
+            LocalVariable localVariable = scope.getLocalVariable(varName);
+            Type localVariableType = localVariable.getType();
+            castIfNecessary(type, localVariableType);
             methodVisitor.visitVarInsn(type.getStoreVariableOpcode(), index);
             return;
         }
@@ -34,6 +38,13 @@ public class AssignmentStatementGenerator {
         String descriptor = field.getType().getDescriptor();
         methodVisitor.visitVarInsn(Opcodes.ALOAD,0);
         expression.accept(expressionGenerator);
+        castIfNecessary(type, field.getType());
         methodVisitor.visitFieldInsn(Opcodes.PUTFIELD,field.getOwnerInternalName(),field.getName(),descriptor);
+    }
+
+    public void castIfNecessary(Type expressionType, Type variableType) {
+        if (!expressionType.equals(variableType)) {
+            methodVisitor.visitTypeInsn(Opcodes.CHECKCAST, variableType.getInternalName());
+        }
     }
 }
