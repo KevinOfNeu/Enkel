@@ -32,17 +32,18 @@ public final class TypeResolver {
         return new ClassType(typeName);
     }
 
-    public static Type getFromValue(String value) {
-        if(StringUtils.isEmpty(value)) return BultInType.VOID;
-        if(NumberUtils.isNumber(value)) {
-            if (Ints.tryParse(value) != null) {
+    public static Type getFromValue(EnkelParser.ValueContext value) {
+        String stringValue = value.getText();
+        if (StringUtils.isEmpty(stringValue)) return BultInType.VOID;
+        if (value.NUMBER() != null) {
+            if (Ints.tryParse(stringValue) != null) {
                 return BultInType.INT;
-            } else if(Floats.tryParse(value) != null) {
+            } else if(Floats.tryParse(stringValue) != null) {
                 return BultInType.FLOAT;
-            } else if(Doubles.tryParse(value) != null) {
+            } else if(Doubles.tryParse(stringValue) != null) {
                 return BultInType.DOUBLE;
             }
-        } else if (BooleanUtils.toBoolean(value)) {
+        } else if (value.BOOL() != null) {
             return BultInType.BOOLEAN;
         }
         return BultInType.STRING;

@@ -1,0 +1,85 @@
+EqualitySyntax {
+  start {
+       objectComparisonTest()
+       primitiveComparisonTest()
+       primitiveComparisonTest2()
+       objectComparisonTest2()
+ }
+  primitiveComparisonTest {
+     var a = 3
+     var b = 3
+      print "Comparing primitive " + a +" and " + b
+      var result = a == b
+     assert(expected -> true , actual -> result)
+      var result = a != b
+     assert(expected -> false , actual -> result)
+      var result = a > b
+     assert(expected -> false , actual -> result)
+      var result = a < b
+     assert(expected -> false , actual -> result)
+      var result = a >= b
+     assert(expected -> true , actual -> result)
+      var result = a <= b
+     assert(expected -> true , actual -> result)
+ }
+  objectComparisonTest() {
+     var a = new java.lang.Integer(3)
+     var b = new java.lang.Integer(3)
+       print "Comparing integer " + a.toString() +" and " + b.toString()
+      var result = a == b
+     assert(expected -> true , actual -> result)
+      var result = a != b
+     assert(expected -> false , actual -> result)
+      var result = a > b
+     assert(expected -> false , actual -> result)
+      var result = a < b
+     assert(expected -> false , actual -> result)
+      var result = a >= b
+     assert(expected -> true , actual -> result)
+      var result = a <= b
+     assert(expected -> true , actual -> result)
+ }
+  primitiveComparisonTest2 {
+      var a = 3
+      var b = 4
+      print "Comparing primitive " + a +" and " + b
+         var result = a == b
+        assert(expected -> false , actual -> result)
+         var result = a != b
+        assert(expected -> true , actual -> result)
+         var result = a > b
+        assert(expected -> false , actual -> result)
+         var result = a < b
+        assert(expected -> true , actual -> result)
+         var result = a >= b
+        assert(expected -> false , actual -> result)
+         var result = a <= b
+        assert(expected -> true , actual -> result)
+  }
+  objectComparisonTest2() {
+      var a = new java.lang.Integer(3)
+      var b = new java.lang.Integer(4)
+     print "Comparing integer " + a.toString() +" and " + b.toString()
+       var result = a == b
+      assert(expected -> false , actual -> result)
+       var result = a != b
+      assert(expected -> true , actual -> result)
+       var result = a > b
+      assert(expected -> false , actual -> result)
+       var result = a < b
+      assert(expected -> true , actual -> result)
+       var result = a >= b
+      assert(expected -> false , actual -> result)
+
+       var result = a <= b
+      assert(actual -> result, expected -> true )
+  }
+   void assert(boolean actual,boolean expected) {
+    if (actual == expected) {
+        print "OK"
+    }
+    else {
+        print "TEST FAILED"
+    }
+  }
+}

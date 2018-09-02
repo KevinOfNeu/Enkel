@@ -8,12 +8,12 @@ import java.util.Arrays;
  * Created by KevinOfNeu on 2018/8/24  22:54.
  */
 public enum CompareSign {
-    EQUAL("==", Opcodes.IF_ICMPEQ),
-    NOT_EQUAL("!=", Opcodes.IF_ICMPNE),
-    LESS("<",Opcodes.IF_ICMPLT),
-    GREATER(">",Opcodes.IF_ICMPGT),
-    LESS_OR_EQUAL("<=",Opcodes.IF_ICMPLE),
-    GRATER_OR_EQAL(">=",Opcodes.IF_ICMPGE);
+    EQUAL("==", Opcodes.IFEQ),
+    NOT_EQUAL("!=", Opcodes.IFNE),
+    LESS("<",Opcodes.IFLT),
+    GREATER(">",Opcodes.IFGT),
+    LESS_OR_EQUAL("<=",Opcodes.IFLE),
+    GRATER_OR_EQAL(">=",Opcodes.IFGE);
 
     private String sign;
     //reversed. '>' evalutes to le -> less or equal
