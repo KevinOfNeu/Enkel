@@ -1,0 +1,39 @@
+CardDrawer {
+    start {
+        var cards = new List()
+        addNumberedCards(cards)
+        addCardWithAllColors("Ace",cards)
+        addCardWithAllColors("Queen",cards)
+        addCardWithAllColors("King",cards)
+        addCardWithAllColors("Jack",cards)
+        drawCardsForPlayers(playersAmount -> 5,cardsList -> cards)
+    }
+     addNumberedCards(List cardsList,int first=2, int last=10) {
+        for i from first to last {
+            var numberString = new java.lang.Integer(i).toString()
+            addCardWithAllColors(numberString,cardsList)
+        }
+    }
+     addCardWithAllColors(string pattern,List cardsList) {
+        cardsList.add(new Card("Clubs",pattern))
+        cardsList.add(new Card("Diamonds",pattern))
+        cardsList.add(new Card("Hearts",pattern))
+        cardsList.add(new Card("Spades",pattern))
+    }
+    drawCardsForPlayers(List cardsList,int playersAmount = 3,int cardsPerPlayer = 5) {
+        if(cardsList.size() < (playersAmount * cardsPerPlayer)) {
+            print "ERROR - Not enough cards"
+            return
+        }
+        var random = new java.util.Random()
+        for i from 1 to playersAmount {
+            var playernumberString = new java.lang.Integer(i).toString()
+            print "player " + playernumberString  + " is drawing:"
+            for j from 1 to cardsPerPlayer {
+                var dawnCardIndex = random.nextInt(cardsList.size() - 1)
+                var drawedCard = cardsList.remove(dawnCardIndex)
+                print "    drawed:" + drawedCard
+            }
+        }
+    }
+}

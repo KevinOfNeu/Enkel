@@ -1,0 +1,17 @@
+Card {
+     string color
+    string pattern
+     Card(string cardColor,string cardPattern) {
+        color = cardColor
+        pattern = cardPattern
+    }
+     string getColor() {
+        color
+    }
+     string getPattern() {
+        pattern
+    }
+     string toString() {
+        return "{" + color + "," + pattern + "}"
+    }
+}
