@@ -1,0 +1,18 @@
+Fibonacci  {
+  int i
+  int n
+  int t1
+  int t2
+  int nextTerm
+  start {
+    t1 = 0
+    t2 = 1
+    n = 10
+    for x from 1 to n {
+      print "t" + t1
+      nextTerm = t1 + t2
+      t1 = t2
+      t2 = nextTerm
+    }
+  }
+}

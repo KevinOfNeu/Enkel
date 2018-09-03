@@ -1,0 +1,18 @@
+Recursion {
+  int result
+  int tmp
+  int tmpN
+  int sum(int num) {
+    if (num != 0) {
+      tmpN = num - 1
+      return num + sum(tmpN)
+    } else {
+      return num
+    }
+  }
+
+  void start() {
+      result = sum(10)
+      print "result=" + result
+  }
+}
